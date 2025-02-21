@@ -1,0 +1,45 @@
+.buttonSearch{
+
+    margin-left: 15px;
+}
+
+.inputSearch{
+    width: 250px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+
+.searchContainer{
+    margin-bottom: 30px;
+}
+
+.searchTitle{
+
+    margin-bottom: 15px;
+}
+
+.searchContent {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    text-align: start;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    height: 70px;
+    overflow-y: auto; /* Thêm cuộn dọc */
+}
+
+.searchContent b {
+    word-wrap: break-word; /* Bắt buộc văn bản xuống dòng */
+    white-space: normal; /* Cho phép xuống dòng */
+    overflow-wrap: break-word; /* Tự động xuống dòng nếu văn bản quá dài */
+    width: 100%;
+}

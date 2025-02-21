@@ -1,0 +1,100 @@
+.roomContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.roomCard {
+    display: flex;
+    flex-direction: column;
+    width: 290px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    background-color: #f9f9f9;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.roomCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.roomImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.roomContent {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.roomTitle {
+    font-size: 1.25rem;
+    color: #222;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.roomDescription {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.roomLink {
+    display: inline-block;
+    padding: 10px 18px;
+    color: #fff;
+    background-color: #28a745;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin-top: auto;
+}
+
+.roomLink:hover {
+    background-color: #218838;
+}
+
+.timeContent {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.startDate {
+    margin-right: 5px;
+    font-weight: 500;
+    color: #444;
+}
+
+.linkContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkJoin {
+    text-align: start;
+    margin-right: 15px;
+}
+
+.linkDetail {
+    text-align: end;
+}
+
+.titleIcon{
+    margin-right: 7px;
+}
+

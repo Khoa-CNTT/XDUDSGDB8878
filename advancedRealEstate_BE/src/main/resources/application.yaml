@@ -1,0 +1,121 @@
+#server:
+#  port: 8085
+#  servlet:
+#    context-path: /identity
+#
+#spring:
+#  datasource:
+#    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/identity_service}
+#    driverClassName: "com.mysql.cj.jdbc.Driver"
+#    password: ${DBMS_PASSWORD:28082001}
+#    username: ${DBMS_USERNAME:root}
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+##  M9ebpI+8t3asjzq0M/hMUmWFLLFfp/RjTqB5DLc2EXSm01nVDWnHCAtKozeFMQC4
+##  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+#jwt:
+#  signerKey: "M9ebpI+8t3asjzq0M/hMUmWFLLFfp/RjTqB5DLc2EXSm01nVDWnHCAtKozeFMQC4"
+#  valid-duration: 3600 # in second
+#  refreshable-duration: 36000 # in seconds
+#
+#server:
+#  port: 9090
+#  host: localhost
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+#  datasource:
+#    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/identity_service4}
+#    driverClassName: "com.mysql.cj.jdbc.Driver"
+#    password: ${DBMS_PASSWORD:28082001}
+#    username: ${DBMS_USERNAME:root}
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#  servlet:
+#    multipart:
+#      enabled: true
+#      max-file-size: 10MB
+#      max-request-size: 20MB
+#jwt:
+#  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+#  valid-duration: 3600 # in second
+#  refreshable-duration: 36000 # in seconds
+#springdoc:
+#  api-docs:
+#    path: /v3/api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    operations-sorter: method
+#    enable: true
+#  group-configs:
+#    - group: advancedRealEstate_BE
+#      paths-to-match: /api/**
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ${MAIL_USERNAME:manhsubcheo2@gmail.com}
+#    password: ${MAIL_PASSWORD:rlsstrllbbrjyaop}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#        debug: true
+
+server:
+  port: 9090
+  host: localhost
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/identity_service}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # dùng để chạy ở container docker
+    password: ${DBMS_PASSWORD:123123aA@}
+    # dùng để chạy ở host
+    # password: ${DBMS_PASSWORD:}
+    username: ${DBMS_USERNAME:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+jwt:
+  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  valid-duration: 3600 # in seconds
+  refreshable-duration: 36000 # in seconds
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    enable: true
+  group-configs:
+    - group: advancedRealEstate_BE
+      paths-to-match: /api/**
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: manhsubcheo2@gmail.com
+  password: rlsstrllbbrjyaop
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+    debug: true
+python:
+  api:
+    base-url: http://localhost:5000

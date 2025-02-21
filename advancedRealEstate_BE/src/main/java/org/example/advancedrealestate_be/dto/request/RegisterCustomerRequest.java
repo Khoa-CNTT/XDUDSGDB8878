@@ -1,0 +1,20 @@
+package org.example.advancedrealestate_be.dto.request;
+
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class RegisterCustomerRequest {
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String password;
+    private String email;
+    private String phoneNumber;
+
+}

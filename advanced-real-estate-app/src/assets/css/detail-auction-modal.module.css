@@ -1,0 +1,15 @@
+.buildingInfo{
+
+
+}
+
+.auctionInfo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.auctionColumn {
+    flex: 1;
+    min-width: 45%;
+}
