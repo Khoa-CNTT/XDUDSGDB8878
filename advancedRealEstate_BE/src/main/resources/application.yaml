@@ -77,7 +77,8 @@ spring:
     url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/identity_service}
     driverClassName: com.mysql.cj.jdbc.Driver
     # dùng để chạy ở container docker
-    password: ${DBMS_PASSWORD:123123aA@}
+    password: ${DBMS_PASSWORD:28082001}
+#    password: ${DBMS_PASSWORD:123123aA@}
     # dùng để chạy ở host
     # password: ${DBMS_PASSWORD:}
     username: ${DBMS_USERNAME:root}
