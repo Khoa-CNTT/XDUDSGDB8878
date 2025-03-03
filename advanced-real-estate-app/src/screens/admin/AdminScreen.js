@@ -437,7 +437,7 @@ const AdminScreen = () => {
                                         <td className="align-middle">{value.first_name || ""}</td>
                                         <td className="align-middle">{value.last_name || ""}</td>
                                         <td className="align-middle">{value.user_name || ""}</td>
-                                        <td className="text-center align-middle">{value.birthday != null ? formatDateVN(value.birthday) : ""}</td>
+                                        <td className="text-center align-middle">{value.birthday}</td>
                                         <td className="align-middle">{value.email || ""}</td>
                                         <td className="text-center align-middle">{value.phone_number || ""}</td>
                                         <td className="text-center align-middle">{value.roles || ""}</td>

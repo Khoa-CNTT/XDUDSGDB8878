@@ -1,18 +1,18 @@
 /* src/components/ChatComponent.css */
 
-.chat-container {
+.chat_container {
   position: fixed;
   bottom: 20px;
   right: 40px;
   z-index: 1000; /* Đảm bảo khung chat nằm trên cùng */
 }
 
-.chat-icon {
+.chat_icon {
   font-size: 30px;
   cursor: pointer;
 }
 
-.chat-box {
+.chat_box {
   width: 400px;
   height: 600px;
   background-color: #fff;
@@ -38,7 +38,7 @@
   }
 }
 
-.chat-header {
+.chat_header {
   background-color: #0d1329;
   color: white;
   padding: 10px;
@@ -49,7 +49,7 @@
   border-top-right-radius: 8px;
 }
 
-.close-btn {
+.close_btn {
   background: none;
   border: none;
   color: white;
@@ -57,7 +57,7 @@
   cursor: pointer;
 }
 
-.chat-content {
+.chat_content {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
@@ -91,13 +91,13 @@
   background-color: #ececec;
 }
 
-.chat-footer {
+.chat_footer {
   padding: 10px;
   display: flex;
   border-top: 1px solid #ccc;
 }
 
-.chat-footer input {
+.chat_footer input {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
@@ -105,7 +105,7 @@
   margin-right: 5px;
 }
 
-.chat-footer button {
+.chat_footer button {
   padding: 8px 12px;
   border: none;
   background-color: #0d1329;
@@ -114,11 +114,11 @@
   cursor: pointer;
 }
 
-.chat-footer button:hover {
+.chat_footer button:hover {
   background-color: #1a1f3a;
 }
 
-.icon-gradient {
+.icon_gradient {
   font-size: 60px; /* Kích thước icon */
   background: linear-gradient(
     45deg,

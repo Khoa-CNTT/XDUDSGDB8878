@@ -8,8 +8,9 @@ import {message} from "antd";
 const AuctionCreateModal = ({refresh}) => {
 
     const auth = useSelector(authSelector);
-    const buildingReducer = useSelector(buildingSelector);
     const [item, setItem] = useState(null);
+    const buildingReducer = useSelector(buildingSelector);
+    const [auctionBuildings, setAuctionBuildings] = useState([]);
 
     useEffect(() => {
         setItem({
@@ -29,7 +30,10 @@ const AuctionCreateModal = ({refresh}) => {
     }, [item]);
 
     useEffect(() => {
-        console.log('building data: ', buildingReducer);
+        const filteredData = buildingReducer?.buildings?.filter((building) => {
+            return ["Nhà đấu giá"].includes(building?.typeBuilding?.type_name);
+        });
+        setAuctionBuildings(filteredData);
     }, [buildingReducer]);
 
     const handleChange = (e) => {
@@ -138,7 +142,7 @@ const AuctionCreateModal = ({refresh}) => {
                                         <option value={null}>
                                             Chọn nhà đấu giá
                                         </option>
-                                        {buildingReducer?.buildings?.map((building, index) => (
+                                        {auctionBuildings?.map((building, index) => (
                                             <option key={index} value={building?.id}>
                                                 {building?.name} - {building?.typeBuilding?.type_name} - {building?.status === 1 ? 'Đang mở' : 'Đang đóng'}
                                             </option>

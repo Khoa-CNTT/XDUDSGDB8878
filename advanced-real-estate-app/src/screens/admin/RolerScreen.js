@@ -51,7 +51,6 @@ const RolerScreen = () => {
         } catch (error) {
             Toast("error", error.message);
         }
-        
     }
 
     const createRoles = async () => {
@@ -59,8 +58,8 @@ const RolerScreen = () => {
         console.log(role);
         console.log(newPermission);
         const url = `/api/admins/role`;
-        const payload = checkLink ? { permission_name: createRole.permission_name } : createRole;
-    
+        const payload = checkLink ? { permission_name: createRole.permission_name, role_type: createRole?.role_type } : createRole;
+        console.log("payload data: ", payload);
         try {
             const res = await handleAPI(url, payload, "post", auth?.token);
             if (res.status === 200) {
@@ -343,7 +342,7 @@ const RolerScreen = () => {
                                         {
                                             appVariables.listRoleRequireForManagerPage
                                             .map((item, index) => (
-                                                <option key={index} value={item}>{`${item}`}</option>
+                                                 <option key={index} value={item}>{`${item}`}</option>
                                             ))
                                         }
                                     </select>

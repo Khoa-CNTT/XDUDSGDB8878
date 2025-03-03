@@ -32,7 +32,7 @@ public class ApplicationInitConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    static String ADMIN_PASSWORD = "admin";
+    static String ADMIN_PASSWORD = "123456";
     static String ADMIN_EMAIL="admin@gmail.com";
     static Integer ADMIN_STATUS = 1;
 
@@ -98,6 +98,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .email(ADMIN_EMAIL)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
+                        .rawPassword(passwordEncoder.encode(ADMIN_PASSWORD))
                         .status(ADMIN_STATUS)
                         .role(role)
                         .build();

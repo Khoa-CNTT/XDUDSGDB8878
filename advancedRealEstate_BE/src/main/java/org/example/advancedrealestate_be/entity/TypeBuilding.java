@@ -22,5 +22,5 @@ public class TypeBuilding {
     private String id;
     private String type_name;
     private Double price;
-    private int status;
+    private Integer status;
 }

@@ -116,7 +116,7 @@ const DetailAuctionModal = ({auctionId}) => {
                                     <br/>
                                     <span>
                                         <i className="fa fa-map-marker text-primary me-2"/>
-                                        {' Địa chỉ: ' + auction?.map?.map_name}
+                                        {' Địa chỉ: ' + auction?.map?.address}
                                     </span>
                                     <br/>
                                     <span>

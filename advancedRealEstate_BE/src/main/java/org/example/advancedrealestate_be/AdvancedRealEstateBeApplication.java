@@ -1,6 +1,4 @@
 package org.example.advancedrealestate_be;
-
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 //})
 @EnableScheduling
 public class AdvancedRealEstateBeApplication {
-
 
     public static void main(String[] args) {
         SpringApplication.run(AdvancedRealEstateBeApplication.class, args);

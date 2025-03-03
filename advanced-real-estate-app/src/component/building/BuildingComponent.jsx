@@ -105,15 +105,17 @@ const BuildingComponent = () => {
         const allBuildings = buildingReducer?.buildings || [];
 
         const filteredData = allBuildings.filter((building) => {
+
+            const matchesAuctionBuilding = ["Nhà bán", "Nhà cho thuê"].includes(building?.typeBuilding?.type_name);
             const matchesType = buildingReducer?.selectedType ?
-                building?.type === buildingReducer?.selectedType : true;
+                building?.typeBuilding?.type_name === buildingReducer?.selectedType : true;
             const matchesArea = buildingReducer?.selectedArea ?
                 building?.area === buildingReducer?.selectedArea : true;
             const matchesStructure = buildingReducer?.selectedStructure ?
                 building?.structure === buildingReducer?.selectedStructure : true;
             const matchesPrice = buildingReducer?.inputPrice ?
                 building?.price <= buildingReducer?.inputPrice : true;
-            return matchesType && matchesArea && matchesStructure && matchesPrice;
+            return matchesType && matchesArea && matchesStructure && matchesPrice && matchesAuctionBuilding;
         });
         setFilteredBuildings(filteredData);
     }, [
@@ -234,7 +236,6 @@ const BuildingComponent = () => {
             ...customer,
             ...detailBuilding
         }
-
         console.log(payload);
     }
 
