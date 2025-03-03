@@ -39,6 +39,7 @@ export let appVariables = {
     ],
     listRoleRequireForManagerPage: [
         'MANAGEMENT',
+        'NORMAL',
     ],
     formatMoney: (value)=>{
         return new Intl.NumberFormat("vi-VN", {
@@ -143,6 +144,8 @@ export let appVariables = {
     AFTER: 'After',
     YET_CONFIRM: 'YET_CONFIRM',
     CONFIRMED: 'CONFIRMED',
+    PENDING: 'PENDING',
     OLD: 'old',
-    NEW: 'new'
+    NEW: 'new',
+    WIN: 'win',
 };

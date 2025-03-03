@@ -14,7 +14,7 @@ const DauGiaClientScreen = () => {
 
     useEffect(() => {
         if (auctionReducer?.lastAction === 'joinAuctionRoomCompleted') {
-            navigate('/auction-room');
+            navigate('/user/auction-room');
         }
     }, [auctionReducer?.lastAction, navigate, dispatch]);
 

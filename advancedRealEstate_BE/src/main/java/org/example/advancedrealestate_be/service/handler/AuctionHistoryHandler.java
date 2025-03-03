@@ -298,7 +298,7 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
 
         auctionDetail.setAuction(auctionHistoryHighestBidAmount.getAuction());
         auctionDetail.setClient(auctionHistoryHighestBidAmount.getClient());
-        auctionDetail.setStatus("notConfirmed");
+        auctionDetail.setStatus(String.valueOf(EnumConstant.YET_CONFIRM));
         auctionDetail.setBidAmount(auctionHistoryHighestBidAmount.getBidAmount());
         auctionDetail.setIdentity_key(auctionHistoryHighestBidAmount.getIdentity_key());
         auctionDetail.setResult("win");

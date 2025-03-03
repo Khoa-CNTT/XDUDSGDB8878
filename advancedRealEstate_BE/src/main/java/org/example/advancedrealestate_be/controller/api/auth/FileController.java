@@ -59,6 +59,24 @@ public class FileController {
         }
     }
 
+    @GetMapping("/auction-contract/{fileName:.+}")
+    public ResponseEntity<Resource> getFileAuctionContract(@PathVariable String fileName) {
+        try {
+            Path filePath = Paths.get("uploads/auction-contract/images").resolve(fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                throw new RuntimeException("Không thể đọc file: " + fileName);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Lỗi khi tải file: " + fileName, e);
+        }
+    }
+
     private final Path rootLocation = Paths.get("uploads/contracts");
     @GetMapping("/contract/{fileName:.+}")
     public ResponseEntity<Resource> getFileContract(@PathVariable String fileName) {

@@ -10,6 +10,7 @@ import handleAPI from "../../apis/handlAPI";
 import {message} from "antd";
 import styles from "../../assets/css/header-client.module.css";
 import {updatedAuctionRoom} from "../../redux/reducers/auctionReducer";
+import {elements} from "../element/linkElement";
 
 const Header = () => {
 
@@ -103,18 +104,9 @@ const Header = () => {
                                 id="navbarCollapse"
                             >
                                 <div className="navbar-nav mr-auto py-0">
-                                    <Link to={"/"} className="nav-item nav-link active">
-                                        TRANG CHỦ
-                                    </Link>
-                                    <Link to={"/buildings"} className="nav-item nav-link">
-                                        VỀ TÒA NHÀ
-                                    </Link>
-                                    <Link to={'/user/hop-dong'} className="nav-item nav-link">
-                                        HỢP ĐỒNG
-                                    </Link>
-                                    <Link to={"/dau-gia"} className="nav-item nav-link">
-                                        ĐẤU GIÁ
-                                    </Link>
+                                    {elements?.navItemNavLinks.map((item, index) => (
+                                        <div key={index}>{item?.link}</div>
+                                    ))}
                                     <div className="nav-item dropdown">
                                         <Link
                                             to="#"
@@ -124,20 +116,14 @@ const Header = () => {
                                             KHÁC
                                         </Link>
                                         <div className="dropdown-menu rounded-0 m-0">
-                                            <Link to={'/contact'} className="dropdown-item">
-                                                LIÊN HỆ
-                                            </Link>
-                                            <Link to={"/room-chat"} className="dropdown-item">
-                                                PHÒNG NHẮN TIN
-                                            </Link>
+                                            {elements?.dropdownItems.map((item, index) => (
+                                                <div key={index}>{item?.link}</div>
+                                            ))}
                                         </div>
                                     </div>
-                                    <Link to={"/sign-in"} className="nav-item nav-link">
-                                        ĐĂNG NHẬP
-                                    </Link>
-                                    <Link to={"/sign-up"} className="nav-item nav-link">
-                                        ĐĂNG KÝ
-                                    </Link>
+                                    {elements?.signInSignUpClientLinks.map((item, index) => (
+                                        <div key={index}>{item?.link}</div>
+                                    ))}
                                 </div>
                                 {
                                     !auth?.token && Object.keys(auth.info).length === 0 ? (

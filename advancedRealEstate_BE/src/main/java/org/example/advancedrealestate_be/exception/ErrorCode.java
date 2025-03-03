@@ -14,6 +14,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(1004, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
     INVALID_FILE(400, "Invalid file", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1005, "User not existed", HttpStatus.NOT_FOUND),
+    USER_NOT_FOUND(404, "User not found", HttpStatus.NOT_FOUND),
     ROLE_NOT_FOUND(404, "Role not found", HttpStatus.NOT_FOUND),
     ROOM_NOT_FOUND(404, "Room not found", HttpStatus.NOT_FOUND),
     BUILDING_NOT_FOUND(404, "Building not found", HttpStatus.NOT_FOUND),
@@ -28,7 +29,8 @@ public enum ErrorCode {
     AUCTION_DETAIL_NOT_FOUND(404, "Auction detail not found", HttpStatus.NOT_FOUND),
     AUCTION_HISTORY_NOT_FOUND(404, "Auction history not found", HttpStatus.NOT_FOUND),
     AUCTION_HISTORY_BAD_REQUEST(400, "Auction history bad request", HttpStatus.BAD_REQUEST),
-    AUCTION_HISTORY_LIST_IS_EMPTY(400, "Auction history list is empty", HttpStatus.NOT_FOUND),;
+    AUCTION_HISTORY_LIST_IS_EMPTY(400, "Auction history list is empty", HttpStatus.NOT_FOUND),
+    AUCTION_CONTRACT_BAD_REQUEST(400, "Auction contract bad request", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

@@ -10,6 +10,7 @@ import logo_project from "../assets/img/logo_project.jpg";
 import logo_project2 from "../assets/img/logo.png";
 import newIcon from "../assets/img/new-icon.png";
 import oldIcon from "../assets/img/old-icon.png";
+import bot from "../assets/img/bot_AI.gif";
 
 export const appInfo = {
 	logo_project,
@@ -28,5 +29,6 @@ export const appInfo = {
 	nha1,
 	currentLocationIcon,
 	newIcon,
-	oldIcon
+	oldIcon,
+	bot
 };

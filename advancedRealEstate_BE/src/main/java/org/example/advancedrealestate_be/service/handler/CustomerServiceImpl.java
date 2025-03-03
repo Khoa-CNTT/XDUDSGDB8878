@@ -135,9 +135,6 @@ public class CustomerServiceImpl implements CustomerService {
         return true;
     }
 
-
-
-
     public String login(String email, String password) {
         Customers customer = customersRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));

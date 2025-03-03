@@ -1,8 +1,11 @@
 // src/components/ChatBotComponent.jsx
 import React, { useState, useRef, useEffect } from "react";
-import "./ChatBotComponent.css"; // Tạo file CSS tương ứng để định dạng
+import styles from "../../assets/css/chatBotComponent.module.css"; // Tạo file CSS tương ứng để định dạng
 import handleAPI from "../../apis/handlAPI";
 import {renderEffect} from "../../utils/functionCollectionUtil";
+import {message} from "antd";
+import {appVariables} from "../../constants/appVariables";
+import {appInfo} from "../../constants/appInfos";
 
 const ChatBotComponent = () => {
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
@@ -52,22 +55,25 @@ const ChatBotComponent = () => {
       const payload =  {
         message : messageText
       }
-      const res = await handleAPI(url, payload, "post");
-      const pred = res.prediction;
-
-      const content = `${pred.name} có diện tích ${pred.acreage} mét vuông, tọa lạc tại số ${pred.address}, quận ${pred.district}, thành phố ${pred.province}, phù hợp với ${pred.description} và có ${pred.number_of_basement} tầng hầm.`;
-
-      setInputMessage(""); // Xóa nội dung input
-      // Phản hồi của bot (giả lập)
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            text: content,
-            sender: "bot",
-          },
-        ]);
-      }, 500); // Độ trễ 0.5 giây
+      try{
+        const res = await handleAPI(url, payload, "POST");
+        const pred = res?.prediction;
+        const content = `${pred?.name || null} có diện tích ${pred?.acreage || null} mét vuông, tọa lạc tại số ${pred?.address || null}, quận ${pred?.district || null}, thành phố ${pred?.province || null}, phù hợp với ${pred?.description || null} và có ${pred?.number_of_basement || null} tầng hầm.`;
+        setInputMessage(""); // Xóa nội dung input
+        // Phản hồi của bot (giả lập)
+        setTimeout(() => {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              text: content,
+              sender: "bot",
+            },
+          ]);
+        }, 500); // Độ trễ 0.5 giây
+      }catch (error) {
+        console.log(error);
+        message.error("ERROR: " + error?.message);
+      }
     } else {
       alert("Vui lòng nhập tin nhắn!");
     }
@@ -82,30 +88,31 @@ const ChatBotComponent = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className={styles.chat_container}>
       {/* Icon chat */}
-      <div className="chat-icon" onClick={handleChatIconClick}>
+      <div className={styles.chat_icon} onClick={handleChatIconClick}>
         <i
-          className="fa fa-comments icon-gradient"
+          className={`fa fa-comments ${styles.icon_gradient}`}
           style={{ fontSize: "55px", color: "#0d1329" }}
         ></i>
-        {/* <img src="http://media.vietteltelecom.vn/upload/ckfinder/files/anhchatbot.png" alt="Chat box"></img> */}
+        {/*<img width={"10%"} src={appInfo.bot} alt="Chat box"></img>*/}
+        {/*<img src="http://media.vietteltelecom.vn/upload/ckfinder/files/anhchatbot.png" alt="Chat box"></img>*/}
       </div>
 
       {/* Chat Box */}
       {isChatBoxVisible && (
-        <div className="chat-box">
-          <div className="chat-header">
+          <div className={styles.chat_box}>
+            <div className={styles.chat_header}>
             <span style={{fontSize:"13px"}}>Trợ lý ảo ADVANCED REAL ESTATE</span>
-            <button className="close-btn" onClick={handleCloseChat}>
+            <button className={styles.close_btn} onClick={handleCloseChat}>
               ✖
             </button>
           </div>
 
-          <div className="chat-content">
+          <div className={styles.chat_content}>
             {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender}`}>
-                <div className="bubble">
+              <div key={index} className={`${styles.message} ${msg.sender === 'bot' ? styles.bot : styles.user}`}>
+                <div className={styles.bubble}>
                   {msg.text}
                 </div>
               </div>
@@ -113,7 +120,7 @@ const ChatBotComponent = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-footer">
+          <div className={styles.chat_footer}>
             <input
               type="text"
               placeholder="Nhập vào câu hỏi của bạn..."

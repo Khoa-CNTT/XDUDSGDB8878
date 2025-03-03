@@ -11,9 +11,10 @@ import {removeBidMessages, removeUsers} from "../../redux/reducers/auctionReduce
 const AuctionAdminDetailModal = ({object, refresh}) => {
 
     const auth = useSelector(authSelector);
-    const buildingReducer = useSelector(buildingSelector);
-    const [item, setItem] = useState(null);
     const dispatch = useDispatch();
+    const [item, setItem] = useState(null);
+    const buildingReducer = useSelector(buildingSelector);
+    const [auctionBuildings, setAuctionBuildings] = useState([]);
 
     useEffect(() => {
         setItem({
@@ -22,8 +23,11 @@ const AuctionAdminDetailModal = ({object, refresh}) => {
     }, [object]);
 
     useEffect(() => {
-        console.log(object);
-    }, [object]);
+        const filteredData = buildingReducer?.buildings?.filter((building) => {
+            return ["Nhà đấu giá"].includes(building?.typeBuilding?.type_name);
+        });
+        setAuctionBuildings(filteredData);
+    }, [buildingReducer]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -161,7 +165,7 @@ const AuctionAdminDetailModal = ({object, refresh}) => {
                                         <option value={item?.building?.id}>
                                             Chọn nhà đấu giá
                                         </option>
-                                        {buildingReducer?.buildings.map((building, index) => (
+                                        {auctionBuildings.map((building, index) => (
                                             <option key={index} value={building?.id}>
                                                 {building?.name} - {building?.typeBuilding?.type_name} - {building?.status === 1 ? 'Đang mở' : 'Đang đóng'}
                                             </option>
