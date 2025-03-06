@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -112,6 +113,7 @@ public class AuctionContractHandler implements AuctionContractService {
                 auctionContract.setCccd_front(filePathCF.toString());
                 auctionContract.setCccd_back(filePathBK.toString());
                 auctionContract.setAvatar(filePathAV.toString());
+                auctionContract.setSettingDate(new Date());
                 System.out.println("status: " + EnumConstant.PENDING);
                 auctionContract.setContractStatus(EnumConstant.PENDING + "");
                 auctionContractRepository.save(auctionContract);
@@ -126,7 +128,7 @@ public class AuctionContractHandler implements AuctionContractService {
         throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public List<AuctionContractResponse> findAll() {
         List<AuctionContract> auctionContractList = auctionContractRepository.findAll();
@@ -144,6 +146,7 @@ public class AuctionContractHandler implements AuctionContractService {
             .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
     @Override
     public JSONObject findById(String id) {
         JSONObject responseObject = new JSONObject();
@@ -177,6 +180,7 @@ public class AuctionContractHandler implements AuctionContractService {
                 .birthday(auctionContract.getBirthday())
                 .address(auctionContract.getAddress())
                 .note(auctionContract.getNote())
+                .settingDate(auctionContract.getSettingDate())
                 .contractStatus(auctionContract.getContractStatus())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
@@ -236,13 +240,36 @@ public class AuctionContractHandler implements AuctionContractService {
         return responseObject;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public JSONObject updateById(String id, AuctionContractRequest dto) {
-        return null;
+        JSONObject responseObject = new JSONObject();
+        AuctionContract auctionContract = auctionContractRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
+        AuctionDetail auctionDetail = auctionDetailRepository.findById(dto.getAuctionDetailId()).orElseThrow(()->new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
+        User client = userRepository.findById(dto.getClientId()).orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
+        Auction auction = auctionDetail.getAuction();
+        Building building = auction.getBuilding();
+        TypeBuilding typeBuilding = building.getTypeBuilding();
+        Map map = building.getMap();
+        auctionContract.setAuctionDetail(auctionDetail);
+        auctionContract.setClient(client);
+        auctionContract.setFull_name(dto.getFull_name());
+        auctionContract.setPhone_number(dto.getPhone_number());
+        auctionContract.setBirthday(dto.getBirthday());
+        auctionContract.setAddress(dto.getAddress());
+        auctionContract.setNote(dto.getNote());
+        auctionContractRepository.save(auctionContract);
+        responseObject.put("message", "Update successfully!");
+        return responseObject;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public JSONObject deleteById(String id) {
-        return null;
+        JSONObject responseObject = new JSONObject();
+        AuctionContract auctionContract = auctionContractRepository.findById(id).orElseThrow();
+        auctionContractRepository.delete(auctionContract);
+        responseObject.put("message", "Delete successfully!");
+        return responseObject;
     }
 }

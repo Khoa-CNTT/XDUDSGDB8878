@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class AuctionContract {
     private String birthday;
     private String address;
     private String contractStatus;
+    private Date settingDate;
 
     @Column(columnDefinition = "text")
     private String note;

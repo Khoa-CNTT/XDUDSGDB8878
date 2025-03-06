@@ -26,6 +26,7 @@ import MaintenanceScreen from "../screens/admin/MaintenanceScreen";
 import CustomerScreen from "../screens/admin/CustomerScreen";
 import Contract from "../screens/admin/Contract";
 import AuctionHistoryScreen from "../screens/admin/AuctionHistoryScreen";
+import AuctionContractScreen from "../screens/admin/AuctionContractScreen";
 import handleAPINotToken from "../apis/handleAPINotToken";
 
 const { Content } = Layout;
@@ -247,6 +248,22 @@ function AdminRouter() {
                                 </PrivateRoute>
                             }
                         />
+                          <Route
+                            path="auction-history"
+                            element={
+                                <PrivateRoute path="/admin/auction-history">
+                                    <AuctionHistoryScreen />
+                                </PrivateRoute>
+                            }
+                        />
+                          <Route
+                            path="auction-contract"
+                            element={
+                                <PrivateRoute path="/admin/auction-contract">
+                                    <AuctionContractScreen />
+                                </PrivateRoute>
+                            }
+                        />
                         <Route
                             path="maintenances"
                             element={
@@ -260,14 +277,6 @@ function AdminRouter() {
                             element={
                                 <PrivateRoute path="/admin/customer">
                                     <CustomerScreen />
-                                </PrivateRoute>
-                            }
-                        />
-                        <Route
-                            path="auction-history"
-                            element={
-                                <PrivateRoute path="/admin/auction-history">
-                                    <AuctionHistoryScreen />
                                 </PrivateRoute>
                             }
                         />

@@ -11,6 +11,7 @@ const initialState = {
     selectedStructure: '',
     inputPrice: 0,
     formattedPrice: '',
+    building: null,
 };
 
 const buildingSlice = createSlice({
@@ -26,6 +27,12 @@ const buildingSlice = createSlice({
             state.isLoading = false;
             state.buildings = [];
             state.isError = true;
+        },
+        setBuilding: (state, action) => {
+            state.building = action.payload;
+        },
+        removeBuilding: (state, action) => {
+            state.building = null;
         },
         setSelectedType: (state, action) =>{
             state.selectedType = action.payload;
@@ -80,6 +87,8 @@ const buildingSlice = createSlice({
 export const {
     success,
     failed,
+    setBuilding,
+    removeBuilding,
     setSelectedType,
     setSelectedArea,
     setSelectedStructure,
