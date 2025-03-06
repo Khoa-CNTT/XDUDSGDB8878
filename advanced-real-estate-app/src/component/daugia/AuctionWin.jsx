@@ -12,7 +12,6 @@ import AuctionWinDetailModal from "./AuctionWinDetailModal";
 
 
 export const StatusBadge = (props) => {
-    console.log("props: ", props);
     return (
         <span className={`${props.styles.status} 
         ${props?.status === props?.trangThaiSoSanh ? props.styles.pending : props.styles.confirmed}`}>
@@ -21,7 +20,7 @@ export const StatusBadge = (props) => {
     );
 }
 
-export const WinBadge = () => <span className={styles.winBadge}>Chiến thắng</span>
+export const WinBadge = (props) => <span className={styles.winBadge}>{props?.message}</span>
 
 const AuctionWin = () => {
     const auth = useSelector(authSelector)
@@ -93,7 +92,10 @@ const AuctionWin = () => {
                                         status={item.status}
                                     />
                                 </td>
-                                <td>{item.result === appVariables.WIN && <WinBadge/>}</td>
+                                <td>
+                                    {item.result === appVariables.WIN && 
+                                    <WinBadge message={'Chiến thắng'} />}
+                                </td>
                                 <td>
                                     <Link type="button"
                                           data-bs-toggle="modal"

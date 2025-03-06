@@ -20,26 +20,10 @@ const AuctionContract = () => {
     const navigate = useNavigate();
     const [auctionContracts, setAuctionContracts] = useState([]);
     const [objectItem, setObjectItem] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [selectedItem, setSelectedItem] = useState(null)
-
-    const openModal = (item) => {
-        setSelectedItem(item)
-        setIsModalOpen(true)
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false)
-        setSelectedItem(null)
-    }
-
+    
     useEffect(() => {
         refresh().then()
     }, [])
-
-    useEffect(() => {
-        console.log('utils: ',utils);
-    }, [objectItem])
 
     const refresh = async () => {
         try {

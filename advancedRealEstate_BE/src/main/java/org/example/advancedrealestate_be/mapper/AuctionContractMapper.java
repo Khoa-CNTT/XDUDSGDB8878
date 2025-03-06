@@ -51,6 +51,7 @@ public class AuctionContractMapper {
                 .birthday(auctionContract.getBirthday())
                 .address(auctionContract.getAddress())
                 .note(auctionContract.getNote())
+                .settingDate(auctionContract.getSettingDate())
                 .contractStatus(auctionContract.getContractStatus())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract

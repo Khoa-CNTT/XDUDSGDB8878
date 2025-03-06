@@ -45,7 +45,7 @@ public class AuctionDetailHandler implements AuctionDetailService {
         this.auctionDetailMapper = auctionDetailMapper;
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public List<AuctionDetailResponse> findAll() {
         List<AuctionDetail> auctionDetailList = auctionDetailRepository.findAll();
@@ -133,7 +133,7 @@ public class AuctionDetailHandler implements AuctionDetailService {
         return responseObject;
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public JSONObject create(AuctionDetailRequest dto) {
         JSONObject responseObject = new JSONObject();
@@ -143,7 +143,7 @@ public class AuctionDetailHandler implements AuctionDetailService {
         return responseObject;
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public JSONObject updateById(String id, AuctionDetailRequest dto) {
         JSONObject responseObject = new JSONObject();
@@ -162,7 +162,7 @@ public class AuctionDetailHandler implements AuctionDetailService {
         return responseObject;
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
     public JSONObject deleteById(String id) {
         JSONObject responseObject = new JSONObject();

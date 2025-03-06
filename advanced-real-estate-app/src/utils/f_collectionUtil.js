@@ -54,5 +54,17 @@ export const f_collectionUtil = {
         }
         return null;
     },
-
+    checkContractTimeExceeded(settingDate) {
+        const contractDate = new Date(settingDate);
+        const now = new Date();
+        const timeDiff = now - contractDate;
+        const hoursDiff = timeDiff / (1000 * 60 * 60);
+        if (hoursDiff > 24) {
+            console.log(true);
+            return true;
+        } else {
+            console.log(true);
+            return false;
+        }
+    }
 }

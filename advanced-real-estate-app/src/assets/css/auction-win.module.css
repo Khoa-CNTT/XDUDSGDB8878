@@ -78,14 +78,16 @@
     color: black;
     padding: 6px 12px;
     border-radius: 10px;
-    width: 128px;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: 1px solid black;
     transition: all 0.2s ease;
-}
+    width: auto; 
+    white-space: nowrap;
+  }
+  
 
 .status::before,
 .winBadge::before {

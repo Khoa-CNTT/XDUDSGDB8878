@@ -147,7 +147,7 @@ const AuctionWinDetailModal = (props) => {
                         <b className={styles.modalTitle}>{"chi tiết hợp đồng đấu giá".toUpperCase()}</b>
                         <div style={{marginLeft: '10px'}}>
                             {props?.utils?.objectItem?.result === appVariables.WIN &&
-                                <WinBadge/>
+                                <WinBadge message={'Chiến thắng'} />
                             }
                         </div>
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
@@ -325,7 +325,7 @@ const AuctionWinDetailModal = (props) => {
                                 <i className={`fa fa-trophy ${styles.icon}`}></i>
                                 <span className={styles.label}>Kết quả:</span>
                                 {props?.utils?.objectItem?.result === appVariables.WIN &&
-                                    <WinBadge/>
+                                    <WinBadge message={'Chiến thắng'} />
                                 }
                             </div>
                         </div>
