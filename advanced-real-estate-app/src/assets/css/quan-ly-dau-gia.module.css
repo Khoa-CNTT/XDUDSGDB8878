@@ -1,0 +1,106 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #2a2a2a;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1a1a1a;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.headerNav {
+    display: flex;
+    gap: 1rem;
+}
+
+.headerLink {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.headerLink:hover {
+    background-color: #333;
+}
+
+.headerButton {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.headerButton:hover {
+    background-color: #b71c1c;
+}
+
+.container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #1a1a1a;
+    padding: 20px;
+}
+
+.sidebarTitleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 20px;
+}
+
+.sidebarTitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 0px;
+}
+
+.sidebarMenu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebarMenuItem {
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebarMenuItem:hover {
+    background-color: #2c2c2c;
+}
+
+.sidebarMenuItem.active {
+    background-color: #3a3a3a;
+    font-weight: bold;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+

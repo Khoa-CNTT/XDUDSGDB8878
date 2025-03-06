@@ -28,7 +28,6 @@ public class AuctionHistoryApiController {
     private final AuctionDetailService auctionDetailService;
     private final AuctionHistoryService auctionHistoryService;
 
-
     @Autowired
     public AuctionHistoryApiController(AuctionService auctionService, AuctionDetailService auctionDetailService, AuctionHistoryService auctionHistoryService) {
         this.auctionService = auctionService;

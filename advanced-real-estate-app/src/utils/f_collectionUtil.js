@@ -32,5 +32,39 @@ export const f_collectionUtil = {
         } else {
             return "invalid";
         }
+    },
+    calculateDuration(start_date, start_time, end_time) {
+        const start = new Date(`${start_date}T` + start_time + 'Z');
+        const end = new Date(`${start_date}T` + end_time + 'Z');
+        let duration = (end - start) / 1000 / 60;
+        if (duration < 0) {
+            duration += 24 * 60;
+        }
+        const hours = Math.floor(duration / 60);
+        const minutes = duration % 60;
+        return `${hours} Giờ ${minutes} Phút`;
+    },
+    validateField(name, value){
+        if (!value.trim()) {
+            return "Vui lòng nhập vào!";
+        }
+        const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+        if (specialCharRegex.test(value)) {
+            return "Không được chứa ký tự đặc biệt!";
+        }
+        return null;
+    },
+    checkContractTimeExceeded(settingDate) {
+        const contractDate = new Date(settingDate);
+        const now = new Date();
+        const timeDiff = now - contractDate;
+        const hoursDiff = timeDiff / (1000 * 60 * 60);
+        if (hoursDiff > 24) {
+            console.log(true);
+            return true;
+        } else {
+            console.log(true);
+            return false;
+        }
     }
 }

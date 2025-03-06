@@ -361,6 +361,9 @@ public class UserMapperImpl implements UserMapper {
         if (request.getPhone_number() != null) {
             user.setPhone_number(request.getPhone_number());
         }
+        if (request.getBirthday() != null) {
+            user.setBirthday(String.valueOf(request.getBirthday()));
+        }
 
         Role role = roleRepository.findById(request.getRole_id()).orElse(null);
 

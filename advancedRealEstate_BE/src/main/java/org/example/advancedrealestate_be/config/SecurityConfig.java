@@ -28,8 +28,9 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/users", "/api/auth/**",
+            "/api/buildings/search",
             "/api/customers/**",
-            "/ws/**"
+            "/ws/**",
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
@@ -71,8 +72,8 @@ public class SecurityConfig {
 
         // Cấu hình OAuth2 resource server sử dụng JWT cho xác thực
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
-                        .decoder(customJwtDecoder)
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                .decoder(customJwtDecoder)
+                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
 

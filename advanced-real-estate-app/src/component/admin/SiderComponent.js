@@ -167,6 +167,16 @@ const SiderComponent = () => {
             url: path + "/auction-history",
         },
         {
+            key: "auction-contract",
+            label: (
+                <Link style={{ textDecoration: "none" }} to={path + "/auction-contract"}>
+                    Quản Lý hợp đồng đấu giá
+                </Link>
+            ),
+            icon: <FaHistory size={20} />,
+            url: path + "/auction-contract",
+        },
+        {
             key: "maintenances",
             label: (
                 <Link style={{ textDecoration: "none" }} to={path + "/maintenances"}>

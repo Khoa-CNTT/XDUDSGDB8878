@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import {matchPath, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {appVariables} from "../constants/appVariables";
 import {useDispatch, useSelector} from "react-redux";
 import {authSelector, removeAuth} from "../redux/reducers/authReducer";
@@ -21,6 +21,10 @@ import InfoUserScreen from "../screens/user/InfoUserScreen";
 import {jwtDecode} from "jwt-decode";
 import {message} from "antd";
 import {fetchUser} from "../apis/api";
+import AuctionManagerScreen from "../screens/user/auction/AuctionManagerScreen";
+import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
+import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
+import ChatBotComponent from "../component/ChatBot/ChatBotComponent";
 
 const UserRouter = () => {
     const location = useLocation();
@@ -48,6 +52,52 @@ const UserRouter = () => {
     };
 
     addInitialCssLinks();
+
+    const routes = [
+        {
+            path: '/hop-dong',
+            element: <MuaNhaClientScreen />,
+            showFilter: false,
+            showBanner: false,
+            showHeader: true,
+            showFooter: true
+        },
+        {
+            path: '/info',
+            element: <InfoUserScreen />,
+            showFilter: false,
+            showBanner: false,
+            showHeader: true,
+            showFooter: true
+        },
+        {
+            path: '/auction-manager',
+            element: <AuctionManagerScreen />,
+            showFilter: false,
+            showBanner: false,
+            showHeader: false,
+            showFooter: false
+        },
+        {
+            path: '/auction-room',
+            element: <AuctionRoomClientScreen />,
+            showFilter: false,
+            showBanner: false,
+            showHeader: false,
+            showFooter: false
+        },
+    ];
+
+    const currentPath = location.pathname.replace(/\/$/, "");
+    const currentRoute = routes.find(route => currentPath.endsWith(route.path));
+
+    useEffect(() => {
+        if (currentRoute?.showHeader === false) {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }, [currentRoute?.showHeader]);
 
     useEffect(() => {
         if(auth?.token){
@@ -86,19 +136,24 @@ const UserRouter = () => {
 
     return (
         <div>
-            <div className={"headerClient"}>
-                <Header />
-            </div>
-            <div>
+            {/* background */}
+            {currentRoute?.showHeader && <Header />}
+            {currentRoute?.showBanner && <Banner />}
+            {currentRoute?.showFilter && <Filter />}
+            <div className="contentClient">
                 <Routes>
-                    {/*USER ROUTE*/}
-                    <Route path="/info" element={<InfoUserScreen />} />
-                    <Route path="/hop-dong" element={<MuaNhaClientScreen />} />
+                    {routes.map((route, index) => (
+                        <Route key={index} path={route.path} element={route.element} />
+                    ))}
                 </Routes>
+                {currentRoute?.showHeader && <ChatBotComponent />}
             </div>
-            <div className={"footerClient"}>
-                <Footer />
-            </div>
+
+            {currentRoute?.showFooter && (
+                <div className="footerClient">
+                    <Footer />
+                </div>
+            )}
         </div>
     );
 };

@@ -82,14 +82,6 @@ const ClientRouter = () => {
             showFooter: true
         },
         {
-            path: '/auction-room',
-            element: <AuctionRoomClientScreen />,
-            showFilter: false,
-            showBanner: false,
-            showHeader: false,
-            showFooter: false
-        },
-        {
             path: '/sign-up',
             element: <SignUp />,
             showFilter: false,
@@ -135,25 +127,13 @@ const ClientRouter = () => {
         <div>
             {/* background */}
             {currentRoute?.showHeader === false && (
-                // <video
-                //     autoPlay
-                //     loop
-                //     muted
-                //     className="background-video"
-                // >
-                //     <source src={video} type="video/mp4" />
-                // </video>
                 <div></div>
             )}
-
-            {(currentRoute?.showHeader || currentRoute?.showBanner || currentRoute?.showFilter) && (
-                <div className="headerClient">
-                    {currentRoute?.showHeader && <Header />}
-                    {currentRoute?.showBanner && <Banner />}
-                    {currentRoute?.showFilter && <Filter />}
-                </div>
-            )}
-
+            <div className="headerClient">
+                {currentRoute?.showHeader && <Header />}
+                {currentRoute?.showBanner && <Banner />}
+                {currentRoute?.showFilter && <Filter />}
+            </div>
             <div className="contentClient">
                 <Routes>
                     {routes.map((route, index) => (

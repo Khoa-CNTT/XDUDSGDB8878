@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { authSelector } from '../../redux/reducers/authReducer';
 import { Bag, Setting2 } from 'iconsax-react';
 import { Button, Checkbox, Dropdown, Space } from 'antd';
+import {appVariables} from "../../constants/appVariables";
 const TypeBuildingScreen = () => {
     const [createTypeBuilding, setCreateTypeBuilding] = useState({});
     const [typeBuilding, setTypeBuilding] = useState([]);
@@ -315,8 +316,8 @@ const TypeBuildingScreen = () => {
                                             }}
                                         />
                                         </td>
-                                        <td className="align-middle">{value.type_name || ""}</td>
-                                        <td className="text-end align-middle">{value.price || ""}</td>
+                                        <td className="align-middle">{value?.type_name || ""}</td>
+                                        <td className="text-end align-middle">{appVariables.formatMoney(value?.price) || 0}</td>
                                         <td className="text-center align-middle">
                                             {value.status === 1 ? (
                                                 <button className="btn btn-primary" onClick={() => handleChangeStatusAdmin(value, 0)}>
