@@ -56,13 +56,8 @@ public class AuthenticationController {
     @PostMapping("/token")
     ApiResponse<Object> authenticate(@RequestBody AuthenticationRequest request) {
         var userInfo = userService.getMyInfo(request.getEmail());
-        var result = authenticationService.authenticate(request);
-        JSONObject responseObject = new JSONObject();
-        responseObject.put("infoUser", userInfo);
-        responseObject.put("login", result);
-        return ApiResponse.builder()
-                .result(responseObject)
-                .build();
+        var result = authenticationService.authenticate(request, userInfo);
+        return ApiResponse.builder().result(result).build();
     }
 
     @PostMapping("/introspect")

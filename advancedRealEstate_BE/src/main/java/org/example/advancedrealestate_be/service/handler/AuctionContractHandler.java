@@ -263,7 +263,7 @@ public class AuctionContractHandler implements AuctionContractService {
         return responseObject;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @Override
     public JSONObject deleteById(String id) {
         JSONObject responseObject = new JSONObject();
