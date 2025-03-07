@@ -143,9 +143,9 @@ const Contract = () => {
                                             <td className="text-center align-middle wrap">100.000.000 VNĐ</td>
                                             <td className="text-center align-middle">
                                                 <button className="btn btn-warning w-100">Chờ Xét Duyệt</button>
-                                                {/* <button className="btn btn-success w-100">Đã Xét Duyệt</button> 
-                                                <button className="btn btn-danger w-100">Chờ Thanh Toán</button>
-                                                <button className="btn btn-primary w-100">Đã Thanh Toán</button> */}
+                                                {/* <button className="btn btn-success w-100">Đã Xét Duyệt</button> */}
+                                                {/* <button className="btn btn-danger w-100">Chờ Thanh Toán</button> */}
+                                                {/* <button className="btn btn-primary w-100">Đã Thanh Toán</button> */}
                                             </td>
                                             <td className="text-center align-middle wrap">
                                             <Space direction="vertical">

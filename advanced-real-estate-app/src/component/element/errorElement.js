@@ -1,7 +1,11 @@
-export const errorElements = {
-  forAuctionWinDetailModal: {
-    errorMessage: (errorMessage) => {
-      return <span style={{ color: "red" }}>{errorMessage}</span>;
+export const elements = {
+    forAuctionWinDetailModal: {
+        errorMessage: (errorMessage)=>{
+            return(
+                <span style={{color: 'red'}}>
+                    {errorMessage}
+                </span>
+            );
+        }
     },
-  },
-};
+}

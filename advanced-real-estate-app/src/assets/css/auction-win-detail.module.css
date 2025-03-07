@@ -1,109 +1,109 @@
 .modalLarge {
-  max-width: 1024px !important;
-  width: 100% !important;
-  margin: 1.75rem auto !important;
+    max-width: 1024px !important;
+    width: 100% !important;
+    margin: 1.75rem auto !important;
 }
 
 .modalContent {
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #f9f9f9;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f9f9f9;
 }
 
 .modalHeader {
-  background-color: white;
-  color: white;
-  padding: 1.5rem;
-  text-align: center;
+    background-color: white;
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
 }
 
 .modalTitle {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-left: 5px;
-  color: #fea116;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: 5px;
+    color: #FEA116;
 }
 
 .modalBody {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .contractSection {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .sectionTitle {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #fea116;
-  border-bottom: 2px solid #fea116;
-  padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #FEA116;
+    border-bottom: 2px solid #FEA116;
+    padding-bottom: 0.5rem;
 }
 
 .infoItem {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .icon {
-  margin-right: 0.5rem;
-  width: 20px;
-  text-align: center;
-  color: #fea116;
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+    color: #FEA116;
 }
 
 .label {
-  font-weight: bold;
-  margin-right: 0.5rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
 }
 
 .inputGroup {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .modalFooter {
-  background-color: #f9f9f9;
-  padding: 1.5rem;
-  text-align: center;
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    text-align: center;
 }
 
 .viewButton {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background-color: #fea116;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: background-color 0.2s;
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: #FEA116;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s;
 }
 
 .viewButton:hover {
-  color: white;
+    color: white;
 }
 
 .errorText {
-  color: red;
-  font-size: 14px;
-  margin-top: 15px;
-  display: block;
+    color: red;
+    font-size: 14px;
+    margin-top: 15px;
+    display: block;
 }
 
 .disabled {
-  pointer-events: none;
-  opacity: 0.5;
-  cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
 }

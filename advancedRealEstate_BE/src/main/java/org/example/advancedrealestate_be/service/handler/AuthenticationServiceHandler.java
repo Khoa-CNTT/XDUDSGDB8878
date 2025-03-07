@@ -8,12 +8,7 @@ import java.util.Date;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-import net.minidev.json.JSONObject;
-import org.example.advancedrealestate_be.dto.response.UserResponse;
-import org.example.advancedrealestate_be.entity.Role;
-import org.example.advancedrealestate_be.repository.RoleRepository;
 import org.example.advancedrealestate_be.service.AuthenticationService;
-import org.example.advancedrealestate_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,7 +46,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationServiceHandler implements AuthenticationService {
     private final UserRepository userRepository;
     private final InvalidatedTokenRepository invalidatedTokenRepository;
-    private final RoleRepository roleRepository;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -66,10 +60,9 @@ public class AuthenticationServiceHandler implements AuthenticationService {
     protected long REFRESHABLE_DURATION;
 
     @Autowired
-    public AuthenticationServiceHandler(UserRepository userRepository, InvalidatedTokenRepository invalidatedTokenRepository, RoleRepository roleRepository) {
+    public AuthenticationServiceHandler(UserRepository userRepository, InvalidatedTokenRepository invalidatedTokenRepository) {
         this.userRepository = userRepository;
         this.invalidatedTokenRepository = invalidatedTokenRepository;
-        this.roleRepository = roleRepository;
     }
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
@@ -85,11 +78,12 @@ public class AuthenticationServiceHandler implements AuthenticationService {
         return IntrospectResponse.builder().valid(isValid).build();
     }
     @Override
-    public JSONObject authenticate(AuthenticationRequest request, UserResponse userInfo) {
-        JSONObject responseObject = new JSONObject();
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        Role roleUser = roleRepository.findById(user.getRole().getId()).orElseThrow(null);
+        var user = userRepository
+        .findByEmail(request.getEmail())
+        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
         // Kiểm tra nếu `status == 0`, trả về thông báo lỗi
@@ -99,10 +93,7 @@ public class AuthenticationServiceHandler implements AuthenticationService {
 
         var token = generateToken(user);
 
-        responseObject.put("infoUser", userInfo);
-        responseObject.put("roleUser", roleUser);
-        responseObject.put("login", AuthenticationResponse.builder().token(token).authenticated(true).build());
-        return responseObject;
+        return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
     @Override
     public void logout(LogoutRequest request) throws ParseException, JOSEException {

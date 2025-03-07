@@ -63,12 +63,8 @@ const BuildingDetailScreen = () => {
             const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.coords.latitude}&lon=${position.coords.longitude}`;
             const res = await handleAPINotToken(url, {}, "GET");
 
-            const buildingLat = parseFloat(
-              buildingReducer?.building?.map?.latitude
-            );
-            const buildingLon = parseFloat(
-              buildingReducer?.building?.map?.longitude
-            );
+            const buildingLat = parseFloat(buildingReducer?.building?.map?.latitude);
+            const buildingLon = parseFloat(buildingReducer?.building?.map?.longitude);
             const currentLat = position.coords.latitude;
             const currentLon = position.coords.longitude;
 
@@ -105,22 +101,11 @@ const BuildingDetailScreen = () => {
   };
 
   const handleClickKyHopDong = () => {
-    const requiredFields = [
-      "firstName",
-      "lastName",
-      "birthday",
-      "gender",
-      "phoneNumber",
-      "address",
-    ];
-    const missingFields = requiredFields.filter(
-      (field) => !auth?.info?.[field]
-    );
+    const requiredFields = ["firstName", "lastName", "birthday", "gender", "phoneNumber", "address"];
+    const missingFields = requiredFields.filter((field) => !auth?.info?.[field]);
 
     if (missingFields.length > 0) {
-      message.error(
-        "Vui lòng cập nhật đầy đủ thông tin cá nhân để ký hợp đồng!"
-      );
+      message.error("Vui lòng cập nhật đầy đủ thông tin cá nhân để ký hợp đồng!");
       navigate("/user/info");
       return;
     }
@@ -168,9 +153,7 @@ const BuildingDetailScreen = () => {
               <div className="carousel-inner">
                 <div className="carousel-item active">
                   <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
+                    src={buildingReducer?.building?.image[0] || "/placeholder.svg"}
                     alt={buildingReducer?.building?.file_type}
                     className="d-block w-100 rounded"
                     style={{
@@ -182,9 +165,7 @@ const BuildingDetailScreen = () => {
                 </div>
                 <div className="carousel-item">
                   <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
+                    src={buildingReducer?.building?.image[0] || "/placeholder.svg"}
                     alt={buildingReducer?.building?.file_type}
                     className="d-block w-100 rounded"
                     style={{
@@ -196,9 +177,7 @@ const BuildingDetailScreen = () => {
                 </div>
                 <div className="carousel-item">
                   <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
+                    src={buildingReducer?.building?.image[0] || "/placeholder.svg"}
                     alt={buildingReducer?.building?.file_type}
                     className="d-block w-100 rounded"
                     style={{
@@ -247,30 +226,24 @@ const BuildingDetailScreen = () => {
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-arrows text-primary me-2" />
-                    <strong>Diện tích:</strong>{" "}
-                    {buildingReducer?.building?.area} m²
+                    <strong>Diện tích:</strong> {buildingReducer?.building?.area} m²
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-money text-primary me-2" />
                     <strong>Giá:</strong>{" "}
-                    {appVariables.formatMoney(
-                      buildingReducer?.building?.typeBuilding?.price
-                    )}
+                    {appVariables.formatMoney(buildingReducer?.building?.typeBuilding?.price)}
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-home text-primary me-2" />
-                    <strong>Kiến trúc:</strong>{" "}
-                    {buildingReducer?.building?.structure}
+                    <strong>Kiến trúc:</strong> {buildingReducer?.building?.structure}
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-home text-primary me-2" />
-                    <strong>Số tầng:</strong>{" "}
-                    {buildingReducer?.building?.number_of_basement}
+                    <strong>Số tầng:</strong> {buildingReducer?.building?.number_of_basement}
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-map text-primary me-2" />
-                    <strong>Địa chỉ:</strong>{" "}
-                    {buildingReducer?.building?.map?.address}
+                    <strong>Địa chỉ:</strong> {buildingReducer?.building?.map?.address}
                   </div>
                   <div className="col-md-12 mb-3">
                     <i className="fa fa-map-marker text-primary me-2" />

@@ -1,175 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react';
 import AuctionCreateModal from "../../component/daugia/AuctionCreateModal";
 import AuctionAdminDetailModal from "../../component/daugia/AuctionAdminDetailModal";
-import InfoLinkDetailToolTip from "../../component/info/InfoLinkDetailToolTip";
-import AuctionLinkDetailToolTip from "../../component/daugia/AuctionLinkDetailToolTip";
-import AuctionDetailLinkDetailToolTip from "../../component/daugia/AuctionDetailLinkDetailToolTip";
-import { appVariables } from "../../constants/appVariables";
-import { Button, message } from "antd";
-import { collectionUtil, f_collectionUtil } from "../../utils/f_collectionUtil";
-import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "../../redux/reducers/authReducer";
+import {appVariables} from "../../constants/appVariables";
+import {Button, message} from "antd";
+import {collectionUtil, f_collectionUtil} from "../../utils/f_collectionUtil";
+import {useDispatch, useSelector} from "react-redux";
+import {authSelector} from "../../redux/reducers/authReducer";
+import {useNavigate} from "react-router-dom";
 import handleAPI from "../../apis/handlAPI";
-import { appInfo } from "../../constants/appInfos";
-import { buttonStyleElements } from "../../component/element/buttonStyleElement";
-import { Link, useNavigate } from "react-router-dom";
-import { FaRemoveFormat } from "react-icons/fa";
-import { HiArchiveBoxXMark } from "react-icons/hi2";
-import AuctionContractDetailModal from "../../component/daugia/AuctionContractDetailModal";
+import {appInfo} from "../../constants/appInfos";
 
-const AuctionContractScreen = (props) => {
-  const auth = useSelector(authSelector);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [objectItem, setObjectItem] = useState({});
-  const [auctionContracts, setAuctionContracts] = useState([]);
+const AuctionContractScreen = () => {
+      const auth = useSelector(authSelector);
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
 
-  useEffect(() => {
-    refresh().then();
-  }, [auth?.token]);
-
-  const refresh = async () => {
-    return await handleAPI(
-      "/api/admin/auction-contracts",
-      {},
-      "get",
-      auth?.token
-    )
-      .then((res) => {
-        console.log("data: ", res?.data);
-        setAuctionContracts(res?.data);
-      })
-      .catch((error) => {
-        message.error("Fetch error: ", error);
-        console.log("Fetch error: ", error);
-      });
-  };
-
-  const deleteById = async (id) => {
-    await handleAPI(
-      `/api/admin/auction-contracts/${id}`,
-      {},
-      "delete",
-      auth?.token
-    )
-      .then((res) => message.success("Delete successfully!"))
-      .catch((error) => {
-        message.error("Delete error: ", error);
-        console.log("Delete error: ", error);
-      });
-    await refresh();
-  };
-
-  const utils = {
-    objectItem: objectItem,
-  };
-
-  return (
-    <div>
-      <AuctionContractDetailModal utils={utils} />  
-      <div className="card">
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="p-2 bd-highlight">
-            <span>Danh Sách hợp đồng đấu giá</span>
-          </div>
-          <div className="p-2 bd-highlight">
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#AuctionCreateModal"
-            >
-              Thêm Mới
-            </button>
-          </div>
-        </div>
-        <div className="card-body">
-          <div className="table-responsive" style={{ overflow: "visible" }}>
-            <table
-              className="table table-bordered"
-              style={{ position: "relative" }}
-            >
-              <thead>
-                <tr>
-                  <th className="align-middle text-center">ID</th>
-                  <th className="align-middle text-center">Tên khách hàng</th>
-                  <th className="align-middle text-center">Phiên đấu giá</th>
-                  <th className="align-middle text-center">Chi tiết đấu giá</th>
-                  <th className="align-middle text-center">
-                    Ngày lập hợp đồng
-                  </th>
-                  <th colSpan={"3"}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {auctionContracts.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item?.id}</td>
-                    <td>
-                      <InfoLinkDetailToolTip
-                        address={item?.address}
-                        full_name={item?.full_name}
-                        phone_number={item?.phone_number}
-                      />
-                    </td>
-                    <td>
-                      <AuctionLinkDetailToolTip
-                        date={`${item?.auctionDetail?.auction?.start_date} 
-                        ${item?.auctionDetail?.auction?.start_time} - ${item?.auctionDetail?.auction?.end_time}`}
-                        originPrice={appVariables.formatMoney(
-                          item?.auctionDetail?.building?.typeBuilding?.price
-                        )}
-                        auctionName={item?.auctionDetail?.auction?.name}
-                        buildingName={item?.auctionDetail?.building?.name}
-                      />
-                    </td>
-                    <td>
-                      <AuctionDetailLinkDetailToolTip
-                        buildingName={item?.auctionDetail?.building?.name}
-                        auctionName={item?.auctionDetail?.auction?.name}
-                        bidAmount={appVariables.formatMoney(
-                          item?.auctionDetail?.bidAmount
-                        )}
-                        status={item?.auctionDetail?.status}
-                        result={item?.auctionDetail?.result}
-                      />
-                    </td>
-                    <td>{item?.settingDate}</td>
-                    {item?.contractStatus === appVariables.PENDING && (
-                      <td>
-                        <Link
-                          type="button"
-                          data-bs-toggle="modal"
-                          data-bs-target="#auctionContractDetailModal"
-                          style={buttonStyleElements?.confirmButtonStyle}
-                          onClick={() => {
-                            setObjectItem(item);
-                          }}
-                          to={`#`}
+      return (
+      <div>
+            <div className="card">
+                  <div className="d-flex align-items-center justify-content-between">
+                  <div className="p-2 bd-highlight">
+                        <span>Danh Sách hợp đồng đấu giá</span>
+                  </div>
+                  <div className="p-2 bd-highlight">
+                        <button
+                              type="button"
+                              className="btn btn-primary"
+                              data-bs-toggle="modal"
+                              data-bs-target="#AuctionCreateModal"
                         >
-                          XÁC NHẬN
-                        </Link>
-                      </td>
-                    )}
-                    <td>
-                      <Button
-                        style={buttonStyleElements?.deleteButtonStyle}
-                        onClick={() => {
-                          deleteById(item?.id).then();
-                        }}
-                      >
-                        <HiArchiveBoxXMark />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                              Thêm Mới
+                        </button>
+                  </div>
+                  </div>
+                  <div className="card-body">
+                  <div className="table-responsive">
+                        <table className="table table-bordered">
+                              <thead>
+                              <tr>
+                              <th className="align-middle text-center">ID</th>
+                              <th colSpan={"3"}>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {
+                                    [{id: "sdasdas"}].map((item, index) => (
+                                          <tr key={index}>
+                                          <td>
+                                                {item?.id}
+                                          </td>
+                                          <td>
+                                                <Button className={'btn btn-danger'}
+                                                      onClick={() => {
+                                                            // deleteById(item?.id).then()
+                                                      }}>
+                                                      Xóa
+                                                </Button>
+                                          </td>
+                                          </tr>
+                                    ))
+                              }
+                              </tbody>
+                        </table>
+                  </div>
+                  </div>
+            </div>
       </div>
-    </div>
-  );
+      );
 };
 
 export default AuctionContractScreen;

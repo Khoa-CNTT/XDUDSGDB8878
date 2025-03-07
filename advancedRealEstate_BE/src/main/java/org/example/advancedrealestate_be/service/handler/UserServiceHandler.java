@@ -155,6 +155,7 @@ public class UserServiceHandler implements UserService {
     @Override
     public UserResponse getMyInfo(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         return userMapper.toUserResponse(user);
     }
 
