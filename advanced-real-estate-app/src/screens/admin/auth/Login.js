@@ -25,9 +25,10 @@ const Login = () => {
                 message.success("Đã đăng nhập thành công!");
                 // Lưu thông tin xác thực vào localStorage
                 const authData = {
+                    info: res?.result?.infoUser,
+                    roleUser: res?.result?.roleUser,
                     token: res?.result?.login?.token,
                     roles: res?.result?.infoUser?.roles,
-                    info: res?.result?.infoUser,
                     permission : res?.result?.infoUser?.permission
                 };
                 // Dispatch action để lưu vào Redux store
