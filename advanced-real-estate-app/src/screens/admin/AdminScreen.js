@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Checkbox, Dropdown, Space } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import handleAPI from "./../../apis/handlAPI";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
@@ -21,6 +21,10 @@ const AdminScreen = () => {
   const [updatePasswordAdmin, setUpdatePasswordAdmin] = useState({});
   const [listCheckBox, setListCheckBox] = useState([]);
   const [role, setRole] = useState([]);
+
+  // tao useState set keyword nhap vao, kèm giá trị
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -41,27 +45,30 @@ const AdminScreen = () => {
     imgWindow?.document.write(image.outerHTML);
   };
 
-  const getData = async (page) => {
-    const url = `/api/users?page=${page}&size=5`;
-    try {
-      const data = await handleAPI(url, {}, "get", auth?.token);
-      setAdmins(data.result.data);
-      setPagination(data.result.pagination);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // tránh việc gọi api thông qua useCallBack
+  const getData = useCallback(
+    async (page, searchTerm = "") => {
+      const url = `/api/users?page=${page}&size=5&search=${searchTerm}`;
+      try {
+        const data = await handleAPI(url, {}, "get", auth?.token);
+        setAdmins(data.result.data);
+        setPagination(data.result.pagination);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [auth?.token]
+  );
 
-  const getRole = async () => {
+  const getRole = useCallback(async () => {
     const url = `/api/admins/role`;
     try {
       const data = await handleAPI(url, {}, "get", auth?.token);
       setRole(data.data.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }, [auth?.token]);
 
   const [pagination, setPagination] = useState({
     total: 0,
@@ -77,17 +84,19 @@ const AdminScreen = () => {
   useEffect(() => {
     getData(pagination.current_page);
     getRole();
-  }, [pagination.current_page]);
+  }, [pagination.current_page, getData, getRole]);
 
   // Hàm để thay đổi trang
-  const changePage = (page) => {
-    setPagination((prev) => ({
-      ...prev,
-      current_page: page,
-    }));
-
-    getData(page);
-  };
+  const changePage = useCallback(
+    (page) => {
+      setPagination((prev) => ({
+        ...prev,
+        current_page: page,
+      }));
+      getData(page, searchKeyword);
+    },
+    [getData, searchKeyword]
+  );
 
   const isActived = useMemo(() => {
     return pagination.current_page;
@@ -179,7 +188,7 @@ const AdminScreen = () => {
     try {
       const res = await handleAPI(url, newPassword, "PUT", auth?.token);
       Toast("success", res.message);
-      getData(pagination.current_page); // Tải lại dữ liệu sau khi cập nhật
+      getData(pagination.current_page);
       window.$("#EditPassModal").modal("hide");
       setUpdateAdmin({ password: "" });
     } catch (error) {
@@ -191,6 +200,59 @@ const AdminScreen = () => {
     return moment(date, "DD-MM-YYYY").format("DD/MM/YYYY");
   };
 
+  // xử lý kìm kiếm từ khóa
+  const handleSearchKeyword = useCallback((keyword) => {
+    setSearchKeyword(keyword);
+  }, []);
+
+  const handleSearch = useCallback(() => {
+    if (!searchKeyword.trim()) {
+      getData(pagination.current_page);
+      return;
+    }
+    // loc ds người dùng dựa trên keyword
+    const filteredUsers = admins.filter(
+      (user) =>
+        // (user.email &&
+        //   user.email.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+        // (user.phone_number && user.phone_number.includes(searchKeyword))
+        (user.first_name &&
+          user.first_name
+            .toLowerCase()
+            .includes(searchKeyword.toLowerCase())) ||
+        (user.last_name &&
+          user.last_name.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+        (user.user_name &&
+          user.user_name.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+        (user.email &&
+          user.email.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+        (user.phone_number && user.phone_number.includes(searchKeyword))
+    );
+    // cap nhat danh sach ket qua tim kiem
+    setSearchResults(filteredUsers);
+    // Hiển thị kết quả thay vì danh sách gốc
+    setAdmins(filteredUsers);
+    // getData(1, searchKeyword);
+  }, [admins, getData, pagination.current_page, searchKeyword]);
+
+  const handleDeleteUsers = async () => {
+    try {
+      const url = `/api/users/delete`;
+      const res = await handleAPI(
+        url,
+        { ids: listCheckBox },
+        "DELETE",
+        auth?.token
+      );
+      Toast("success", res.message);
+      getData(pagination.current_page);
+      setListCheckBox([]);
+      window.$("#deleteModal").modal("hide");
+    } catch (error) {
+      Toast("error", error.message);
+    }
+  };
+
   return (
     <>
       <div className="card">
@@ -199,15 +261,49 @@ const AdminScreen = () => {
             <div className="p-2 bd-highlight">
               <span>Danh Sách User</span>
             </div>
-            <div className="p-2 bd-highlight">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#themMoiModal"
-              >
-                Thêm Mới
-              </button>
+            <div className="p-2 bd-highlight d-flex align-items-center">
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nhập từ khóa tìm kiếm..."
+                  value={searchKeyword}
+                  onChange={(e) => handleSearchKeyword(e.target.value)}
+                  style={{
+                    width: "250px",
+                    borderTopRightRadius: "0px",
+                    borderBottomRightRadius: "0px",
+                    outline: "none",
+                    boxShadow: "none",
+                  }}
+                  opacity="0.6"
+                />
+              </div>
+
+              <div>
+                {/* button tìm kiếm  */}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  style={{
+                    marginRight: "10px",
+                    borderTopLeftRadius: "0px",
+                    borderBottomLeftRadius: "0px",
+                  }}
+                  onClick={handleSearch}
+                >
+                  Tìm kiếm
+                </button>
+                {/* button thêm mới */}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#themMoiModal"
+                >
+                  Thêm Mới
+                </button>
+              </div>
               <div
                 className="modal fade"
                 id="themMoiModal"
@@ -228,8 +324,10 @@ const AdminScreen = () => {
                         aria-label="Close"
                       ></button>
                     </div>
+
                     <div className="modal-body">
                       <div className="row">
+                        {/* trường firstName */}
                         <div className="col-lg-3 col-xl-3 col-md-6 col-sm-6">
                           <label className="mb-2">First Name</label>
                           <input
@@ -244,6 +342,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* trường lastName */}
                         <div className="col-lg-3 col-xl-3 col-md-6 col-sm-6">
                           <label className="mb-2">Last Name</label>
                           <input
@@ -258,6 +357,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* trường userName */}
                         <div className="col-lg-3 col-xl-3 col-md-6 col-sm-6">
                           <label className="mb-2">User Name</label>
                           <input
@@ -272,6 +372,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* trường password */}
                         <div className="col-lg-3 col-xl-3 col-md-6 col-sm-6">
                           <label className="mb-2">Password</label>
                           <input
@@ -287,6 +388,7 @@ const AdminScreen = () => {
                           />
                         </div>
                       </div>
+                      {/* Trường status, quyền, email, phone */}
                       <div className="row mt-3">
                         <div className="col">
                           <label className="mb-2">Status</label>
@@ -307,6 +409,7 @@ const AdminScreen = () => {
                             <option value="0">Close</option>
                           </select>
                         </div>
+                        {/* Trường quyền (role) */}
                         <div className="col">
                           <label className="mb-2">Quyền</label>
                           <select
@@ -329,6 +432,7 @@ const AdminScreen = () => {
                             ))}
                           </select>
                         </div>
+                        {/* Trường email */}
                         <div className="col">
                           <label className="mb-2">Email</label>
                           <input
@@ -343,6 +447,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* Trường Phone number */}
                         <div className="col">
                           <label className="mb-2">Phone Number</label>
                           <input
@@ -358,7 +463,9 @@ const AdminScreen = () => {
                           />
                         </div>
                       </div>
+                      {/* Trường Birthday, avatar và địa chỉ */}
                       <div className="row mt-3">
+                        {/* Trường Birthday */}
                         <div className="col">
                           <label className="mb-2">Birthday</label>
                           <input
@@ -373,6 +480,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* Trường avatar */}
                         <div className="col">
                           <label className="mb-2">Avatar</label>
                           <input
@@ -388,6 +496,7 @@ const AdminScreen = () => {
                             }
                           />
                         </div>
+                        {/* Trường địa chỉ */}
                         <div className="col">
                           <label className="mb-2">Address</label>
                           <input
@@ -404,6 +513,7 @@ const AdminScreen = () => {
                         </div>
                       </div>
                     </div>
+                    {/* Xác nhận và đóng khi ấn thêm mới */}
                     <div className="modal-footer">
                       <button
                         type="button"
@@ -429,8 +539,10 @@ const AdminScreen = () => {
         <div className="card-body">
           <div className="table-responsive">
             <table className="table table-bordered">
+              {/* thead các trường */}
               <thead>
                 <tr>
+                  {/* checkbox, xác nhận or hủy xóa user và th các trường */}
                   <th
                     className="align-middle text-center"
                     style={{ width: "60px", height: "42px" }}
@@ -485,7 +597,12 @@ const AdminScreen = () => {
                                 >
                                   Close
                                 </button>
-                                <button type="button" class="btn btn-primary">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                >
+                                  {" "}
+                                  onClick={handleUpdateAdmin}
                                   Save changes
                                 </button>
                               </div>
@@ -509,6 +626,7 @@ const AdminScreen = () => {
                   <th className="align-middle text-center">Action</th>
                 </tr>
               </thead>
+              {/* nội dung bảng */}
               <tbody>
                 {admins.map((value, key) => (
                   <tr
@@ -539,7 +657,9 @@ const AdminScreen = () => {
                     <td className="align-middle">{value.last_name || ""}</td>
                     <td className="align-middle">{value.user_name || ""}</td>
                     <td className="text-center align-middle">
-                      {value.birthday}
+                      {value.birthday != null
+                        ? formatDateVN(value.birthday)
+                        : ""}
                     </td>
                     <td className="align-middle">{value.email || ""}</td>
                     <td className="text-center align-middle">
@@ -618,6 +738,7 @@ const AdminScreen = () => {
                                   <button
                                     type="button"
                                     className="btn btn-primary"
+                                    onClick={handleUpdateAdmin}
                                   >
                                     Xác nhận
                                   </button>
