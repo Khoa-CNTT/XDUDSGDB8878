@@ -17,6 +17,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +31,7 @@ import java.util.List;
 public class ApplicationInitConfig {
 
     @Autowired
+    @Lazy
     PasswordEncoder passwordEncoder;
 
     static String ADMIN_PASSWORD = "123456";
@@ -58,13 +60,20 @@ public class ApplicationInitConfig {
 
                 List<Permission> permissions = Arrays.asList(
                         Permission.builder().permissionName("View admin").link("/admin").build(),
+
+                        Permission.builder().permissionName("View Building").link("/admin/building").build(),
+                        Permission.builder().permissionName("Thêm building").link("/admin/create-building").build(),
+                        Permission.builder().permissionName("Sửa building").link("/admin/update-building").build(),
+                        Permission.builder().permissionName("Xóa building").link("/admin/delete-building").build(),
+
                         Permission.builder().permissionName("View Chat").link("/admin/chat").build(),
                         Permission.builder().permissionName("View Room Chat").link("/admin/room-chat").build(),
-                        Permission.builder().permissionName("View Building").link("/admin/building").build(),
                         Permission.builder().permissionName("View Service").link("/admin/service").build(),
                         Permission.builder().permissionName("View Map").link("/admin/map").build(),
                         Permission.builder().permissionName("View Auction").link("/admin/auction").build(),
                         Permission.builder().permissionName("View auction history").link("/admin/auction-history").build(),
+                        Permission.builder().permissionName("View auction detail").link("/admin/auction-detail").build(),
+                        Permission.builder().permissionName("View auction contract").link("/admin/auction-contract").build(),
                         Permission.builder().permissionName("View Type Building").link("/admin/type-building").build(),
                         Permission.builder().permissionName("View Device").link("/admin/device").build(),
                         Permission.builder().permissionName("View Customer").link("/admin/customer").build(),

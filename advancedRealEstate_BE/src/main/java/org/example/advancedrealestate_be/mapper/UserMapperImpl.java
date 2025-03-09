@@ -25,6 +25,7 @@ import org.example.advancedrealestate_be.repository.RoleRepository;
 import org.example.advancedrealestate_be.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 //@Component
@@ -223,7 +224,7 @@ public class UserMapperImpl implements UserMapper {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserMapperImpl(PasswordEncoder passwordEncoder, PermissionService permissionService, PermissionRepository permissionRepository, RoleRepository roleRepository) {
+    public UserMapperImpl(@Lazy PasswordEncoder passwordEncoder, PermissionService permissionService, PermissionRepository permissionRepository, RoleRepository roleRepository) {
         this.passwordEncoder = passwordEncoder;
         this.permissionService = permissionService;
         this.permissionRepository = permissionRepository;
@@ -289,6 +290,7 @@ public class UserMapperImpl implements UserMapper {
         }
 
         // Build UserResponse
+        assert roleResponse != null;
         return UserResponse.builder()
                 .id(user.getId())
                 .user_name(user.getUser_name())
@@ -301,7 +303,7 @@ public class UserMapperImpl implements UserMapper {
                 .status(user.getStatus())
                 .address(user.getAddress())
                 .avatar(avatarUrl)
-                .roles(roleResponse != null ? roleResponse.getRole_name() : "Unknown Role")
+                .roles(roleResponse.getRole_name())
                 .role_id(roleResponse.getId())
                 .permission(permissions)
                 .build();

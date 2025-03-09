@@ -15,7 +15,11 @@ import { buttonStyleElements } from "../../component/element/buttonStyleElement"
 import { Link, useNavigate } from "react-router-dom";
 import { FaRemoveFormat } from "react-icons/fa";
 import { HiArchiveBoxXMark } from "react-icons/hi2";
+import { FiAlertTriangle, FiCheck } from "react-icons/fi";
 import AuctionContractDetailModal from "../../component/daugia/AuctionContractDetailModal";
+import { AlertWarningIconTooltip } from "../../component/element/alertElement";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import { GoCheckCircle } from "react-icons/go";
 
 const AuctionContractScreen = (props) => {
   const auth = useSelector(authSelector);
@@ -54,7 +58,7 @@ const AuctionContractScreen = (props) => {
     )
       .then((res) => message.success("Delete successfully!"))
       .catch((error) => {
-        message.error("Delete error: ", error);
+        message.error(error?.message);
         console.log("Delete error: ", error);
       });
     await refresh();
@@ -62,11 +66,12 @@ const AuctionContractScreen = (props) => {
 
   const utils = {
     objectItem: objectItem,
+    refresh: refresh,
   };
 
   return (
     <div>
-      <AuctionContractDetailModal utils={utils} />  
+      <AuctionContractDetailModal utils={utils} />
       <div className="card">
         <div className="d-flex align-items-center justify-content-between">
           <div className="p-2 bd-highlight">
@@ -91,6 +96,7 @@ const AuctionContractScreen = (props) => {
             >
               <thead>
                 <tr>
+                  <th className="align-middle text-center">Cảnh báo</th>
                   <th className="align-middle text-center">ID</th>
                   <th className="align-middle text-center">Tên khách hàng</th>
                   <th className="align-middle text-center">Phiên đấu giá</th>
@@ -104,6 +110,45 @@ const AuctionContractScreen = (props) => {
               <tbody>
                 {auctionContracts.map((item, index) => (
                   <tr key={index}>
+                    <td style={{ textAlign: "center" }}>
+                      {appVariables.PENDING === item?.contractStatus &&
+                      f_collectionUtil.checkContractTimeExceeded(
+                        item?.settingDate
+                      ) ? (
+                        <AlertWarningIconTooltip
+                          icon={FiAlertTriangle}
+                          cssIcon={{
+                            fontSize: "25px",
+                            color: "#EF4444",
+                            cursor: "pointer",
+                          }}
+                          message={`Đã trễ thời gian xác nhận hợp đồng. Vui lòng xác nhận!`}
+                        />
+                      ) : appVariables.PENDING === item?.contractStatus ? (
+                        <AlertWarningIconTooltip
+                          icon={ClockCircleOutlined}
+                          cssIcon={{
+                            fontSize: "25px",
+                            color: "#FEA116",
+                          }}
+                          message={`Vui lòng xác nhận hợp đồng cho khách hàng!`}
+                        />
+                      ) : (
+                        <GoCheckCircle
+                          onClick={() => {
+                            setObjectItem(item);
+                            window
+                              .$("#auctionContractDetailModal")
+                              .modal("show");
+                          }}
+                          style={{
+                            fontSize: "25px",
+                            color: "#22C55E",
+                            cursor: "pointer",
+                          }}
+                        />
+                      )}
+                    </td>
                     <td>{item?.id}</td>
                     <td>
                       <InfoLinkDetailToolTip
@@ -135,21 +180,27 @@ const AuctionContractScreen = (props) => {
                       />
                     </td>
                     <td>{item?.settingDate}</td>
-                    {item?.contractStatus === appVariables.PENDING && (
+                    {item?.contractStatus === appVariables.PENDING ? (
                       <td>
                         <Link
                           type="button"
                           data-bs-toggle="modal"
                           data-bs-target="#auctionContractDetailModal"
                           style={buttonStyleElements?.confirmButtonStyle}
-                          onClick={() => {
-                            setObjectItem(item);
-                          }}
+                          onClick={() => setObjectItem(item)}
                           to={`#`}
                         >
                           XÁC NHẬN
                         </Link>
                       </td>
+                    ) : (
+                      <Link
+                        type="button"
+                        style={buttonStyleElements?.confirmButtonStyle}
+                        to={`#`}
+                      >
+                        ĐÃ XÁC NHẬN
+                      </Link>
                     )}
                     <td>
                       <Button

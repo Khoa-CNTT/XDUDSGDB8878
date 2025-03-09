@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import java.util.Date;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -19,10 +23,13 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${mail.username}")
     private String fromEmail;
+    private final TemplateEngine templateEngine;
+
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender) {
+    public EmailServiceImpl(JavaMailSender mailSender, TemplateEngine templateEngine) {
         this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -56,6 +63,63 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email", e);
+        }
+    }
+
+    @Override
+    public void sendEmailHasTemplate(String to, String subject, Date deadline, String templateName) {
+        try {
+            Context context = new Context();
+            context.setVariable("name", "");
+            context.setVariable("date", new Date());
+            context.setVariable("deadline", deadline);
+            context.setVariable("pendingContracts", "");
+            context.setVariable("systemUrl", "http://localhost:3000/admin/auction-contract");
+            String body = templateEngine.process(templateName, context);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email", e);
+        }
+    }
+
+    @Override
+    public void sendEmailHasTemplate(
+            String to,
+            String subject,
+            String templateName,
+            String clientName,
+            String contractId,
+            Date settingDate,
+            Date approvalDate,
+            String staffName) {
+        try {
+            Context context = new Context();
+            context.setVariable("clientName", clientName);
+            context.setVariable("contractId", contractId);
+            context.setVariable("settingDate", settingDate);
+            context.setVariable("approvalDate", approvalDate);
+            context.setVariable("staffName", staffName);
+            context.setVariable("systemUrl", "http://localhost:3000/user/auction-manager");
+            String body = templateEngine.process(templateName, context);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
 
             mailSender.send(message);
         } catch (MessagingException e) {

@@ -71,16 +71,22 @@ server:
   port: 9090
   host: localhost
 spring:
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3307/identity_service}
+    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/identity_service}
     driverClassName: com.mysql.cj.jdbc.Driver
     # dùng để chạy ở container docker
-    password: ${DBMS_PASSWORD:28082001}
-#    password: ${DBMS_PASSWORD:123123aA@}
+    password: ${DBMS_PASSWORD:123456}
     # dùng để chạy ở host
-    # password: ${DBMS_PASSWORD:}
+    #password: ${DBMS_PASSWORD:123123aA@}
     username: ${DBMS_USERNAME:root}
   jpa:
     hibernate:

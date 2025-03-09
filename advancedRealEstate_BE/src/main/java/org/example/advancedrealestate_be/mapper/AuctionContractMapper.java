@@ -22,6 +22,7 @@ public class AuctionContractMapper {
 
         AuctionDetail auctionDetail = auctionContract.getAuctionDetail();
         User client = auctionContract.getClient();
+        User staffConfirm = auctionContract.getStaffConfirm();
         Auction auction = auctionDetail.getAuction();
         Building building = auction.getBuilding();
         TypeBuilding typeBuilding = building.getTypeBuilding();
@@ -63,6 +64,11 @@ public class AuctionContractMapper {
                 serverHost, serverPort, Paths.get(auctionContract
                 .getAvatar()).getFileName().toString()))
                 .contractImage(contractImagePath)
+                .staffConfirm(UserResponse.builder()
+                .first_name(Optional.ofNullable(staffConfirm).map(User::getFirst_name).orElse(null))
+                .last_name(Optional.ofNullable(staffConfirm).map(User::getLast_name).orElse(null))
+                .user_name(Optional.ofNullable(staffConfirm).map(User::getUser_name).orElse(null))
+                .build())
                 .client(UserResponse.builder()
                 .id(client.getId())
                 .first_name(client.getFirst_name())
