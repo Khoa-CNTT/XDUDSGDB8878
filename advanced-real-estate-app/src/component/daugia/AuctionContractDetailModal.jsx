@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
 import styleAuctionContractDetails from "../../assets/css/auction-contract-detail.module.css";
 import AuctionContractMessage from "../auctionContract/AuctionContractMessage";
+import AuctionContractRealToolTip from "../auctionContract/AuctionContractRealToolTip";
 import BuildingLinkDetailToolTip from "../building/BuildingLinkDetailToolTip";
 import { buttonStyleElements } from "../../component/element/buttonStyleElement";
 
@@ -28,12 +29,19 @@ const AuctionContractDetailModal = (props) => {
   const [info, setInfo] = useState(null);
   const [files, setFiles] = useState({});
   const [previews, setPreviews] = useState({});
+  const hasManagement =
+    listRoleRequireForManagerPage[0] === auth?.roleUser?.role_type;
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   useEffect(() => {
     setInfo({
       ...props?.utils?.objectItem,
     });
   }, [props]);
+
+  useEffect(() => {
+    console.log("info:", info);
+  }, [info]);
 
   useEffect(() => {
     return () => {
@@ -44,15 +52,14 @@ const AuctionContractDetailModal = (props) => {
   }, [previews]);
 
   const handleViewContract = () => {
-    if (!info?.contractImage) {
-      message.error("Chưa có ảnh hợp đồng thực!");
-      return;
-    }
+    setIsTooltipVisible(true);
   };
-  const hasManagement =
-    listRoleRequireForManagerPage[0] === auth?.roleUser?.role_type;
 
-  const handleChooseFileChange = (event) => {
+  const handleCloseTooltip = () => {
+    setIsTooltipVisible(false);
+  };
+
+  const handleChooseFileChange = async (event) => {
     const { name, files: fileList } = event.target;
 
     if (!fileList || fileList.length === 0) return;
@@ -76,6 +83,24 @@ const AuctionContractDetailModal = (props) => {
       ...prevPreviews,
       [name]: previewUrl,
     }));
+
+    const formData = new FormData();
+    formData.append("contractImageFile", file);
+
+    try {
+      const data = await handleAPI(
+        `/api/admin/auction-contracts/${info?.id}/confirm`,
+        formData,
+        "PATCH",
+        auth?.token
+      );
+      props?.utils?.refresh();
+      console.log("Upload response:", data);
+      message.success(data?.message);
+    } catch (error) {
+      console.error("Lỗi tải lên:", error);
+      message.error(error?.message);
+    }
   };
 
   return (
@@ -303,18 +328,49 @@ const AuctionContractDetailModal = (props) => {
             className={`modal-footer ${styleAuctionContractDetails.modalFooter}`}
           >
             {info?.contractStatus !== appVariables.PENDING && (
-              <WinBadge message={"Hợp đồng đã được xác nhận"} />
+              <WinBadge message={"Hợp đồng đã được nhân viên xác nhận"} />
             )}
+            {info?.contractStatus !== appVariables.PENDING && (
+              <StaffStatus
+                trangThaiSoSanh={appVariables.YET_CONFIRM}
+                message={`Nhân viên ${info?.staffConfirm?.user_name} xác nhận`}
+                styles={styleAuctionWins}
+                status={info?.auctionDetail?.status}
+              />
+            )}
+            <AuctionContractRealToolTip
+              contractImage={info?.contractImage}
+              cccdfrontImage={info?.cccd_front}
+              cccdBackImage={info?.cccd_back}
+              avatar={info?.avatar}
+              isVisible={isTooltipVisible}
+              onClose={handleCloseTooltip}
+            />
             <Button
               onClick={handleViewContract}
               style={buttonStyleElements?.confirmButtonStyle}
             >
-              {"XEM BẢN HỢP ĐỒNG THỰC"}
+              {"XEM ẢNH TRONG HỢP ĐỒNG"}
             </Button>
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const StaffStatus = (props) => {
+  return (
+    <span
+      className={`${props.styles.status} 
+        ${
+          props?.status === props?.trangThaiSoSanh
+            ? props.styles.pending
+            : props.styles.confirmed
+        }`}
+    >
+      {props?.message}
+    </span>
   );
 };
 

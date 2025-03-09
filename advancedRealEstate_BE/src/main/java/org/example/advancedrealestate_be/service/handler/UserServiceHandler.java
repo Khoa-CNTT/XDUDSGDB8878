@@ -18,6 +18,7 @@ import org.example.advancedrealestate_be.repository.RoleRepository;
 import org.example.advancedrealestate_be.repository.UserRepository;
 import org.example.advancedrealestate_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

@@ -5,6 +5,7 @@ import org.example.advancedrealestate_be.dto.request.AuctionContractRequest;
 import org.example.advancedrealestate_be.dto.request.AuctionDetailRequest;
 import org.example.advancedrealestate_be.dto.response.AuctionContractResponse;
 import org.example.advancedrealestate_be.dto.response.AuctionDetailResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface AuctionContractService {
     JSONObject create(AuctionContractRequest dto);
 
     JSONObject updateById(String id, AuctionContractRequest dto);
+
+    JSONObject confirmContract(String id, MultipartFile contractImageFile);
 
     JSONObject deleteById(String id);
 }

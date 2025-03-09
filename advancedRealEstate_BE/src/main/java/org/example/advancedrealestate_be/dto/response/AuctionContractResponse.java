@@ -25,5 +25,6 @@ public class AuctionContractResponse {
     private String avatar;
     private String contractImage;
     private UserResponse client;
+    private UserResponse staffConfirm;
     private AuctionDetailResponse auctionDetail;
 }

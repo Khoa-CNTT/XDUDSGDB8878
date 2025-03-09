@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Approval Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background-color: #fea116;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        .email-header img {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+        .email-content {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fea116;
+        }
+        .message {
+            margin-bottom: 25px;
+        }
+        .contract-details {
+            background-color: #f5f9f7;
+            border-left: 4px solid #fea116;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .contract-item {
+            margin-bottom: 8px;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #fea116;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .action-button:hover {
+            background-color: #fea116;
+        }
+        .approval-status {
+            font-weight: 600;
+            color: #fea116;
+        }
+        .email-footer {
+            background-color: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666666;
+            border-top: 1px solid #e0e0e0;
+        }
+        .company-info {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        @media only screen and (max-width: 620px) {
+            .email-container {
+                width: 100%;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <img src="https://via.placeholder.com/200x60"
+             alt="Company Logo"
+             th:src="${companyLogo}"
+        >
+        <h1>Contract Approval Notification</h1>
+    </div>
+
+    <div class="email-content">
+        <div class="greeting">
+            Hello, <span th:text="${clientName}"></span>!
+        </div>
+
+        <div class="message">
+            <p>
+                We are pleased to inform you that your contract has been
+                reviewed and approved by our team.
+            </p>
+            <p>
+                This approval marks an important step in our partnership,
+                and we look forward to a successful collaboration.
+            </p>
+        </div>
+
+        <div class="contract-details">
+            <h3>Contract Information:</h3>
+            <div class="contract-item">
+                <strong>Contract Type:</strong>
+                <span>Auction Contract</span>
+            </div>
+            <div class="contract-item">
+                <strong>Contract ID:</strong>
+                <span th:text="${contractId}">CT-2025-001</span>
+            </div>
+            <div class="contract-item">
+                <strong>Setting Date:</strong>
+                <span th:text="${submissionDate}">01 Jan 2025</span>
+            </div>
+            <div class="contract-item">
+                <strong>Approval Date:</strong>
+                <span th:text="${approvalDate}">15 Mar 2025</span>
+            </div>
+            <div class="contract-item">
+                <strong>Approved By:</strong>
+                <span th:text="${staffName}"></span>
+            </div>
+            <p>
+                <strong>Status:</strong>
+                <span class="approval-status">APPROVED</span>
+            </p>
+        </div>
+
+        <a href="#"
+           th:href="${systemUrl}"
+           class="action-button"
+           style="color: #ffffff"
+        >
+            View Your Contract
+        </a>
+
+        <p>The next steps in the process will be:</p>
+        <ol>
+            <li>Our team will contact you to schedule the next meeting</li>
+            <li>You will receive a copy of the signed contract for your records</li>
+            <li>Implementation of the contract terms will begin as scheduled</li>
+        </ol>
+
+        <p>
+            If you have any questions or need further information,
+            please contact your account manager or our customer service team at
+            <a href="mailto:customer.service@datxanhmientrung.com" th:href="'mailto:lol00sever@gmail.com'">
+                lol00sever@gmail.com
+            </a> or
+            <b> Hotline: </b>
+            <span>0915662495</span>
+        </p>
+
+        <p>Thank you for choosing Dat Xanh Mien Trung.
+            We value your business and look forward to serving you.
+        </p>
+
+        <p>Best regards,<br>
+            <strong th:text="${staffName}"></strong>
+            <strong>Employee at Dat Xanh Mien Trung Company</strong>
+        </p>
+    </div>
+
+    <div class="email-footer">
+        <p>
+            This is an automated message.
+            Please do not reply to this email.
+        </p>
+        <div class="company-info">
+            <strong>Dat Xanh Mien Trung Company</strong><br>
+            <span>03 Quang Trung, Hai Chau, TP. Da Nang</span><br>
+            <span>0915662495</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

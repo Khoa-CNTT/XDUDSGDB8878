@@ -1,5 +1,6 @@
 package org.example.advancedrealestate_be.config;
 
+import org.example.advancedrealestate_be.security.SecurityPermissionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
@@ -24,7 +26,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer{
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/users", "/api/auth/**",
@@ -53,10 +55,12 @@ public class SecurityConfig {
     };
 
     private final CustomJwtDecoder customJwtDecoder;
+    private final SecurityPermissionInterceptor permissionInterceptor;
 
     @Autowired
-    public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
+    public SecurityConfig(CustomJwtDecoder customJwtDecoder, SecurityPermissionInterceptor permissionInterceptor) {
         this.customJwtDecoder = customJwtDecoder;
+        this.permissionInterceptor = permissionInterceptor;
     }
 
     @Bean
@@ -118,6 +122,10 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(permissionInterceptor);
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.*;
 import org.example.advancedrealestate_be.dto.response.BuildingResponse;
 import org.example.advancedrealestate_be.dto.response.TypeBuildingResponse;
@@ -89,6 +90,8 @@ public class AdminBuildingApiController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+
+    @CheckPermissionUtil("/admin/delete-building")
     @DeleteMapping("/{id}")
     public ResponseEntity<JSONObject> deleteBuilding(@PathVariable String id) {
         JSONObject data = new JSONObject();
@@ -98,6 +101,7 @@ public class AdminBuildingApiController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @CheckPermissionUtil("/admin/delete-building")
     @DeleteMapping("/delete-all")
     public ResponseEntity<JSONObject> deleteAllBuilding(@Valid @RequestBody DeleteBuildingRequest request) {
         JSONObject data = new JSONObject();

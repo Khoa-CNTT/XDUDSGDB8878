@@ -53,4 +53,9 @@ public class AuctionContract {
     @JoinColumn(name = "client_id", nullable = true)
     @JsonBackReference("auction_contract-users")
     private User client;
+
+    @ManyToOne
+    @JoinColumn(name = "staff_confirm_id", nullable = true)
+    @JsonBackReference("auction_contract-users")
+    private User staffConfirm;
 }

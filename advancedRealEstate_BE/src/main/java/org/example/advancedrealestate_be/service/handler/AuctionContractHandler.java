@@ -5,6 +5,7 @@ import org.example.advancedrealestate_be.constant.EnumConstant;
 import org.example.advancedrealestate_be.dto.request.AuctionContractRequest;
 import org.example.advancedrealestate_be.dto.response.*;
 import org.example.advancedrealestate_be.entity.*;
+import org.example.advancedrealestate_be.entity.Map;
 import org.example.advancedrealestate_be.exception.AppException;
 import org.example.advancedrealestate_be.exception.ErrorCode;
 import org.example.advancedrealestate_be.mapper.AuctionContractMapper;
@@ -14,9 +15,12 @@ import org.example.advancedrealestate_be.repository.AuctionDetailRepository;
 import org.example.advancedrealestate_be.repository.UserRepository;
 import org.example.advancedrealestate_be.service.AuctionContractService;
 import org.example.advancedrealestate_be.service.AuctionDetailService;
+import org.example.advancedrealestate_be.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,10 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,14 +44,17 @@ public class AuctionContractHandler implements AuctionContractService {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
+    private final EmailService sendEmailService;
+
 
     @Autowired
-    public AuctionContractHandler(AuctionDetailRepository auctionDetailRepository, AuctionContractRepository auctionContractRepository, UserRepository userRepository, UserMapperImpl userMapper, AuctionContractMapper auctionContractMapper) {
+    public AuctionContractHandler(AuctionDetailRepository auctionDetailRepository, AuctionContractRepository auctionContractRepository, UserRepository userRepository, UserMapperImpl userMapper, AuctionContractMapper auctionContractMapper, EmailService sendEmailService) {
         this.auctionDetailRepository = auctionDetailRepository;
         this.auctionContractRepository = auctionContractRepository;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.auctionContractMapper = auctionContractMapper;
+        this.sendEmailService = sendEmailService;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
@@ -65,9 +69,16 @@ public class AuctionContractHandler implements AuctionContractService {
         .orElseThrow(() -> new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
         User user = userRepository.findById(dto.getClientId())
         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        boolean checkExistsAuctionContract = auctionContractRepository
+        boolean isExistsAuctionContract = auctionContractRepository
         .existsAuctionContractByAuctionDetailId(auctionDetail.getId());
-        if(checkExistsAuctionContract){
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.HOUR, 24);
+
+        Date dateAddTo24H = calendar.getTime();
+
+        if(isExistsAuctionContract){
             throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
         }
         if (cccdFrontImage != null && !cccdFrontImage.isEmpty()
@@ -113,18 +124,21 @@ public class AuctionContractHandler implements AuctionContractService {
                 auctionContract.setCccd_front(filePathCF.toString());
                 auctionContract.setCccd_back(filePathBK.toString());
                 auctionContract.setAvatar(filePathAV.toString());
-                auctionContract.setSettingDate(new Date());
-                System.out.println("status: " + EnumConstant.PENDING);
-                auctionContract.setContractStatus(EnumConstant.PENDING + "");
+                auctionContract.setSettingDate(now);
+                auctionContract.setContractStatus(EnumConstant.PENDING.toString());
                 auctionContractRepository.save(auctionContract);
+                sendEmailService.sendEmailHasTemplate(
+                        "lol00sever@gmail.com",
+                        "Contract Review Reminder",
+                        dateAddTo24H,
+                "email-template-send-for-staff"
+                );
                 data.put("message", "Create successfully!");
                 return data;
             } catch (IOException e) {
                 throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
             }
         }
-//        data.put("error", "Create error | Please upload all the images to the server!");
-//        return data;
         throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
     }
 
@@ -153,6 +167,7 @@ public class AuctionContractHandler implements AuctionContractService {
         AuctionContract auctionContract = auctionContractRepository.findById(id).orElseThrow();
         AuctionDetail auctionDetail = auctionContract.getAuctionDetail();
         User client = auctionContract.getClient();
+        User staffConfirm = auctionContract.getStaffConfirm();
         Auction auction = auctionDetail.getAuction();
         Building building = auction.getBuilding();
         TypeBuilding typeBuilding = building.getTypeBuilding();
@@ -192,6 +207,11 @@ public class AuctionContractHandler implements AuctionContractService {
                 serverHost, serverPort, Paths.get(auctionContract
                 .getAvatar()).getFileName().toString()))
                 .contractImage(contractImagePath)
+                .staffConfirm(UserResponse.builder()
+                .first_name(Optional.ofNullable(staffConfirm).map(User::getFirst_name).orElse(null))
+                .last_name(Optional.ofNullable(staffConfirm).map(User::getLast_name).orElse(null))
+                .user_name(Optional.ofNullable(staffConfirm).map(User::getUser_name).orElse(null))
+                .build())
                 .client(UserResponse.builder()
                 .id(client.getId())
                 .first_name(client.getFirst_name())
@@ -260,6 +280,60 @@ public class AuctionContractHandler implements AuctionContractService {
         auctionContract.setNote(dto.getNote());
         auctionContractRepository.save(auctionContract);
         responseObject.put("message", "Update successfully!");
+        return responseObject;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @Override
+    public JSONObject confirmContract(String id, MultipartFile contractImageFile) {
+        JSONObject responseObject = new JSONObject();
+        AuctionContract auctionContract = auctionContractRepository.findById(id)
+        .orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
+        AuctionDetail auctionDetail = auctionDetailRepository.findById(auctionContract.getAuctionDetail().getId())
+        .orElseThrow(()->new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
+        String confirmStatus = String.valueOf(EnumConstant.CONFIRMED);
+        boolean isConfirmedContract = Objects.equals(auctionContract.getContractStatus(), confirmStatus);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User staffConfirm = userRepository.findByEmail(authentication.getName())
+        .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if(isConfirmedContract){
+            throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
+        }
+        if (contractImageFile != null && !contractImageFile.isEmpty()) {
+            String uploadDir = "uploads/auction-contract/images/";
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            String originalFilenameContractImage = contractImageFile.getOriginalFilename();
+            assert originalFilenameContractImage != null;
+            String fileExtensionContractImage = originalFilenameContractImage.substring(originalFilenameContractImage.lastIndexOf("."));
+            String fileNameContractImage = UUID.randomUUID() + fileExtensionContractImage;
+            Path filePathContractImage = Paths.get(uploadDir, fileNameContractImage);
+            try {
+                Files.copy(contractImageFile.getInputStream(), filePathContractImage, StandardCopyOption.REPLACE_EXISTING);
+                auctionContract.setContractImage(filePathContractImage.toString());
+            } catch (IOException e) {
+                throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
+            }
+        }
+        auctionContract.setStaffConfirm(staffConfirm);
+        auctionContract.setContractStatus(confirmStatus);
+        auctionDetail.setStatus(String.valueOf(EnumConstant.CONFIRMED));
+        auctionDetailRepository.save(auctionDetail);
+        auctionContractRepository.save(auctionContract);
+        sendEmailService.sendEmailHasTemplate(
+                auctionContract.getClient().getEmail(),
+                "Contract Approval Notification",
+                "email-template-send-for-client",
+                auctionContract.getFull_name(),
+                "AUC-2025-"+auctionContract.getId(),
+                auctionContract.getSettingDate(),
+                new Date(),
+                staffConfirm.getUser_name()
+        );
+        responseObject.put("message", "Confirm successfully!");
         return responseObject;
     }
 

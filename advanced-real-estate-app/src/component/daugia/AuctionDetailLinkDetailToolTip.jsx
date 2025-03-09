@@ -8,7 +8,6 @@ import styleAuctionWins from "../../assets/css/auction-win.module.css";
 import styles from "../../assets/css/building-link-with-tooltip.module.css";
 const AuctionDetailLinkDetailToolTip = (props) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-
   const showTooltip = () => setIsTooltipVisible(true);
   const hideTooltip = () => setIsTooltipVisible(false);
   const dispatch = useDispatch();

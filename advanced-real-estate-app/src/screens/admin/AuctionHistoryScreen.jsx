@@ -182,8 +182,8 @@ const AuctionHistoryScreen = () => {
                     <td>
                       {item?.status === appVariables.CONFIRMED ? (
                         <Button
-                        style={buttonStyleElements?.confirmButtonStyle}
-                        disabled={true}
+                          style={buttonStyleElements?.confirmButtonStyle}
+                          disabled={true}
                           onClick={() => {
                             handleAcceptance(item?.identityKey).then();
                           }}
@@ -192,8 +192,8 @@ const AuctionHistoryScreen = () => {
                         </Button>
                       ) : (
                         <Button
-                        style={buttonStyleElements?.confirmButtonStyle}
-                        onClick={() => {
+                          style={buttonStyleElements?.confirmButtonStyle}
+                          onClick={() => {
                             handleAcceptance(item?.identityKey).then();
                           }}
                         >
@@ -203,12 +203,12 @@ const AuctionHistoryScreen = () => {
                     </td>
                     <td>
                       <Button
-                          style={buttonStyleElements?.deleteButtonStyle}
-                          onClick={() => {
+                        style={buttonStyleElements?.deleteButtonStyle}
+                        onClick={() => {
                           deleteById(item?.id).then();
                         }}
                       >
-                        <HiArchiveBoxXMark/>
+                        <HiArchiveBoxXMark />
                       </Button>
                     </td>
                   </tr>
