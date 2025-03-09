@@ -52,6 +52,7 @@ public class CustomerApiController {
     @PostMapping("/request-password-reset")
     public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
         customerService.requestPasswordReset(email);
+
         return ResponseEntity.ok("Password reset email sent");
     }
 
@@ -61,6 +62,7 @@ public class CustomerApiController {
     public ResponseEntity<String> resetPassword(@RequestParam String token,
                                                 @RequestParam String newPassword) {
         customerService.resetPassword(token, newPassword);
+
         return ResponseEntity.ok("Password has been reset successfully");
     }
 
