@@ -67,6 +67,7 @@ public class ApplicationInitConfig {
                         Permission.builder().permissionName("View auction history").link("/admin/auction-history").build(),
                         Permission.builder().permissionName("View Type Building").link("/admin/type-building").build(),
                         Permission.builder().permissionName("View Device").link("/admin/device").build(),
+                        Permission.builder().permissionName("View Customer").link("/admin/customer").build(),
                         Permission.builder().permissionName("View Category").link("/admin/category").build(),
                         Permission.builder().permissionName("View Contract").link("/admin/contract").build(),
                         Permission.builder().permissionName("View Contract Detail").link("/admin/contract-detail").build(),
