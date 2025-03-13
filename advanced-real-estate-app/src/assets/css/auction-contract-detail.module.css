@@ -1,0 +1,128 @@
+.modalLarge {
+  max-width: 800px !important;
+  width: 100% !important;
+  margin: 1.75rem auto !important;
+}
+
+.modalContent {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.modalHeader {
+  background-color: #e9ecef;
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  margin-left: 10px;
+}
+
+.modalBody {
+  padding: 2rem;
+}
+
+.contractSection {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contractTitle {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.contractInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-weight: bold;
+  color: #34495e;
+}
+
+.infoValue {
+  color: #2c3e50;
+}
+
+.partiesSection,
+.auctionDetails,
+.termsSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.party {
+  margin-bottom: 1rem;
+}
+
+.partyTitle {
+  font-size: 1rem;
+  color: #34495e;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.detailLabel {
+  font-weight: bold;
+  color: #34495e;
+}
+
+.detailValue {
+  color: #2c3e50;
+}
+
+.termsList {
+  padding-left: 1.5rem;
+}
+
+.termsList li {
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+.signatureSection {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.signature {
+  text-align: center;
+}
+
+.signatureLine {
+  width: 200px;
+  height: 1px;
+  background-color: #34495e;
+  margin-top: 3rem;
+}
+
+.modalFooter {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+}

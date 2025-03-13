@@ -1,0 +1,42 @@
+.pending {
+  background-color: #bae6fd;
+  color: #0284c7;
+  border: 1px solid 0284C7;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px;
+  width: 133px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.status::before,
+.winBadge::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.pending::before {
+  background-color: #0284c7;
+}
+
+.status:hover,
+.winBadge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.confirmed {
+  background-color: greenyellow;
+  color: black;
+}

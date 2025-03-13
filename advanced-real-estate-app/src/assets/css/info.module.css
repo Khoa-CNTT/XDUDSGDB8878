@@ -1,0 +1,73 @@
+.userInfoCard {
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.userInfoCardHeader {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 15px;
+    position: relative;
+    border-bottom: 2px solid black;
+}
+
+.avatarContainer {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.headerText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerText h4 {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.userInfoCardContent {
+    padding: 20px;
+}
+
+.userInfoCardContent p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.userRole {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 5px 5px 0 0;
+    font-size: 14px;
+}
+
+.blockButton{
+    text-align: center;
+    width: 100%;
+}
+
+.blockButton button{
+    text-align: center;
+    width: 100%;
+}
