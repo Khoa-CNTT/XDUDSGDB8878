@@ -184,9 +184,7 @@ const DauGiaComponent = () => {
       message.success(
         `${msg?.sender} Vừa đấu giá ${appVariables.formatMoney(msg?.bidAmount)}`
       );
-      msg?.bot_ai && message.success(
-        `${msg?.bot_ai}`
-      );
+      msg?.bot_ai && message.success(`${msg?.bot_ai}`);
     }
     if (msg?.users) {
       dispatch(addUsers(msg?.users));

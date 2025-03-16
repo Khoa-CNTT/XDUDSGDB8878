@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { f_collectionUtil } from "../../utils/f_collectionUtil";
 
 const AuctionContractMessage = (props) => {
-  
   useEffect(() => {
     console.log("info: ", props?.info);
   }, [props]);
@@ -23,7 +22,8 @@ const AuctionContractMessage = (props) => {
           <div className={styles.messageContent}>
             <p>
               Trong vòng 24 giờ nữa kể từ thời gian lập hợp đồng chúng tôi sẽ
-              liên hệ bạn để gặp trực tiếp và cam kết, ký kết hợp đồng với quý khách.
+              liên hệ bạn để gặp trực tiếp và cam kết, ký kết hợp đồng với quý
+              khách.
             </p>
             <p>
               Nếu quý khách có thắc mắc gì vui lòng liên hệ hotline:{" "}

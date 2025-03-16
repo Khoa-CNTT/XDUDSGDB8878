@@ -32,7 +32,7 @@ import Contract from "../screens/admin/Contract";
 import AuctionHistoryScreen from "../screens/admin/AuctionHistoryScreen";
 import AuctionContractScreen from "../screens/admin/AuctionContractScreen";
 import handleAPINotToken from "../apis/handleAPINotToken";
-import ChatBotComponent from '../component/chat/ChatBotComponent';
+import ChatBotComponent from "../component/chat/ChatBotComponent";
 
 const { Content } = Layout;
 

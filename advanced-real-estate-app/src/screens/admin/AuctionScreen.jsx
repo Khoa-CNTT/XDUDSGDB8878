@@ -12,7 +12,7 @@ import { collectionUtil, f_collectionUtil } from "../../utils/f_collectionUtil";
 import AuctionAdminDetailModal from "../../component/daugia/AuctionAdminDetailModal";
 import AuctionCreateModal from "../../component/daugia/AuctionCreateModal";
 import { HiArchiveBoxXMark } from "react-icons/hi2";
-import { buttonStyleElements, } from "../../component/element/buttonStyleElement";
+import { buttonStyleElements } from "../../component/element/buttonStyleElement";
 import { HiMiniInformationCircle } from "react-icons/hi2";
 import { AiFillEye } from "react-icons/ai";
 
@@ -193,8 +193,8 @@ const AuctionScreen = () => {
                     <td>{item.start_date}</td>
                     <td>
                       <Button
-                          style={buttonStyleElements?.detailButtonStyle}
-                          onClick={() => {
+                        style={buttonStyleElements?.detailButtonStyle}
+                        onClick={() => {
                           f_collectionUtil.handleCollectionItem(
                             `/api/admin/auctions/${item?.id}`,
                             setAuction,
@@ -203,17 +203,17 @@ const AuctionScreen = () => {
                           window.$("#AuctionAdminDetailModal").modal("show");
                         }}
                       >
-                        <AiFillEye/>
+                        <AiFillEye />
                       </Button>
                     </td>
                     <td>
                       <Button
-                          style={buttonStyleElements?.deleteButtonStyle}
-                          onClick={() => {
+                        style={buttonStyleElements?.deleteButtonStyle}
+                        onClick={() => {
                           deleteById(item?.id).then();
                         }}
                       >
-                        <HiArchiveBoxXMark/>
+                        <HiArchiveBoxXMark />
                       </Button>
                     </td>
                   </tr>
