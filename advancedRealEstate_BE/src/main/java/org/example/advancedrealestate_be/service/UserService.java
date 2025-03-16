@@ -1,6 +1,7 @@
 package org.example.advancedrealestate_be.service;
 
 import jakarta.validation.Valid;
+import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.dto.request.*;
 import org.example.advancedrealestate_be.dto.response.UserResponse;
 //import org.example.advancedrealestate_be.dto.response.UserRoleResponse;
@@ -22,4 +23,7 @@ public interface UserService {
     Page<UserResponse> getUsers(int page, int size);
     String createUserbyEmail(UserRequest userRequest);
 
+    List<UserResponse> getUserByStaffRole();
+
+    List<UserResponse> getUserByClientRole();
 }

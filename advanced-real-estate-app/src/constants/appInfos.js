@@ -8,13 +8,16 @@ import nha1 from "../assets/img/nha.png";
 import currentLocationIcon from "../assets/img/current_location-icon.png";
 import logo_project from "../assets/img/logo_project.jpg";
 import logo_project2 from "../assets/img/logo.png";
+import logo_batdongsan from "../assets/img/logo_batdongsan4.png";
 import newIcon from "../assets/img/new-icon.png";
 import oldIcon from "../assets/img/old-icon.png";
 import bot from "../assets/img/bot_AI.gif";
+import bot_ai from "../assets/img/bot_ai.jpg";
 
 export const appInfo = {
 	logo_project,
 	logo_project2,
+	logo_batdongsan,
 	logo: '/static/media/Logo.dac44c6881253282d209.png',
 	title: 'ADVANCED REAL ESTATE',
 	description: '',
@@ -30,5 +33,6 @@ export const appInfo = {
 	currentLocationIcon,
 	newIcon,
 	oldIcon,
-	bot
+	bot,
+	bot_ai
 };

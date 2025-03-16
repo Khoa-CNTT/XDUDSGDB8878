@@ -18,4 +18,16 @@ public interface EmailService {
              Date settingDate,
              Date approvalDate,
              String staffName);
+
+     void sendEmailHasTemplate(
+             String to,
+             String subject,
+             String templateName,
+             String clientName,
+             String buildingName,
+             String auctionId,
+             String winningBid,
+             String auctionDate,
+             Date confirmDate,
+             String staffName);
 }

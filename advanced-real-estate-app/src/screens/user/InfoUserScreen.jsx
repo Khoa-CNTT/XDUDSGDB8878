@@ -19,7 +19,7 @@ const InfoUserScreen = () => {
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   const getUserInfo = async () => {
     try {

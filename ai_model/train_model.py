@@ -60,4 +60,3 @@ with open('ai_model.pkl', 'wb') as f:
     pickle.dump(model, f)
 
 print("Model training complete and saved as ai_model.pkl.")
-

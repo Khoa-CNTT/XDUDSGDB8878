@@ -2,7 +2,10 @@ package org.example.advancedrealestate_be.controller.api.chat;
 
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.entity.User;
 import org.example.advancedrealestate_be.model.Chat;
+import org.example.advancedrealestate_be.model.ChatMessage;
+import org.example.advancedrealestate_be.service.MessageService;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -20,6 +23,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class ChatApiController {
@@ -32,13 +36,15 @@ public class ChatApiController {
 //    }
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final MessageService messageService;
     private final ScheduledTask scheduledTask;
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private String bot = "Bot: ";
 
     @Autowired
-    public ChatApiController(SimpMessagingTemplate messagingTemplate, ScheduledTask scheduledTask) {
+    public ChatApiController(SimpMessagingTemplate messagingTemplate, MessageService messageService, ScheduledTask scheduledTask) {
         this.messagingTemplate = messagingTemplate;
+        this.messageService = messageService;
         this.scheduledTask = scheduledTask;
     }
 
@@ -80,7 +86,15 @@ public class ChatApiController {
         messageObject.put("content", message.getContent());
         messageObject.put("currentDateTime", currentDateTime);
         System.out.println("Ngày và giờ hiện tại (có giây): " + currentDateTime);
-
+        if(!Objects.equals(message.getSender(), "GUEST")){
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setSender(message.getSender());
+            chatMessage.setRecipient(message.getRecipient());
+            chatMessage.setContent(message.getContent());
+            chatMessage.setType(ChatMessage.MessageType.SENT);
+            chatMessage.setRoomName(room);
+            messageService.saveMessage(chatMessage);
+        }
         if(Objects.equals(message.getContent(), "a")){
             awaitSend(messageObject, room, "hahahaha");
         }
@@ -94,20 +108,22 @@ public class ChatApiController {
     @MessageMapping("/addUser/{room}")
     public void addUser(@DestinationVariable("room") String room, Chat message, SimpMessageHeaderAccessor headerAccessor) {
         System.out.println("User joined room: " + room);
-
         System.out.println("Message: " + message);
         JSONObject messageObject = new JSONObject();
-        Set<String> usersInRoom = roomUsers.getOrDefault(room, new HashSet<>());
+        roomUsers.putIfAbsent(room, ConcurrentHashMap.newKeySet());
+        Set<String> usersInRoom = roomUsers.get(room);
         usersInRoom.add(message.getEmail());
-        roomUsers.put(room, usersInRoom);
-        System.out.println(usersInRoom);
+
+        System.out.println("users in room: "+usersInRoom);
+
         messageObject.put("count", usersInRoom.size());
         messageObject.put("email", message.getEmail());
         messageObject.put("sender", message.getEmail());
+        messageObject.put("listUserOnline", usersInRoom);
         messageObject.put("bot", "Chào mừng " + message.getEmail() + " đã vào phòng " + room);
         messageObject.put("content", message.getContent());
 
-        headerAccessor.getSessionAttributes().put("username", message.getSender());
+        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", message.getSender() == null ? "guest" : message.getSender());
 
         if(Objects.equals(room, "phòng đấu giá bất động sản cao cấp")){
             awaitSend(messageObject, room, "Chào " + message.getEmail() + " bạn cần tôi giúp gì không?");
@@ -115,7 +131,6 @@ public class ChatApiController {
 
         messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
     }
-
 
     @MessageMapping("/leaveRoom/{room}")
     public void userLeaveRoom(@DestinationVariable("room") String room, Chat message, SimpMessageHeaderAccessor headerAccessor) {

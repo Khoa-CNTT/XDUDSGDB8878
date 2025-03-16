@@ -8,13 +8,11 @@
 }
 
 .logoProject{
-
-    width: 150px;
-    height: 90px;
+    width: 125px;
+    height: 95px;
     /*border-radius: 50%;*/
 }
 
 .titleProject{
-
     font-size: 80%;
 }

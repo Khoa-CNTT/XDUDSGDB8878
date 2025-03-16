@@ -1,6 +1,4 @@
 package org.example.advancedrealestate_be.service.handler;
-
-
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -18,7 +16,6 @@ import org.example.advancedrealestate_be.repository.RoleRepository;
 import org.example.advancedrealestate_be.repository.UserRepository;
 import org.example.advancedrealestate_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -247,5 +244,20 @@ public class UserServiceHandler implements UserService {
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
+    @Override
+    public List<UserResponse> getUserByStaffRole() {
+        List<User> userList = userRepository.findUsersByRoleType("MANAGEMENT");
+        return userList.stream().map(
+            userMapper::toUserResponseByRole
+        ).collect(Collectors.toList());
+    }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @Override
+    public List<UserResponse> getUserByClientRole() {
+        List<User> userList = userRepository.findUsersByRoleType("NORMAL");
+        return userList.stream().map(
+                userMapper::toUserResponseByRole
+        ).collect(Collectors.toList());
+    }
 }

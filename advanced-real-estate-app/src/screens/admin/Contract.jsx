@@ -109,7 +109,7 @@ const Contract = () => {
                             Danh Sách Hợp Đồng
                         </div>
                         <div className="card-header">
-                            <div className="table-responsive">
+                            <div className="table-response">
                                 <table className="table table-bordered">
                                     <thead>
                                         <tr>
@@ -198,83 +198,81 @@ const Contract = () => {
                                                 ></button>
                                             </div>
                                             <div className="modal-body">
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Mã Hợp Đồng</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Họ Và Tên</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Ngày Sinh</label>
+                                                        <input type="date" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Email</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Số Điện Thoại</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Địa Chỉ</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Ngày Bắt Đầu</label>
+                                                        <input type="date" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Ngày Kết Thúc</label>
+                                                        <input type="date" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">CMT/CCCD</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Nơi Cấp</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Ngày Cấp</label>
+                                                        <input type="date" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Tòa Nhà Cho Thuê</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">Địa Chỉ Cho Thuê</label>
+                                                        <input type="text" name="" id="" className="form-control" readOnly/>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col">
+                                                        <label htmlFor="" className="mb-2">File Hợp Đồng</label>
+                                                        <input type="file" name="" id="" className="form-control" ref={fileInputRef} onChange={handleFileChange}/>
+                                                    </div>
+                                                    {/* <div className="col d-flex justify-content-center align-items-center">
+                                                        <button className=" btn btn-primary mt-4" onClick={() => getHtmlCkeditor4()}>Tải file word</button>
+                                                    </div> */}
+                                                </div>
                                                 <div className="row mt-2">
-                                                    <div className="col-8">
+                                                    <div className="col">
                                                         {/* <textarea id="editor" ref={editorContainerRef}></textarea> */}
                                                         <textarea name="" id="editor" ref={editorContainerRef}></textarea>
-                                                    </div>
-                                                    <div className="col-4">
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Mã Hợp Đồng</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Họ Và Tên</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Ngày Sinh</label>
-                                                                <input type="date" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Email</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Số Điện Thoại</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Địa Chỉ</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Ngày Bắt Đầu</label>
-                                                                <input type="date" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Ngày Kết Thúc</label>
-                                                                <input type="date" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">CMT/CCCD</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Nơi Cấp</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Ngày Cấp</label>
-                                                                <input type="date" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Tòa Nhà Cho Thuê</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">Địa Chỉ Cho Thuê</label>
-                                                                <input type="text" name="" id="" className="form-control" readOnly/>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row mb-2">
-                                                            <div className="col">
-                                                                <label htmlFor="" className="mb-2">File Hợp Đồng</label>
-                                                                <input type="file" name="" id="" className="form-control" ref={fileInputRef} onChange={handleFileChange}/>
-                                                            </div>
-                                                            {/* <div className="col d-flex justify-content-center align-items-center">
-                                                                <button className=" btn btn-primary mt-4" onClick={() => getHtmlCkeditor4()}>Tải file word</button>
-                                                            </div> */}
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

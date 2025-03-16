@@ -989,7 +989,7 @@ const BuildingScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {buildings.map((value, key) => (
+                {buildings?.map((value, key) => (
                   <>
                     <tr
                       className={
@@ -997,7 +997,7 @@ const BuildingScreen = () => {
                       }
                     >
                       <td
-                        key={value?.id}
+                        key={key}
                         className="text-center align-middle"
                         style={{ width: "60px" }}
                       >
@@ -1310,8 +1310,8 @@ const BuildingScreen = () => {
                                 <option value="">
                                   Vui lòng chọn kiểu tòa nhà
                                 </option>
-                                {typeBuilding.map((value) => (
-                                  <option key={value.id} value={value.id}>
+                                {typeBuilding.map((value, index) => (
+                                  <option key={index} value={value.id}>
                                     {value.type_name}
                                   </option>
                                 ))}
@@ -1339,8 +1339,8 @@ const BuildingScreen = () => {
                                 onChange={handleEditSelectChange}
                               >
                                 <option value="">Vui lòng chọn địa chỉ</option>
-                                {maps.map((value) => (
-                                  <option key={value.id} value={value.id}>
+                                {maps.map((value, index) => (
+                                  <option key={index} value={value.id}>
                                     {value.map_name}
                                   </option>
                                 ))}

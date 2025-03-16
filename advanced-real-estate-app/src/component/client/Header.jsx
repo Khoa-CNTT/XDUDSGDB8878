@@ -16,6 +16,7 @@ const Header = () => {
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const logout = async () => {
     const token = auth?.token;
     const payload = {
@@ -54,7 +55,7 @@ const Header = () => {
             >
               <img
                 className={styles.logoProject}
-                src={appInfo?.logo_project2}
+                src={appInfo?.logo_batdongsan}
                 alt="no logo"
               />
               {/*<h6 className={`m-0 text-primary text-uppercase ${styles.titleProject}`}>*/}
@@ -113,7 +114,7 @@ const Header = () => {
                 id="navbarCollapse"
               >
                 <div className="navbar-nav mr-auto py-0">
-                  {linkElements?.navItemNavLinks.map((item, index) => (
+                  {linkElements?.navItemNavLinks?.map((item, index) => (
                     <div key={index}>{item?.link}</div>
                   ))}
                   <div className="nav-item dropdown">
@@ -125,12 +126,12 @@ const Header = () => {
                       KHÁC
                     </Link>
                     <div className="dropdown-menu rounded-0 m-0">
-                      {linkElements?.dropdownItems.map((item, index) => (
+                      {linkElements?.dropdownItems?.map((item, index) => (
                         <div key={index}>{item?.link}</div>
                       ))}
                     </div>
                   </div>
-                  {linkElements?.signInSignUpClientLinks.map((item, index) => (
+                  {linkElements?.signInSignUpClientLinks?.map((item, index) => (
                     <div key={index}>{item?.link}</div>
                   ))}
                 </div>

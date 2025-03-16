@@ -20,6 +20,8 @@ import AuctionContractDetailModal from "../../component/daugia/AuctionContractDe
 import { AlertWarningIconTooltip } from "../../component/element/alertElement";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { GoCheckCircle } from "react-icons/go";
+import { useRef } from "react";
+import { AiFillEye } from "react-icons/ai";
 
 const AuctionContractScreen = (props) => {
   const auth = useSelector(authSelector);
@@ -78,14 +80,14 @@ const AuctionContractScreen = (props) => {
             <span>Danh Sách hợp đồng đấu giá</span>
           </div>
           <div className="p-2 bd-highlight">
-            <button
+            {/* <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary"a
               data-bs-toggle="modal"
               data-bs-target="#AuctionCreateModal"
             >
               Thêm Mới
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="card-body">
@@ -194,13 +196,15 @@ const AuctionContractScreen = (props) => {
                         </Link>
                       </td>
                     ) : (
-                      <Link
-                        type="button"
-                        style={buttonStyleElements?.confirmButtonStyle}
-                        to={`#`}
-                      >
-                        ĐÃ XÁC NHẬN
-                      </Link>
+                      <td>
+                        <Link
+                          type="button"
+                          style={buttonStyleElements?.confirmButtonStyle}
+                          to={`#`}
+                        >
+                          ĐÃ XÁC NHẬN
+                        </Link>
+                      </td>
                     )}
                     <td>
                       <Button

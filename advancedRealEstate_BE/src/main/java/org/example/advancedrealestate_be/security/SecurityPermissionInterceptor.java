@@ -54,4 +54,3 @@ public class SecurityPermissionInterceptor implements HandlerInterceptor {
         return true;
     }
 }
-

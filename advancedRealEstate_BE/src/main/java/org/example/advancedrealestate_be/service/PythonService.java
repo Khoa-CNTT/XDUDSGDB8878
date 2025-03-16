@@ -23,8 +23,7 @@ public class PythonService {
         Map<String, String> request = Map.of("text", message);
         // Make the POST request to the Python API
         try {
-            Map<String, Object> response = restTemplate.postForObject(pythonApiUrl, request, Map.class);
-            return response;
+            return restTemplate.postForObject(pythonApiUrl, request, Map.class);
         } catch (ResourceAccessException e) {
             System.err.println("Lỗi: Không thể kết nối đến API - " + e.getMessage());
             throw new AppException(ErrorCode.AI_SERVICE_CONNECTION_REFUSED);

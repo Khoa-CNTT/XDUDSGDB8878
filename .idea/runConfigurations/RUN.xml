@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RUN" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="C:\Users\Admin\OneDrive\Desktop\project_nckh_smart_real_estate_management\.idea\runConfigurations" />
+    <module name="project_nckh_smart_real_estate_management" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="C:\Users\Admin\OneDrive\Desktop\project_nckh_smart_real_estate_management\.idea\runConfigurations" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

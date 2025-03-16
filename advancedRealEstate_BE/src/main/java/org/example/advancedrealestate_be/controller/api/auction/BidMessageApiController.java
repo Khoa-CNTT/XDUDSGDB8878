@@ -7,6 +7,7 @@ import org.example.advancedrealestate_be.dto.request.AuctionHistoryRequest;
 import org.example.advancedrealestate_be.model.Bid;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.service.AuctionHistoryService;
+import org.example.advancedrealestate_be.service.PythonService;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -26,6 +27,7 @@ import java.util.*;
 public class BidMessageApiController {
 
 
+    private final PythonService pythonService;
     private final SimpMessagingTemplate messagingTemplate;
     private final AuctionHistoryService auctionHistoryService;
     private final ScheduledTask scheduledTask;
@@ -33,7 +35,8 @@ public class BidMessageApiController {
     private final Map<String, Set<String>> msgUsers = new HashMap<>();
 
     @Autowired
-    public BidMessageApiController(SimpMessagingTemplate messagingTemplate, AuctionHistoryService auctionHistoryService, ScheduledTask scheduledTask) {
+    public BidMessageApiController(PythonService pythonService, SimpMessagingTemplate messagingTemplate, AuctionHistoryService auctionHistoryService, ScheduledTask scheduledTask) {
+        this.pythonService = pythonService;
         this.messagingTemplate = messagingTemplate;
         this.auctionHistoryService = auctionHistoryService;
         this.scheduledTask = scheduledTask;
@@ -59,8 +62,15 @@ public class BidMessageApiController {
         String messageId = generateRandomBidMessageId(9);
         JSONObject messageObject = new JSONObject();
         Set<String> messagesInRoom = msgUsers.getOrDefault(room, new HashSet<>());
+        Map<String, Object> aiMessage = pythonService.getPrediction(String.valueOf(bidMessage.getBidAmount()));
+        Map<String, Object> prediction = (Map<String, Object>) aiMessage.get("prediction");
 
+        System.out.println("aiMessage: " + aiMessage);
+        int acreage = (int) prediction.get("acreage");
         messageObject.put("id", messageId);
+        if(acreage < 1){
+            messageObject.put("bot_ai", prediction.get("description"));
+        }
         messageObject.put("sender", bidMessage.getEmail());
         messageObject.put("bidAmount", bidMessage.getBidAmount());
         messageObject.put("client_id", bidMessage.getClient_id());
