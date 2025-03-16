@@ -19,9 +19,9 @@ const chatSlice = createSlice({
   reducers: {
     saveChat: (state, action) => {
       state.room = action.payload.room;
-    //   if (!state.userChat.messages) state.userChat.messages = [];
-    //   state.userChat.messages = action.payload; 
-        state.userChat.messages = action.payload;
+      //   if (!state.userChat.messages) state.userChat.messages = [];
+      //   state.userChat.messages = action.payload;
+      state.userChat.messages = action.payload;
     },
     removeChat: (state, action) => {
       state.room = "";
@@ -44,7 +44,14 @@ const chatSlice = createSlice({
   },
 });
 
-export const { add, update, saveChat, removeChat, setStaffsOnline, setStaffsOffline } = chatSlice.actions;
+export const {
+  add,
+  update,
+  saveChat,
+  removeChat,
+  setStaffsOnline,
+  setStaffsOffline,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;
 export const chatSelector = (state) => state.chat;
