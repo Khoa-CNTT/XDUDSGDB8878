@@ -108,7 +108,6 @@ public class ChatApiController {
     @MessageMapping("/addUser/{room}")
     public void addUser(@DestinationVariable("room") String room, Chat message, SimpMessageHeaderAccessor headerAccessor) {
         System.out.println("User joined room: " + room);
-
         System.out.println("Message: " + message);
         JSONObject messageObject = new JSONObject();
         roomUsers.putIfAbsent(room, ConcurrentHashMap.newKeySet());
@@ -132,7 +131,6 @@ public class ChatApiController {
 
         messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
     }
-
 
     @MessageMapping("/leaveRoom/{room}")
     public void userLeaveRoom(@DestinationVariable("room") String room, Chat message, SimpMessageHeaderAccessor headerAccessor) {

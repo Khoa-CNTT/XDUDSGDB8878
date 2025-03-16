@@ -45,5 +45,6 @@ const chatSlice = createSlice({
 });
 
 export const { add, update, saveChat, removeChat, setStaffsOnline, setStaffsOffline } = chatSlice.actions;
+
 export default chatSlice.reducer;
 export const chatSelector = (state) => state.chat;

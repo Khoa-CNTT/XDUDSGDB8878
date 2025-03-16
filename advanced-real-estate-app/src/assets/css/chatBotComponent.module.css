@@ -1,4 +1,4 @@
-/* Chat Container */
+
 .chat_container {
   position: fixed;
   bottom: 20px;
@@ -134,7 +134,6 @@
   cursor: pointer;
 }
 
-/* Chat Content */
 .chat_content {
   flex: 1;
   padding: 10px;
@@ -217,7 +216,6 @@
   }
 }
 
-/* Chat Footer */
 .chat_footer {
   padding: 10px;
   display: flex;

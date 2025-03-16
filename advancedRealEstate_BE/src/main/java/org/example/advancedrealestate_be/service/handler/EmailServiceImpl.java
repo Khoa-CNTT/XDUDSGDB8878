@@ -1,7 +1,4 @@
-
-
 package org.example.advancedrealestate_be.service.handler;
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.example.advancedrealestate_be.entity.Customers;

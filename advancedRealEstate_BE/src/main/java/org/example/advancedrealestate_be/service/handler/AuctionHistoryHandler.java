@@ -1,6 +1,4 @@
 package org.example.advancedrealestate_be.service.handler;
-
-
 import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.constant.EnumConstant;
 import org.example.advancedrealestate_be.dto.request.AuctionHistoryRequest;
@@ -324,6 +322,7 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
                 new Date(),
                 staff.getUser_name()
         );
+        auctionDetailRepository.save(auctionDetail);
         responseObject.put("message", "Acceptance successfully!");
         return responseObject;
     }

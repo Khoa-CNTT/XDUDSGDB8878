@@ -18,7 +18,6 @@ const AuctionAdminDetailModal = ({ object, refresh }) => {
   const buildingReducer = useSelector(buildingSelector);
   const [auctionBuildings, setAuctionBuildings] = useState([]);
 
-  
   useEffect(() => {
     setItem({
       ...object,

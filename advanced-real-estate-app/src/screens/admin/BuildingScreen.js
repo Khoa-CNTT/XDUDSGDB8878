@@ -992,12 +992,12 @@ const BuildingScreen = () => {
                 {buildings?.map((value, key) => (
                   <>
                     <tr
-                      key={key}
                       className={
                         listCheckBox.includes(value.id) ? "table-secondary" : ""
                       }
                     >
                       <td
+                        key={key}
                         className="text-center align-middle"
                         style={{ width: "60px" }}
                       >
