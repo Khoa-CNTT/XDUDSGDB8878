@@ -361,9 +361,9 @@ const BuildingComponent = () => {
                 </>
               )}
               {/* Chỉ hiển thị các tòa nhà trong bán kính 1km */}
-              {nearbyBuildings.map((building) => (
+              {nearbyBuildings.map((building, index) => (
                 <Marker
-                  key={building.id}
+                  key={index}
                   position={[
                     parseFloat(building.map.latitude),
                     parseFloat(building.map.longitude),

@@ -34,16 +34,36 @@ public class UserBuildingApiController {
     private final RoomChatService roomChatService;
     private final RoleService roleService;
     private final ServiceService serviceService;
+    private final UserService userService;
+    private final MessageService messageService;
 
 
     @Autowired
-    public UserBuildingApiController(BuildingService buildingService, AuctionService auctionService, MapService mapService, RoomChatService roomChatService, RoleService roleService, ServiceService serviceService) {
+    public UserBuildingApiController(BuildingService buildingService, AuctionService auctionService, MapService mapService, RoomChatService roomChatService, RoleService roleService, ServiceService serviceService, UserService userService, MessageService messageService) {
         this.buildingService = buildingService;
         this.auctionService = auctionService;
         this.mapService = mapService;
         this.roomChatService = roomChatService;
         this.roleService = roleService;
         this.serviceService = serviceService;
+        this.userService = userService;
+        this.messageService = messageService;
+    }
+
+    @GetMapping("/user-messages/{userId}/{partner_email}")
+    private ResponseEntity<JSONObject> userMessages(@PathVariable String userId, @PathVariable String partner_email) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("data", messageService.findMessagesBetweenUsers(userId, partner_email));
+        responseObject.put("total", messageService.findMessagesBetweenUsers(userId, partner_email).size());
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
+    @GetMapping("/user-staffs")
+    ResponseEntity<JSONObject> userStaffs() {
+        JSONObject response = new JSONObject();
+        response.put("data", userService.getUserByStaffRole());
+        response.put("total", userService.getUserByStaffRole().size());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/buildings")

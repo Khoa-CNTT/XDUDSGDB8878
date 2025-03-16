@@ -14,9 +14,9 @@ import ContactClientScreen from "../screens/client/ContactClientScreen";
 import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
 import { useSelector } from "react-redux";
 import { authSelector } from "../redux/reducers/authReducer";
-import ChatBotComponent from "../component/ChatBot/ChatBotComponent";
 import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
 import video from '../assets/video/video.mp4';
+import ChatBotComponent from '../component/chat/ChatBotComponent';
 
 const ClientRouter = () => {
     const location = useLocation();

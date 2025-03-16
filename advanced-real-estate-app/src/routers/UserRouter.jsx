@@ -24,7 +24,7 @@ import {fetchUser} from "../apis/api";
 import AuctionManagerScreen from "../screens/user/auction/AuctionManagerScreen";
 import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
 import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
-import ChatBotComponent from "../component/ChatBot/ChatBotComponent";
+import ChatBotComponent from '../component/chat/ChatBotComponent';
 
 const UserRouter = () => {
     const location = useLocation();

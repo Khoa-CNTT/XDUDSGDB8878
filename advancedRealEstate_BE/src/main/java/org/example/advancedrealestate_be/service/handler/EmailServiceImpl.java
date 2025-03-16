@@ -126,4 +126,42 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException("Failed to send email", e);
         }
     }
+
+    @Override
+    public void sendEmailHasTemplate(
+            String to,
+            String subject,
+            String templateName,
+            String clientName,
+            String buildingName,
+            String auctionId,
+            String winningBid,
+            String auctionDate,
+            Date confirmDate,
+            String staffName
+    ) {
+        try {
+            Context context = new Context();
+            context.setVariable("clientName", clientName);
+            context.setVariable("buildingName", buildingName);
+            context.setVariable("auctionId", auctionId);
+            context.setVariable("winningBid", winningBid);
+            context.setVariable("auctionDate", auctionDate);
+            context.setVariable("confirmDate", confirmDate);
+            context.setVariable("staffName", staffName);
+            context.setVariable("systemUrl", "http://localhost:3000/user/auction-manager");
+            String body = templateEngine.process(templateName, context);
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email", e);
+        }
+    }
 }

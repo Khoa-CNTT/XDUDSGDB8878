@@ -1,4 +1,5 @@
 import handleAPI from "../apis/handlAPI";
+import handleAPINotToken from "../apis/handleAPINotToken";
 import { message } from "antd";
 
 //function collection
@@ -13,6 +14,26 @@ export const f_collectionUtil = {
       })
       .catch((error) => {
         message.error("Error: ", error);
+        console.log("Error: ", error);
+      });
+  },
+  handleCollectionArrayNotAuth: function (url, sets) {
+    handleAPINotToken(url, {}, "GET")
+      .then((res) => {
+        sets(res?.data);
+      })
+      .catch((error) => {
+        message.error("Error: ", error);
+        console.log("Error: ", error);
+      });
+  },
+  handleCollectionArray: function (url, sets, token) {
+    handleAPI(url, {}, "GET", token)
+      .then((res) => {
+        sets(res?.data);
+      })
+      .catch((error) => {
+        sets([]);
         console.log("Error: ", error);
       });
   },

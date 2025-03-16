@@ -14,6 +14,7 @@ import AuctionCreateModal from "../../component/daugia/AuctionCreateModal";
 import { HiArchiveBoxXMark } from "react-icons/hi2";
 import { buttonStyleElements, } from "../../component/element/buttonStyleElement";
 import { HiMiniInformationCircle } from "react-icons/hi2";
+import { AiFillEye } from "react-icons/ai";
 
 const AuctionScreen = () => {
   const auth = useSelector(authSelector);
@@ -202,7 +203,7 @@ const AuctionScreen = () => {
                           window.$("#AuctionAdminDetailModal").modal("show");
                         }}
                       >
-                        <HiMiniInformationCircle/>
+                        <AiFillEye/>
                       </Button>
                     </td>
                     <td>

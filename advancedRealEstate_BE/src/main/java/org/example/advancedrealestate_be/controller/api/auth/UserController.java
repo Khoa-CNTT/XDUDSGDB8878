@@ -5,12 +5,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
-import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
+import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.dto.request.*;
 import org.example.advancedrealestate_be.dto.response.ApiResponse;
 import org.example.advancedrealestate_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.advancedrealestate_be.dto.response.UserResponse;
@@ -18,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 

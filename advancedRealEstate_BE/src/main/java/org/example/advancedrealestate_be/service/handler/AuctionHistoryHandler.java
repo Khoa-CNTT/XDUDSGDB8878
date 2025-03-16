@@ -18,10 +18,13 @@ import org.example.advancedrealestate_be.repository.AuctionHistoryRepository;
 import org.example.advancedrealestate_be.repository.AuctionRepository;
 import org.example.advancedrealestate_be.repository.UserRepository;
 import org.example.advancedrealestate_be.service.AuctionHistoryService;
+import org.example.advancedrealestate_be.service.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Paths;
@@ -44,15 +47,17 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     private final AuctionRepository auctionRepository;
     private final Lock lock = new ReentrantLock();
     private final AuctionHistoryMapper auctionHistoryMapper;
+    private final EmailService sendEmailService;
 
     @Autowired
-    public AuctionHistoryHandler(AuctionDetailRepository auctionDetailRepository, AuctionHistoryRepository auctionHistoryRepository, UserRepository userRepository, ModelMapper modelMapper, AuctionRepository auctionRepository, AuctionHistoryMapper auctionHistoryMapper) {
+    public AuctionHistoryHandler(AuctionDetailRepository auctionDetailRepository, AuctionHistoryRepository auctionHistoryRepository, UserRepository userRepository, ModelMapper modelMapper, AuctionRepository auctionRepository, AuctionHistoryMapper auctionHistoryMapper, EmailService sendEmailService) {
         this.auctionHistoryRepository = auctionHistoryRepository;
         this.auctionDetailRepository = auctionDetailRepository;
         this.auctionHistoryMapper = auctionHistoryMapper;
         this.auctionRepository = auctionRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.sendEmailService = sendEmailService;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
@@ -288,6 +293,9 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     public JSONObject handleAcceptanceAuctionHistories(String identity_key) {
         System.out.println("Acceptance: " + identity_key);
         JSONObject responseObject = new JSONObject();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User staff = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if(auctionHistoryRepository.checkAuctionHistoriesIfConfirmed(identity_key) >= 1){
             throw new AppException(ErrorCode.AUCTION_HISTORY_BAD_REQUEST);
         }
@@ -303,7 +311,19 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
         auctionDetail.setIdentity_key(auctionHistoryHighestBidAmount.getIdentity_key());
         auctionDetail.setResult("win");
         auctionDetail.setNote("Xin chúc mừng bạn là người chiến thắng trong phiên " + auctionName);
-        auctionDetailRepository.save(auctionDetail);
+        AuctionDetail auctionDetailNew = auctionDetailRepository.save(auctionDetail);
+        sendEmailService.sendEmailHasTemplate(
+                "lol00sever@gmail.com",
+                "Congratulations! You Won the Auction",
+                "auction-winner-notification",
+                auctionDetailNew.getClient().getUser_name(),
+                auctionDetailNew.getAuction().getBuilding().getName(),
+                auctionDetailNew.getAuction().getId(),
+                auctionDetailNew.getBidAmount() + " VNĐ",
+                auctionDetailNew.getAuction().getStart_date(),
+                new Date(),
+                staff.getUser_name()
+        );
         responseObject.put("message", "Acceptance successfully!");
         return responseObject;
     }

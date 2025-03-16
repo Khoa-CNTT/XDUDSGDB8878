@@ -20,6 +20,7 @@ public class Chat {
     private String content;
     private String sender;
     private String email;
+    private String recipient;
 
     public enum MessageType {
         CHAT,

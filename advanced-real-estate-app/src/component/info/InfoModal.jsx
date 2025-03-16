@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const InfoModal = ({ user, setUser, getUserInfo }) => {
   const auth = useSelector(authSelector);
-  const [info, setInfo] = useState(null);
+  const [info, setInfo] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

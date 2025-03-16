@@ -1,19 +1,14 @@
 package org.example.advancedrealestate_be.mapper;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.example.advancedrealestate_be.dto.request.UserCreationRequest;
 import org.example.advancedrealestate_be.dto.request.UserUpdatePasswordRequest;
 import org.example.advancedrealestate_be.dto.request.UserUpdateRequest;
 //import org.example.advancedrealestate_be.dto.response.PermissionResponse;
-import org.example.advancedrealestate_be.dto.response.MapResponse;
-import org.example.advancedrealestate_be.dto.response.RoleResponse;
-import org.example.advancedrealestate_be.dto.response.UserResponse;
+import org.example.advancedrealestate_be.dto.response.*;
 //import org.example.advancedrealestate_be.entity.Permission;
 //import org.example.advancedrealestate_be.entity.Role;
 import org.example.advancedrealestate_be.entity.Permission;
@@ -307,6 +302,21 @@ public class UserMapperImpl implements UserMapper {
                 .role_id(roleResponse.getId())
                 .permission(permissions)
                 .build();
+    }
+
+    @Override
+    public UserResponse toUserResponseByRole(User user) {
+        UserResponse dto = UserResponse.builder()
+//                .id(user.getId())
+                .roles(user.getRole().getRole_name())
+                .email(user.getEmail())
+                .build();
+        if (dto != null) {
+            return dto;
+        } else {
+            System.out.println(Optional.empty());
+            return null;
+        }
     }
 
     // Helper method to map Role to RoleResponse

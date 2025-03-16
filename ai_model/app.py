@@ -13,6 +13,8 @@ except Exception as e:
     print("Error loading model:", e)
     model = None
 
+def is_numeric(s):
+    return s.isdigit()
 @app.route('/predict', methods=['POST'])
 def predict():
     if not model:
@@ -28,7 +30,7 @@ def predict():
         message = data['text']
         prediction = model.predict([message])[0]
         print("Raw prediction:", prediction)
-
+       
         # Parse prediction result
         try:
             address, district, province, name, acreage, number_of_basement, description = prediction.split('|')
@@ -41,6 +43,7 @@ def predict():
                 "number_of_basement": int(number_of_basement.strip()),
                 "description": description.strip()
             }
+           
         except ValueError as e:
             print("Error parsing prediction result:", e)
             return jsonify({"error": "Prediction result could not be parsed correctly. Ensure the model outputs the expected format."}), 500

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Winner Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background-color: #fea116;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        .email-header img {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+        .email-content {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fea116;
+        }
+        .message {
+            margin-bottom: 25px;
+        }
+        .contract-details {
+            background-color: #f5f9f7;
+            border-left: 4px solid #fea116;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .contract-item {
+            margin-bottom: 8px;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #fea116;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .action-button:hover {
+            background-color: #fea116;
+        }
+        .approval-status {
+            font-weight: 600;
+            color: #fea116;
+        }
+        .email-footer {
+            background-color: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666666;
+            border-top: 1px solid #e0e0e0;
+        }
+        .company-info {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        .important-notice {
+            background-color: #fff8e6;
+            border-left: 4px solid #fea116;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        @media only screen and (max-width: 620px) {
+            .email-container {
+                width: 100%;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <img src="https://via.placeholder.com/200x60"
+             alt="Company Logo"
+             th:src="${companyLogo}"
+        >
+        <h1>Congratulations! You Won the Auction</h1>
+    </div>
+
+    <div class="email-content">
+        <div class="greeting">
+            Hello, <span th:text="${clientName}"></span>!
+        </div>
+
+        <div class="message">
+            <p>
+                <strong>Congratulations!</strong> We are pleased to inform you that you are the
+                <strong>winning bidder</strong> in our recent auction.
+            </p>
+            <p>
+                Your successful bid marks the beginning of our partnership, and we look forward to
+                proceeding with the auction contract process.
+            </p>
+        </div>
+
+        <div class="contract-details">
+            <h3>Auction Information:</h3>
+            <div class="contract-item">
+                <strong>Property/Item:</strong>
+                <span th:text="${buildingName}">Property Name</span>
+            </div>
+            <div class="contract-item">
+                <strong>Auction ID:</strong>
+                <span th:text="${auctionId}">AUC-2025-001</span>
+            </div>
+            <div class="contract-item">
+                <strong>Your Winning Bid:</strong>
+                <span th:text="${winningBid}">₫1,000,000,000</span>
+            </div>
+            <div class="contract-item">
+                <strong>Auction Date:</strong>
+                <span th:text="${auctionDate}">01 Mar 2025</span>
+            </div>
+            <div class="contract-item">
+                <strong>Result Confirmation Date:</strong>
+                <span th:text="${dateConfirm}">15 Mar 2025</span>
+            </div>
+            <p>
+                <strong>Status:</strong>
+                <span class="approval-status">WINNING BIDDER</span>
+            </p>
+        </div>
+
+        <div class="important-notice">
+            <h3>⚠️ Important: Action Required</h3>
+            <p>
+                <strong>To proceed with the auction contract, please log into our system to update or add your personal information:</strong>
+            </p>
+            <ul>
+                <li>Verify your full legal name and ID/passport number</li>
+                <li>Update your contact information (address, phone number)</li>
+                <li>Add any co-buyers or representatives if applicable</li>
+                <li>Upload required identification documents</li>
+                <li>Review and confirm payment method details</li>
+            </ul>
+            <p>
+                <strong>This information is essential for preparing your auction contract. Please complete this step within 3 business days.</strong>
+            </p>
+        </div>
+
+        <a href="#"
+           th:href="${systemUrl}"
+           class="action-button"
+           style="color: #ffffff"
+        >
+            Log In To Update Your Information
+        </a>
+
+        <p>The next steps in the process will be:</p>
+        <ol>
+            <li>Complete your personal information in our system</li>
+            <li>Our team will prepare the auction contract based on your information</li>
+            <li>We will contact you to schedule the contract signing meeting</li>
+            <li>You will receive a copy of the signed contract for your records</li>
+            <li>Property/item transfer process will begin as scheduled</li>
+        </ol>
+
+        <p>
+            If you have any questions or need assistance updating your information,
+            please contact your auction representative or our customer service team at
+            <a href="mailto:customer.service@datxanhmientrung.com" th:href="'mailto:lol00sever@gmail.com'">
+                lol00sever@gmail.com
+            </a> or
+            <b> Hotline: </b>
+            <span>0915662495</span>
+        </p>
+
+        <p>Thank you for participating in our auction.
+            We value your business and look forward to completing this transaction successfully.
+        </p>
+
+        <p>Best regards,<br>
+            <strong th:text="${staffName}"></strong><br>
+            <strong>Auction Representative at Dat Xanh Mien Trung Company</strong>
+        </p>
+    </div>
+
+    <div class="email-footer">
+        <p>
+            This is an automated message.
+            Please do not reply to this email.
+        </p>
+        <div class="company-info">
+            <strong>Dat Xanh Mien Trung Company</strong><br>
+            <span>03 Quang Trung, Hai Chau, TP. Da Nang</span><br>
+            <span>0915662495</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

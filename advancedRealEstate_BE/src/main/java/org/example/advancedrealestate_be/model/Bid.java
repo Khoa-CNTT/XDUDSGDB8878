@@ -12,7 +12,7 @@ import lombok.ToString;
 public class Bid {
 
     private Bid.BidMessageType type;
-    private double bidAmount;
+    private Long bidAmount;
     private String sender;
     private String email;
     private String auction_id;
