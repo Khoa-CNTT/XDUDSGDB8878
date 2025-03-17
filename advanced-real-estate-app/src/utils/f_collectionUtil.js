@@ -37,6 +37,14 @@ export const f_collectionUtil = {
         console.log("Error: ", error);
       });
   },
+  scrollToBottom: (messagesEndRef) => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTo({
+        top: messagesEndRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  },
   checkTime(time, timeLimited) {
     const currentTime = new Date();
     const bidDate = new Date(time);

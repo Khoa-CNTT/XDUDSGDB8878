@@ -1,6 +1,11 @@
+import subprocess
+import sys
 from flask import Flask, request, jsonify
 import pickle
 import traceback
+from deepseek_ai import deepSeekAI 
+from gemini_ai import geminiAI 
+import random
 
 app = Flask(__name__)
 
@@ -18,17 +23,27 @@ def is_numeric(s):
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if not model:
-        return jsonify({"error": "Model not loaded"}), 500
-
     try:
-        # Parse input JSON
         data = request.get_json()
+
+        # Parse input JSON
         if not data or 'text' not in data:
             return jsonify({"error": "Message input is required"}), 400
-
+        
         # Perform prediction
-        message = data['text']
+        message = data['text'].strip()
+
+        print("message request: ", message)
+
+        if message == 'Unauthorized':
+            random_number = random.randint(10000, 99999)
+            response = {
+                "result": geminiAI(f"Mỗi lần mã #{random_number} này thay đổi thì đổi 1 kiểu thông báo khác, không viết lã mã!. hãy viết 1 đoạn khoảng 30 chữ thông báo cho khách hàng yêu cầu đăng nhập vào hệ thống. Vì đăng nhập vào mới có thể nhắn tin với nhân viên.").strip(),
+            }
+            return jsonify({"prediction": response})
+        if not model:
+            return jsonify({"error": "Model not loaded"}), 500
+
         prediction = model.predict([message])[0]
         print("Raw prediction:", prediction)
         # Parse prediction result

@@ -15,7 +15,6 @@ import { authSelector } from "../../redux/reducers/authReducer";
 const ChatBotComponent = () => {
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("ai");
-  const messagesEndRef = useRef(null);
   const dispatch = useDispatch();
   const auth = useSelector(authSelector);
 
@@ -29,12 +28,6 @@ const ChatBotComponent = () => {
 
   const switchTab = (tab) => {
     setActiveTab(tab);
-  };
-
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   const handleRoomChange = () => {
@@ -103,17 +96,11 @@ const ChatBotComponent = () => {
           </div>
 
           {activeTab === "ai" && (
-            <AIChat
-              messagesEndRef={messagesEndRef}
-              scrollToBottom={scrollToBottom}
-            />
+            <AIChat />
           )}
 
           {activeTab === "staff" && (
-            <StaffChat
-              messagesEndRef={messagesEndRef}
-              scrollToBottom={scrollToBottom}
-            />
+            <StaffChat />
           )}
         </div>
       )}
