@@ -1,0 +1,88 @@
+.chatItem {
+  margin-bottom: 8px;
+  list-style: none;
+}
+
+.botMessage {
+  text-align: left;
+}
+
+.messageContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.avatarWrapper {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #6b7280;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.contentWrapper {
+  flex: 1;
+}
+
+.senderName {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.messageContent {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+}
+
+.typingIndicator {
+  display: flex;
+  align-items: center;
+}
+
+.typingText {
+  margin-right: 5px;
+}
+
+.dotsContainer {
+  display: flex;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #a1a1aa;
+  border-radius: 50%;
+  margin-right: 3px;
+  animation: pulseDot 1.5s infinite;
+}
+
+.dot:last-child {
+  margin-right: 0;
+}
+
+.activeDot {
+  background-color: #71717a;
+}
+
+@keyframes pulseDot {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

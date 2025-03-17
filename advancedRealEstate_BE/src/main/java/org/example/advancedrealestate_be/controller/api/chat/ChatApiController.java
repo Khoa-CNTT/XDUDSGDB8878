@@ -6,6 +6,7 @@ import org.example.advancedrealestate_be.entity.User;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.model.ChatMessage;
 import org.example.advancedrealestate_be.service.MessageService;
+import org.example.advancedrealestate_be.service.PythonService;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -14,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -36,14 +39,16 @@ public class ChatApiController {
 //    }
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final PythonService pythonService;
     private final MessageService messageService;
     private final ScheduledTask scheduledTask;
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private String bot = "Bot: ";
 
     @Autowired
-    public ChatApiController(SimpMessagingTemplate messagingTemplate, MessageService messageService, ScheduledTask scheduledTask) {
+    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask) {
         this.messagingTemplate = messagingTemplate;
+        this.pythonService = pythonService;
         this.messageService = messageService;
         this.scheduledTask = scheduledTask;
     }
@@ -86,7 +91,9 @@ public class ChatApiController {
         messageObject.put("content", message.getContent());
         messageObject.put("currentDateTime", currentDateTime);
         System.out.println("Ngày và giờ hiện tại (có giây): " + currentDateTime);
-        if(!Objects.equals(message.getSender(), "GUEST")){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("auth: " + message.getIsAuth());
+        if(Objects.equals(message.getIsAuth(), "true")){
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setSender(message.getSender());
             chatMessage.setRecipient(message.getRecipient());
@@ -94,6 +101,11 @@ public class ChatApiController {
             chatMessage.setType(ChatMessage.MessageType.SENT);
             chatMessage.setRoomName(room);
             messageService.saveMessage(chatMessage);
+        }else{
+            Map<String, Object> aiMessage = pythonService.getPrediction("Unauthorized");
+            Map<String, Object> prediction = (Map<String, Object>) aiMessage.get("prediction");
+            String result = (String) prediction.get("result");
+            messageObject.put("bot_ai", result);
         }
         if(Objects.equals(message.getContent(), "a")){
             awaitSend(messageObject, room, "hahahaha");

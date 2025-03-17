@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import styles from "../../assets/css/staff-chat.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
@@ -17,6 +17,9 @@ import { appVariables } from "../../constants/appVariables";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineCaretLeft } from "react-icons/ai";
 import { BsTelegram } from "react-icons/bs";
+import ChatBotLoading from "./ChatBotLoading";
+import { RiRobot3Fill } from "react-icons/ri";
+import { RiRobot3Line } from "react-icons/ri";
 
 let stompClient = appVariables.stompClient;
 
@@ -37,7 +40,7 @@ function StaffStatus(props) {
   );
 }
 
-const StaffChat = () => {
+const StaffChat = (props) => {
   const auth = useSelector(authSelector);
   const [messages, setMessages] = useState([]);
   const [staffs, setStaffs] = useState([]);
@@ -49,6 +52,7 @@ const StaffChat = () => {
   const room = chat?.room;
   const dispatch = useDispatch();
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     f_collectionUtil.handleCollectionArrayNotAuth(
@@ -99,25 +103,28 @@ const StaffChat = () => {
   }, [stompClient]);
 
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [messages, activeUser]);
+    f_collectionUtil.scrollToBottom(chatContainerRef);
+  }, [messages]);
 
   useEffect(() => {
-    const storedTab = localStorage.getItem("staff");
+    const storedTab = localStorage.getItem("user");
     if (storedTab) {
-      const activeTab = staffs.find((staff) => staff.email === storedTab);
+      const activeTab = staffs.find((user) => user?.email === storedTab);
       if (activeTab) {
-        f_collectionUtil.handleCollectionArrayNotAuth(
-          `/api/user/user-messages/${auth?.info?.id}/${activeUser?.email}`,
-          setMessages
-        );
         setActiveUser(activeTab);
       }
     }
   }, [staffs]);
+
+  useEffect(() => {
+    const storedTab = localStorage.getItem("user");
+    if (storedTab) {
+      const activeTab = clients.find((user) => user?.email === storedTab);
+      if (activeTab) {
+        setActiveUser(activeTab);
+      }
+    }
+  }, [clients]);
 
   const connect = () => {
     const socket = new SockJS("http://localhost:9090/ws");
@@ -174,6 +181,12 @@ const StaffChat = () => {
 
   const onMessageReceived = async (payload) => {
     const message = JSON.parse(payload.body);
+    if (!auth?.isAuth && message?.content) {
+      console.log("message: ", message);
+      setMessages((prevMessages) => [...prevMessages, message]);
+      setIsLoading(false);
+      return;
+    }
     f_collectionUtil.handleCollectionArrayNotAuth(
       `/api/user/user-messages/${auth?.info?.id}/${activeUser?.email}`,
       setMessages
@@ -181,6 +194,7 @@ const StaffChat = () => {
     if (message?.listUserOnline) {
       dispatch(setStaffsOnline(message?.listUserOnline));
     }
+    setIsLoading(false);
   };
 
   const sendMessage = () => {
@@ -191,19 +205,20 @@ const StaffChat = () => {
       activeUser
     ) {
       const staffRoom = `${room}_${activeUser?.roles}_${activeUser.email}`;
+      setIsLoading(true);
       const chatMessage = {
         sender: auth?.info?.email || "guest".toUpperCase(),
         recipient: activeUser.email,
         email: auth?.info?.email || "guest".toUpperCase(),
         content: userData.message,
-        type: "CHAT",
+        isAuth: auth?.isAuth,
         room: staffRoom,
+        type: "CHAT",
       };
       stompClient.publish({
         destination: `/app/sendMessageToRoom/${room}`,
         body: JSON.stringify(chatMessage),
       });
-      dispatch(update({ message: "" }));
     } else {
       console.log("STOMP connection is not established yet.");
     }
@@ -216,6 +231,23 @@ const StaffChat = () => {
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
+  };
+
+  const getInitials = (sender) => {
+    if (typeof sender === "string") {
+      return sender.substring(0, 2).toUpperCase();
+    }
+
+    const email = sender.email || "";
+    const name = sender.name || email;
+
+    if (!name) return "?";
+
+    const parts = name.split("@")[0].split(/[._-]/);
+    if (parts.length > 1) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
   };
 
   return (
@@ -336,24 +368,74 @@ const StaffChat = () => {
               {[...messages]
                 .sort((a, b) => a.index - b.index)
                 ?.map((msg, index) => (
-                  <li
-                    key={index}
-                    className={`${styles.messageItem} ${
-                      msg?.sender?.email === auth?.info?.email
-                        ? styles.own_message
-                        : styles.other_message
-                    }`}
-                  >
-                    <div>
-                      <span className={styles.sender_name}>
-                        {msg?.sender?.email}
-                      </span>
-                      <span className={styles.message_content}>
-                        {msg?.content}
-                      </span>
+                  <Fragment key={msg?.index || index}>
+                    {msg?.bot_ai && (
+                      <div className={styles.messageRow}>
+                        <div className={styles.avatarContainer}>
+                          <div className={styles.avatar}>
+                            <div className={styles.botAvatarFallback}>
+                              <RiRobot3Line />
+                            </div>
+                          </div>
+                        </div>
+                        <li
+                          className={`${styles.messageItem} ${styles.other_message}`}
+                        >
+                          <div>
+                            <span className={styles.sender_name}>
+                              {"Bot AI"}
+                            </span>
+                            <span className={styles.message_content}>
+                              {msg?.bot_ai.trim()}
+                            </span>
+                          </div>
+                        </li>
+                      </div>
+                    )}
+
+                    <div
+                      className={
+                        msg?.sender?.email === auth?.info?.email
+                          ? styles.messageRowReverse
+                          : styles.messageRow
+                      }
+                    >
+                      <div className={styles.avatarContainer}>
+                        <div className={styles.avatar}>
+                          <div
+                            className={
+                              msg?.sender?.email === auth?.info?.email
+                                ? styles.ownAvatarFallback
+                                : styles.otherAvatarFallback
+                            }
+                          >
+                            {getInitials(msg?.sender)}
+                          </div>
+                        </div>
+                      </div>
+
+                      <li
+                        className={`${styles.messageItem} ${
+                          msg?.sender?.email === auth?.info?.email
+                            ? styles.own_message
+                            : styles.other_message
+                        }`}
+                      >
+                        <div>
+                          <span className={styles.sender_name}>
+                            {msg?.sender?.email || msg?.sender}
+                          </span>
+                          <span className={styles.message_content}>
+                            {msg?.content}
+                          </span>
+                        </div>
+                      </li>
                     </div>
-                  </li>
+                  </Fragment>
                 ))}
+              {isLoading && !auth?.isAuth && (
+                <ChatBotLoading botName="Bot AI" />
+              )}
             </div>
 
             <div className={styles.chat_input_area}>

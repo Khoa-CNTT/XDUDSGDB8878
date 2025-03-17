@@ -1,13 +1,14 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "../../assets/css/chatBotComponent.module.css";
 import { message } from "antd";
 import handleAPI from "../../apis/handlAPI";
+import { f_collectionUtil } from "../../utils/f_collectionUtil";
 
-const AiChat = ({ messagesEndRef, scrollToBottom }) => {
+const AiChat = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (messages.length === 0) {
@@ -21,7 +22,7 @@ const AiChat = ({ messagesEndRef, scrollToBottom }) => {
   }, [messages.length]);
 
   useEffect(() => {
-    scrollToBottom();
+    f_collectionUtil.scrollToBottom(messagesEndRef);
   }, [messages]);
 
   // Gửi tin nhắn
@@ -78,7 +79,7 @@ const AiChat = ({ messagesEndRef, scrollToBottom }) => {
   return (
     <>
       {/* Chat Content */}
-      <div className={styles.chat_content}>
+      <div className={styles.chat_content} ref={messagesEndRef}>
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -102,7 +103,6 @@ const AiChat = ({ messagesEndRef, scrollToBottom }) => {
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Chat Footer */}
