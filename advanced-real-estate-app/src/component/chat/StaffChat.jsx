@@ -147,19 +147,20 @@ const StaffChat = (props) => {
   };
 
   const onConnected = () => {
-    stompClient.subscribe(`/topic/room/${room}`, (message) => {
-      onMessageReceived(message).then();
-    });
-
-    stompClient.publish({
-      destination: `/app/addUser/${room}`,
-      body: JSON.stringify({
-        sender: auth?.info?.email || "guest".toUpperCase(),
-        email: auth?.info?.email || "guest".toUpperCase(),
-        type: "JOIN",
-        room: room,
-      }),
-    });
+    if (stompClient.connected) {
+      stompClient.subscribe(`/topic/room/${room}`, (message) => {
+        onMessageReceived(message).then();
+      });
+      stompClient.publish({
+        destination: `/app/addUser/${room}`,
+        body: JSON.stringify({
+          sender: auth?.info?.email || "guest".toUpperCase(),
+          email: auth?.info?.email || "guest".toUpperCase(),
+          type: "JOIN",
+          room: room,
+        }),
+      });
+    }
   };
 
   const disconnect = async () => {
@@ -187,9 +188,9 @@ const StaffChat = (props) => {
       setIsLoading(false);
       return;
     }
-    f_collectionUtil.handleCollectionArrayNotAuth(
+    f_collectionUtil.handleCollectionArray(
       `/api/user/user-messages/${auth?.info?.id}/${activeUser?.email}`,
-      setMessages
+      setMessages, auth?.token
     );
     if (message?.listUserOnline) {
       dispatch(setStaffsOnline(message?.listUserOnline));
@@ -234,20 +235,12 @@ const StaffChat = (props) => {
   };
 
   const getInitials = (sender) => {
-    if (typeof sender === "string") {
-      return sender.substring(0, 2).toUpperCase();
-    }
-
-    const email = sender.email || "";
-    const name = sender.name || email;
-
-    if (!name) return "?";
-
-    const parts = name.split("@")[0].split(/[._-]/);
+    if (!sender) return "?";
+    const parts = sender?.split("@")[0].split(/[._-]/);
     if (parts.length > 1) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
-    return name.substring(0, 2).toUpperCase();
+    return sender.substring(0, 2).toUpperCase();
   };
 
   return (
@@ -409,7 +402,7 @@ const StaffChat = (props) => {
                                 : styles.otherAvatarFallback
                             }
                           >
-                            {getInitials(msg?.sender)}
+                            {getInitials(msg?.sender?.email || msg?.sender)}
                           </div>
                         </div>
                       </div>

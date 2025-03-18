@@ -6,8 +6,10 @@ import traceback
 from deepseek_ai import deepSeekAI 
 from gemini_ai import geminiAI 
 import random
+from utils import textProcessor, TextProcessor
 
 app = Flask(__name__)
+
 
 # Load the AI model
 try:
@@ -35,10 +37,13 @@ def predict():
 
         print("message request: ", message)
 
-        if message == 'Unauthorized':
-            random_number = random.randint(10000, 99999)
+        contextMsg = textProcessor.get_paragraph(message)
+        matchKeys = textProcessor.extract_words_from_pipes(message)
+        keywords = textProcessor.extract_words_from_pipes(message)
+
+        if textProcessor.compare_word_in_list(matchKeys, keywords):
             response = {
-                "result": geminiAI(f"Mỗi lần mã #{random_number} này thay đổi thì đổi 1 kiểu thông báo khác, không viết lã mã!. hãy viết 1 đoạn khoảng 30 chữ thông báo cho khách hàng yêu cầu đăng nhập vào hệ thống. Vì đăng nhập vào mới có thể nhắn tin với nhân viên.").strip(),
+                "result": deepSeekAI(f"{contextMsg}").strip(),
             }
             return jsonify({"prediction": response})
         if not model:
