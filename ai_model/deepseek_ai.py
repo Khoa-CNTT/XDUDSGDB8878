@@ -28,10 +28,11 @@ def deepSeekAI(message, max_retries=3):
             
             print(f"{attempt}: API trả về dữ liệu không hợp lệ.")
         except requests.exceptions.RequestException as e:
-            print(f"{attempt}: Lỗi khi gọi API DeepSeek - {e}")
+            print(f"{attempt}: Lỗi khi gọi API - {e}")
 
         time.sleep(2)  
 
     return "AI không thể xử lý yêu cầu sau nhiều lần thử."
 
-# deepSeekAI(f"hãy viết 1 đoạn khoảng 30 chữ thông báo cho khách hàng yêu cầu đăng nhập vào hệ thống. Vì đăng nhập vào mới có thể nhắn tin với nhân viên.").strip()
+if __name__ == '__main__':
+    deepSeekAI("hello?")

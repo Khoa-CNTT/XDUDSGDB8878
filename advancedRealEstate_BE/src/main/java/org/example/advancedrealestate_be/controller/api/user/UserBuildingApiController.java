@@ -50,14 +50,6 @@ public class UserBuildingApiController {
         this.messageService = messageService;
     }
 
-    @GetMapping("/user-messages/{userId}/{partner_email}")
-    private ResponseEntity<JSONObject> userMessages(@PathVariable String userId, @PathVariable String partner_email) {
-        JSONObject responseObject = new JSONObject();
-        responseObject.put("data", messageService.findMessagesBetweenUsers(userId, partner_email));
-        responseObject.put("total", messageService.findMessagesBetweenUsers(userId, partner_email).size());
-        return new ResponseEntity<>(responseObject, HttpStatus.OK);
-    }
-
     @GetMapping("/user-staffs")
     ResponseEntity<JSONObject> userStaffs() {
         JSONObject response = new JSONObject();

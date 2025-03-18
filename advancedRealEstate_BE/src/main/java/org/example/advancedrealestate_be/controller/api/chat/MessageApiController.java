@@ -30,11 +30,11 @@ public class MessageApiController {
         this.userService = userService;
     }
 
-    @GetMapping("/user-messages/{roomName}")
-    private ResponseEntity<JSONObject> userMessages(@PathVariable String roomName) {
+    @GetMapping("/user-messages/{userId}/{partner_email}")
+    private ResponseEntity<JSONObject> userMessages(@PathVariable String userId, @PathVariable String partner_email) {
         JSONObject responseObject = new JSONObject();
-        responseObject.put("data", messageService.findMessagesByRoomName(roomName));
-        responseObject.put("total", messageService.findMessagesByRoomName(roomName).size());
+        responseObject.put("data", messageService.findMessagesBetweenUsers(userId, partner_email));
+        responseObject.put("total", messageService.findMessagesBetweenUsers(userId, partner_email).size());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 

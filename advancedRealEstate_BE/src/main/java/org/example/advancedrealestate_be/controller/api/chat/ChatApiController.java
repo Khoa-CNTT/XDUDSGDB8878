@@ -102,7 +102,11 @@ public class ChatApiController {
             chatMessage.setRoomName(room);
             messageService.saveMessage(chatMessage);
         }else{
-            Map<String, Object> aiMessage = pythonService.getPrediction("Unauthorized");
+            Random random = new Random();
+            int randomNumber = 100000 + random.nextInt(900000);
+            String context = "|Unauthorized| ";
+            String msg = String.format(context + "thực hiện cho tôi yêu cầu #%d: %s", randomNumber, "không ghi mã yêu cầu!, ko đưa ra các lựa chọn chỉ trả lời 1 câu duy nhất và khác với câu vừa trả lời!. Hãy viết đoạn thông báo cho khách hàng yêu cầu đăng nhập vào hệ thống. Vì đăng nhập vào mới có thể nhắn tin với nhân viên.");
+            Map<String, Object> aiMessage = pythonService.getPrediction(msg);
             Map<String, Object> prediction = (Map<String, Object>) aiMessage.get("prediction");
             String result = (String) prediction.get("result");
             messageObject.put("bot_ai", result);

@@ -11,6 +11,7 @@ import org.example.advancedrealestate_be.repository.MessageRepository;
 import org.example.advancedrealestate_be.repository.UserRepository;
 import org.example.advancedrealestate_be.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class MessageHandler implements MessageService {
         .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
     @Override
     public List<MessageResponse> findMessagesBetweenUsers(String senderId, String recipient_email) {
         User recipient = userRepository.findByEmail(recipient_email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
