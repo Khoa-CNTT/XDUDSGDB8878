@@ -30,6 +30,8 @@ public class Message {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+    @Column(columnDefinition = "TEXT")
+    private String bot_ai;
     private String type;
 
     @CreationTimestamp

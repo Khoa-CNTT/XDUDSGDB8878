@@ -19,6 +19,7 @@ public class MessageResponse {
     private String id;
     private String roomName;
     private String content;
+    private String bot_ai;
     private String type;
     private Integer index;
     private LocalDateTime createdOn;

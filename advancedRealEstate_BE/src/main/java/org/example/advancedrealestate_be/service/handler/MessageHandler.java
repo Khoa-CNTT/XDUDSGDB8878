@@ -86,6 +86,7 @@ public class MessageHandler implements MessageService {
         message.setContent(chatMessage.getContent());
         message.setRoomName(chatMessage.getRoomName());
         message.setType(String.valueOf(chatMessage.getType()));
+        message.setBot_ai(chatMessage.getBot_ai());
         message.setSender(sender);
         message.setRecipient(recipient);
         messageRepository.save(message);

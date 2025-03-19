@@ -46,6 +46,7 @@ const StaffChat = (props) => {
   const [staffs, setStaffs] = useState([]);
   const [clients, setClients] = useState([]);
   const [activeUser, setActiveUser] = useState(null);
+  const [aiMsg, setAImsg] = useState(null);
   const chatContainerRef = useRef(null);
   const chat = useSelector(chatSelector);
   const userData = chat?.userData;
@@ -73,6 +74,10 @@ const StaffChat = (props) => {
       auth?.token
     );
   }, []);
+
+  // useEffect(() => {
+  //   console.log(messages);
+  // }, [messages]);
 
   useEffect(() => {
     if (userData.connected && activeUser) {
@@ -182,16 +187,29 @@ const StaffChat = (props) => {
 
   const onMessageReceived = async (payload) => {
     const message = JSON.parse(payload.body);
+    const isUserOnline = message?.listUserOnline?.includes(activeUser?.email);
+    console.log("isUserOnline: " + isUserOnline);
+    console.log("message: ", message);
+
     if (!auth?.isAuth && message?.content) {
       console.log("message: ", message);
+      setAImsg({
+        content: message?.bot_ai,
+        isAIsend: true,
+      });
       setMessages((prevMessages) => [...prevMessages, message]);
       setIsLoading(false);
       return;
     }
+    setAImsg({
+      isAIsend: message?.bot_ai && true,
+    });
     f_collectionUtil.handleCollectionArray(
-      `/api/user/user-messages/${auth?.info?.id}/${activeUser?.email}`,
-      setMessages, auth?.token
+      `/api/admin/user-messages/${auth?.info?.id}/${activeUser?.email}`,
+      setMessages,
+      auth?.token
     );
+
     if (message?.listUserOnline) {
       dispatch(setStaffsOnline(message?.listUserOnline));
     }
@@ -385,7 +403,6 @@ const StaffChat = (props) => {
                         </li>
                       </div>
                     )}
-
                     <div
                       className={
                         msg?.sender?.email === auth?.info?.email
@@ -426,7 +443,7 @@ const StaffChat = (props) => {
                     </div>
                   </Fragment>
                 ))}
-              {isLoading && !auth?.isAuth && (
+              {isLoading && aiMsg?.isAIsend && (
                 <ChatBotLoading botName="Bot AI" />
               )}
             </div>

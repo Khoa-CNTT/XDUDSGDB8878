@@ -27,6 +27,7 @@ public class MessageMapper {
                 .content(message.getContent())
                 .type(message.getType())
                 .roomName(message.getRoomName())
+                .bot_ai(message.getBot_ai())
                 .createdOn(message.getCreatedOn())
                 .updatedOn(message.getUpdatedOn())
                 .build();

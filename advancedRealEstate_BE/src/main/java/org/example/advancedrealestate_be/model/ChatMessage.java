@@ -17,6 +17,7 @@ public class ChatMessage {
     private String sender;
     private String recipient;
     private String roomName;
+    private String bot_ai;
 
     public enum MessageType {
         SENT,
