@@ -8,6 +8,7 @@ const initialState = {
   info: {},
   roleUser: {},
   permission: [],
+  listRoleManagerPage: [],
 };
 
 // Tạo slice cho auth
@@ -15,6 +16,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setRoleManagerPage(state, action) {
+      state.listRoleManagerPage = action.payload;
+    },
+    removeRoleManagerPage(state, action) {
+      state.listRoleManagerPage = [];
+    },
     addAuth: (state, action) => {
       state.isAuth = true;
       state.info = action.payload.info;
@@ -38,7 +45,12 @@ const authSlice = createSlice({
 });
 
 // Export các action và reducer
-export const { addAuth, removeAuth } = authSlice.actions;
+export const {
+  addAuth,
+  removeAuth,
+  setRoleManagerPage,
+  removeRoleManagerPage,
+} = authSlice.actions;
 export default authSlice.reducer;
 
 // Selector để lấy trạng thái auth

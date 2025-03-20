@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Filter from "./Filter";
 import { appInfo } from "../../constants/appInfos";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, removeAuth } from "../../redux/reducers/authReducer";
+import { authSelector, removeAuth, removeRoleManagerPage } from "../../redux/reducers/authReducer";
 import handleAPI from "../../apis/handlAPI";
 import { message } from "antd";
 import styles from "../../assets/css/header-client.module.css";
@@ -29,6 +29,7 @@ const Header = () => {
     );
     try {
       const res = await handleAPI("/api/auth/logout", payload, "post", token);
+      dispatch(removeRoleManagerPage());
       if (res.code === 1000) {
         message.success("Đăng xuất thành công!");
         dispatch(removeAuth());

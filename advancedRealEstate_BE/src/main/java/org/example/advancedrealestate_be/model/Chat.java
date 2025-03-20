@@ -22,6 +22,7 @@ public class Chat {
     private String email;
     private String recipient;
     private String isAuth;
+    private String isManagement;
 
     public enum MessageType {
         CHAT,

@@ -118,9 +118,20 @@ const BuildingComponent = () => {
     const allBuildings = buildingReducer?.buildings || [];
 
     const filteredData = allBuildings.filter((building) => {
-      const matchesAuctionBuilding = ["Nhà bán", "Nhà cho thuê"].includes(
-        building?.typeBuilding?.type_name
+      const listTypeBuildingRent = Array.from(
+        { length: 999 },
+        (_, i) => `nhà cho thuê giá ${i + 1} triệu/tháng`
       );
+      const listTypeBuildingSale = Array.from(
+        { length: 999 },
+        (_, i) => `nhà bán giá ${i + 1} tỷ`
+      );
+      const matchesAuctionBuilding = [
+        "Nhà bán",
+        "Nhà cho thuê",
+        ...listTypeBuildingRent,
+        ...listTypeBuildingSale
+      ].some((type) => type === building?.typeBuilding?.type_name);
       const matchesType = buildingReducer?.selectedType
         ? building?.typeBuilding?.type_name === buildingReducer?.selectedType
         : true;

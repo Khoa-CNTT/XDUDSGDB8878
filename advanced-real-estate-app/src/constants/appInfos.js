@@ -20,6 +20,7 @@ export const appInfo = {
   logo_batdongsan,
   logo: "/static/media/Logo.dac44c6881253282d209.png",
   title: "ADVANCED REAL ESTATE",
+  nameAI: "ADVANCED REAL ESTATE AI",
   description: "",
   email: "nhom3@dtu.edu.vn",
   phoneNumber: "+84915662495",

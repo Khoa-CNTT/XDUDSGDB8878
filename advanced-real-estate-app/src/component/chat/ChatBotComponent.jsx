@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../../assets/css/chatBotComponent.module.css"; 
+import styles from "../../assets/css/chatBotComponent.module.css";
 import handleAPI from "../../apis/handlAPI";
 import { renderEffect } from "../../utils/functionCollectionUtil";
 import { message } from "antd";
@@ -33,7 +33,7 @@ const ChatBotComponent = () => {
   const handleRoomChange = () => {
     switchTab("staff");
     const chatData = {
-      room: 'counsel',
+      room: "counsel",
       userData: {
         connected: true,
         message: "",
@@ -95,13 +95,9 @@ const ChatBotComponent = () => {
             </div>
           </div>
 
-          {activeTab === "ai" && (
-            <AIChat />
-          )}
+          {activeTab === "ai" && <AIChat />}
 
-          {activeTab === "staff" && (
-            <StaffChat />
-          )}
+          {activeTab === "staff" && <StaffChat />}
         </div>
       )}
     </div>

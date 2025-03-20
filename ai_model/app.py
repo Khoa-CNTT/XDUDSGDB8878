@@ -43,7 +43,7 @@ def predict():
 
         if textProcessor.compare_word_in_list(matchKeys, keywords):
             response = {
-                "result": geminiAI(f"{contextMsg}").strip(),
+                "result": deepSeekAI(f"{contextMsg}").strip(),
             }
             return jsonify({"prediction": response})
         if not model:
