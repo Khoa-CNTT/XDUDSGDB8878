@@ -93,4 +93,18 @@ export const f_collectionUtil = {
       return false;
     }
   },
+  embedLink(text) {
+    const urlPattern = /(https?:\/\/[^\s\])]+)/g;
+    const foundUrls = new Set();
+    let cleanedText = text.replace(/[\[\]()]/g, " ");
+    cleanedText = cleanedText.replace(/(https?:\/\/)/g, " $1").trim();
+
+    return cleanedText
+      .replace(urlPattern, (url) => {
+        if (foundUrls.has(url)) return "";
+        foundUrls.add(url);
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      })
+      .trim();
+  },
 };

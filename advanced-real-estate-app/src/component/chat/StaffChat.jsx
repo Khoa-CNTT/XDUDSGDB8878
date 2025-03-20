@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import styles from "../../assets/css/staff-chat.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "../../redux/reducers/authReducer";
+import {
+  authSelector,
+  setRoleManagerPage,
+  removeRoleManagerPage,
+} from "../../redux/reducers/authReducer";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import {
@@ -20,6 +24,7 @@ import { BsTelegram } from "react-icons/bs";
 import ChatBotLoading from "./ChatBotLoading";
 import { RiRobot3Fill } from "react-icons/ri";
 import { RiRobot3Line } from "react-icons/ri";
+import { appInfo } from "./../../constants/appInfos";
 
 let stompClient = appVariables.stompClient;
 
@@ -41,19 +46,31 @@ function StaffStatus(props) {
 }
 
 const StaffChat = (props) => {
-  const auth = useSelector(authSelector);
-  const [messages, setMessages] = useState([]);
-  const [staffs, setStaffs] = useState([]);
-  const [clients, setClients] = useState([]);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [activeUser, setActiveUser] = useState(null);
-  const [aiMsg, setAImsg] = useState(null);
+  const [isAIreply, setIsAIreply] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const listRoleRequireForManagerPage =
+    appVariables.listRoleRequireForManagerPage;
+  const [messages, setMessages] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [staffs, setStaffs] = useState([]);
+  const auth = useSelector(authSelector);
   const chatContainerRef = useRef(null);
   const chat = useSelector(chatSelector);
   const userData = chat?.userData;
-  const room = chat?.room;
   const dispatch = useDispatch();
-  const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const room = chat?.room;
+
+  useEffect(() => {
+    const type = listRoleRequireForManagerPage[0];
+    f_collectionUtil.handleCollectionArrayNotAuth(
+      `/api/user/roles/${type}`,
+      (data) => {
+        dispatch(setRoleManagerPage(data));
+      }
+    );
+  }, []);
 
   useEffect(() => {
     f_collectionUtil.handleCollectionArrayNotAuth(
@@ -78,6 +95,10 @@ const StaffChat = (props) => {
   // useEffect(() => {
   //   console.log(messages);
   // }, [messages]);
+
+  // useEffect(() => {
+  //   console.log("chat: ", chat);
+  // }, [chat]);
 
   useEffect(() => {
     if (userData.connected && activeUser) {
@@ -188,22 +209,13 @@ const StaffChat = (props) => {
   const onMessageReceived = async (payload) => {
     const message = JSON.parse(payload.body);
     const isUserOnline = message?.listUserOnline?.includes(activeUser?.email);
-    console.log("isUserOnline: " + isUserOnline);
     console.log("message: ", message);
 
     if (!auth?.isAuth && message?.content) {
-      console.log("message: ", message);
-      setAImsg({
-        content: message?.bot_ai,
-        isAIsend: true,
-      });
       setMessages((prevMessages) => [...prevMessages, message]);
       setIsLoading(false);
       return;
     }
-    setAImsg({
-      isAIsend: message?.bot_ai && true,
-    });
     f_collectionUtil.handleCollectionArray(
       `/api/admin/user-messages/${auth?.info?.id}/${activeUser?.email}`,
       setMessages,
@@ -224,13 +236,22 @@ const StaffChat = (props) => {
       activeUser
     ) {
       const staffRoom = `${room}_${activeUser?.roles}_${activeUser.email}`;
-      setIsLoading(true);
+      const isManagement = auth?.listRoleManagerPage?.some(
+        (role) => role?.role_type === auth?.roleUser?.role_type
+      );
+      if (!auth?.isAuth) {
+        setIsLoading(true);
+      }
+      if (!chat?.staffsOnline?.includes(activeUser?.email) && !isManagement) {        
+        setIsLoading(true);
+      }
       const chatMessage = {
         sender: auth?.info?.email || "guest".toUpperCase(),
         recipient: activeUser.email,
         email: auth?.info?.email || "guest".toUpperCase(),
         content: userData.message,
         isAuth: auth?.isAuth,
+        isManagement: isManagement,
         room: staffRoom,
         type: "CHAT",
       };
@@ -394,11 +415,16 @@ const StaffChat = (props) => {
                         >
                           <div>
                             <span className={styles.sender_name}>
-                              {"Bot AI"}
+                              {appInfo.nameAI}
                             </span>
-                            <span className={styles.message_content}>
-                              {msg?.bot_ai.trim()}
-                            </span>
+                            <span
+                              className={styles.message_content}
+                              dangerouslySetInnerHTML={{
+                                __html: f_collectionUtil.embedLink(
+                                  msg?.bot_ai.trim()
+                                ),
+                              }}
+                            />
                           </div>
                         </li>
                       </div>
@@ -443,9 +469,7 @@ const StaffChat = (props) => {
                     </div>
                   </Fragment>
                 ))}
-              {isLoading && aiMsg?.isAIsend && (
-                <ChatBotLoading botName="Bot AI" />
-              )}
+              {isLoading && <ChatBotLoading botName="Bot AI" />}
             </div>
 
             <div className={styles.chat_input_area}>

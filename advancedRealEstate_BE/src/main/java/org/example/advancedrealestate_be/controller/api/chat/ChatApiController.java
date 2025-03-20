@@ -2,9 +2,11 @@ package org.example.advancedrealestate_be.controller.api.chat;
 
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.dto.response.BuildingResponse;
 import org.example.advancedrealestate_be.entity.User;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.model.ChatMessage;
+import org.example.advancedrealestate_be.service.BuildingService;
 import org.example.advancedrealestate_be.service.MessageService;
 import org.example.advancedrealestate_be.service.PythonService;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
@@ -27,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChatApiController {
@@ -44,13 +47,15 @@ public class ChatApiController {
     private final ScheduledTask scheduledTask;
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private String bot = "Bot: ";
+    private final BuildingService buildingService;
 
     @Autowired
-    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask) {
+    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask, BuildingService buildingService) {
         this.messagingTemplate = messagingTemplate;
         this.pythonService = pythonService;
         this.messageService = messageService;
         this.scheduledTask = scheduledTask;
+        this.buildingService = buildingService;
     }
 
     public static String generateRandomMessageId(int length) {
@@ -61,20 +66,6 @@ public class ChatApiController {
             sb.append(random.nextInt(10));
         }
         return "Mid"+sb;
-    }
-
-    private void awaitSend(JSONObject messageObject, String room, String message){
-        CompletableFuture.runAsync(() -> {
-            try {
-                Thread.sleep(500);
-                messageObject.put("content", null);
-                messageObject.put("bot", message);
-                messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
-
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        });
     }
 
     @MessageMapping("/sendMessageToRoom/{room}")
@@ -108,7 +99,7 @@ public class ChatApiController {
             chatMessage.setContent(message.getContent());
             chatMessage.setType(ChatMessage.MessageType.SENT);
             chatMessage.setRoomName(room);
-            if (!usersInRoom.contains(message.getRecipient())) {
+            if (!usersInRoom.contains(message.getRecipient()) && !Objects.equals(message.getIsManagement(), "true")) {
                 System.out.println("run ai");
                 String result = handleAImessage(message.getContent());
                 chatMessage.setBot_ai(result);
@@ -116,13 +107,67 @@ public class ChatApiController {
             }
             messageService.saveMessage(chatMessage);
         }else{
-            String result = handleAImessage(message.getContent());
+            String result = handleAImessageNotLogin(message.getContent());
             messageObject.put("bot_ai", result);
         }
         messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
     }
 
     private String handleAImessage(String userMsg){
+        String context = "|counsel| ";
+        List<BuildingResponse> buildingResponses = buildingService.getAllBuildings();
+
+        String buildingData = buildingResponses.stream()
+                .map(b -> String.format("Mã nhà: %s, %s, diện tích: %s, số tầng: %s, kiến trúc: %s, loại nhà: %s, giá nhà: %s, địa chỉ: %s, tại tỉnh/tp: %s",
+                b.getId(),
+                b.getName(),
+                b.getArea()  + " m2",
+                b.getNumber_of_basement(),
+                b.getStructure(),
+                b.getTypeBuilding().getType_name(),
+                b.getTypeBuilding().getPrice() + " VNĐ",
+                b.getMap().getAddress(),
+                b.getMap().getProvince()))
+        .collect(Collectors.joining(" | "));
+        List<String> buildingList = Arrays.stream(buildingData.split("\\|"))
+                .map(String::trim)
+                .toList();
+
+        Random random = new Random();
+        int numItems = buildingList.size();
+        List<String> randomBuildingList;
+        if (buildingList.isEmpty()) {
+            randomBuildingList = List.of("Không có dữ liệu bất động sản.");
+        } else {
+            List<String> shuffledList = new ArrayList<>(buildingList);
+            Collections.shuffle(shuffledList, random);
+            randomBuildingList = shuffledList.subList(0, Math.min(numItems, shuffledList.size()));
+        }
+        String randomBuildingInfo = String.join(" | ", randomBuildingList);
+
+        System.out.println("building random: " + randomBuildingInfo);
+        StringBuilder requireMsg = new StringBuilder("Đây là tin nhắn của khách hàng: ")
+            .append(userMsg).append(". Còn đây là dữ liệu về bất động sản của công ty tôi: ")
+            .append(randomBuildingInfo)
+            .append(". Hãy tư vấn 1 cách chuyên nghiệp cho khách hàng về bất động sản của công ty chúng tôi! ")
+            .append("Hãy thực hiện 1 số yêu cầu sau: ")
+            .append(". thêm đường dẫn http://localhost:3000/buildings/mã nhà, để khách hàng bấm xem chi tiết")
+            .append(". Kết thúc câu thêm đường link này để khách hàng bấm vào xem bất động sản: ")
+            .append("http://localhost:3000/buildings")
+            .append(". Khi khách hàng yêu cầu liệt kê bđs theo giá nếu giá khách hàng cầu cao hơn hoặc")
+            .append(" thấp hơn với giá trong dữ liệu tôi cung cấp cho bạn thì hãy đưa ra các bđs có")
+            .append(" giá tương đương với giá của khách hàng yêu cầu ")
+            .append(". Khi khách hàng nhắn cảm ơn thì cảm ơn lại ngắn gọn khoản 20 chữ ko cung cấp thêm dữ liệu bđs của công ty")
+            .append(". Nếu khách hàng nhắn những vấn đề khác không liên quan đến bất động sản thì phản hồi lại tin nhắn của khách hàng")
+            .append(", và cảm ơn khách hàng đã quan tâm đến website");
+
+        String msg = String.format(context + requireMsg);
+        Map<String, Object> aiMessage = pythonService.getPrediction(msg);
+        Map<String, Object> prediction = (Map<String, Object>) aiMessage.get("prediction");
+        return (String) prediction.get("result");
+    }
+
+    private String handleAImessageNotLogin(String userMsg){
         String context = "|Unauthorized| ";
         String paraGraph[] = {
                 "ngắn gọn 30 chữ",
@@ -174,10 +219,6 @@ public class ChatApiController {
         messageObject.put("content", message.getContent());
 
         Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", message.getSender() == null ? "guest" : message.getSender());
-
-        if(Objects.equals(room, "phòng đấu giá bất động sản cao cấp")){
-            awaitSend(messageObject, room, "Chào " + message.getEmail() + " bạn cần tôi giúp gì không?");
-        }
 
         messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
     }
