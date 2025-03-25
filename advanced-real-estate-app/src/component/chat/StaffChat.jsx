@@ -25,6 +25,7 @@ import ChatBotLoading from "./ChatBotLoading";
 import { RiRobot3Fill } from "react-icons/ri";
 import { RiRobot3Line } from "react-icons/ri";
 import { appInfo } from "./../../constants/appInfos";
+import { jwtDecode } from "jwt-decode";
 
 let stompClient = appVariables.stompClient;
 
@@ -211,7 +212,12 @@ const StaffChat = (props) => {
     const isUserOnline = message?.listUserOnline?.includes(activeUser?.email);
     console.log("message: ", message);
 
-    if (!auth?.isAuth && message?.content) {
+    if (
+      !f_collectionUtil.checkIsValidToken({
+        auth: auth,
+      }) &&
+      message?.content
+    ) {
       setMessages((prevMessages) => [...prevMessages, message]);
       setIsLoading(false);
       return;
@@ -239,10 +245,15 @@ const StaffChat = (props) => {
       const isManagement = auth?.listRoleManagerPage?.some(
         (role) => role?.role_type === auth?.roleUser?.role_type
       );
-      if (!auth?.isAuth) {
+
+      if (
+        !f_collectionUtil.checkIsValidToken({
+          auth: auth,
+        })
+      ) {
         setIsLoading(true);
       }
-      if (!chat?.staffsOnline?.includes(activeUser?.email) && !isManagement) {        
+      if (!chat?.staffsOnline?.includes(activeUser?.email) && !isManagement) {
         setIsLoading(true);
       }
       const chatMessage = {
@@ -251,6 +262,7 @@ const StaffChat = (props) => {
         email: auth?.info?.email || "guest".toUpperCase(),
         content: userData.message,
         isAuth: auth?.isAuth,
+        token: auth?.token,
         isManagement: isManagement,
         room: staffRoom,
         type: "CHAT",
@@ -259,6 +271,14 @@ const StaffChat = (props) => {
         destination: `/app/sendMessageToRoom/${room}`,
         body: JSON.stringify(chatMessage),
       });
+      setTimeout(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTo({
+            top: chatContainerRef.current.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
     } else {
       console.log("STOMP connection is not established yet.");
     }

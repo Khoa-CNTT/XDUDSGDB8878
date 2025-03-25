@@ -7,6 +7,7 @@ import org.example.advancedrealestate_be.dto.response.AuctionDetailResponse;
 import org.example.advancedrealestate_be.dto.response.AuctionHistoryResponse;
 import org.example.advancedrealestate_be.entity.Auction;
 import org.example.advancedrealestate_be.entity.AuctionHistory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
@@ -32,7 +33,13 @@ public interface AuctionHistoryService {
 
     JSONObject deleteById(String id);
 
-    void handleBidMessage(AuctionHistoryRequest dto);
+    boolean handleBidMessage(AuctionHistoryRequest dto);
 
     void handleDeleteAllAuctionHistoriesByAid(String auctionId);
+
+    List<AuctionHistory> findAuctionHistoriesByIdentity_key(String identity_key);
+    List<AuctionHistory> findAuctionHistoriesByIdentity_keyAndUserEmail(String identity_key, String email);
+
+
+    AuctionHistory findHighestBidByIdentityKey(String identityKey);
 }

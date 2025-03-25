@@ -2,21 +2,27 @@ package org.example.advancedrealestate_be.controller.api.auction;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.experimental.NonFinal;
 import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.dto.request.AuctionHistoryRequest;
+import org.example.advancedrealestate_be.entity.AuctionHistory;
 import org.example.advancedrealestate_be.model.Bid;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.service.AuctionHistoryService;
 import org.example.advancedrealestate_be.service.PythonService;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,14 +31,18 @@ import java.util.*;
 @Controller
 //@CrossOrigin(origins = "https://localhost:3000")
 public class BidMessageApiController {
-
-
     private final PythonService pythonService;
     private final SimpMessagingTemplate messagingTemplate;
     private final AuctionHistoryService auctionHistoryService;
     private final ScheduledTask scheduledTask;
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private final Map<String, Set<String>> msgUsers = new HashMap<>();
+    private Map<String, Map<String, Integer>> userRoomJoinCount = new HashMap<>();
+
+    private static final long EXPIRATION_TIME = 60 * 1000;
+    @NonFinal
+    @Value("${jwt.signerKey}")
+    private String SIGNER_KEY;
 
     @Autowired
     public BidMessageApiController(PythonService pythonService, SimpMessagingTemplate messagingTemplate, AuctionHistoryService auctionHistoryService, ScheduledTask scheduledTask) {
@@ -62,15 +72,7 @@ public class BidMessageApiController {
         String messageId = generateRandomBidMessageId(9);
         JSONObject messageObject = new JSONObject();
         Set<String> messagesInRoom = msgUsers.getOrDefault(room, new HashSet<>());
-        Map<String, Object> aiMessage = pythonService.getPrediction(String.valueOf(bidMessage.getBidAmount()));
-        Map<String, Object> prediction = (Map<String, Object>) aiMessage.get("prediction");
-
-        System.out.println("aiMessage: " + aiMessage);
-        int acreage = (int) prediction.get("acreage");
         messageObject.put("id", messageId);
-        if(acreage < 1){
-            messageObject.put("bot_ai", prediction.get("description"));
-        }
         messageObject.put("sender", bidMessage.getEmail());
         messageObject.put("bidAmount", bidMessage.getBidAmount());
         messageObject.put("client_id", bidMessage.getClient_id());
@@ -89,7 +91,7 @@ public class BidMessageApiController {
         dto.setBidAmount(bidMessage.getBidAmount());
         dto.setAuction_id(bidMessage.getAuction_id());
         dto.setClient_id(bidMessage.getClient_id());
-        auctionHistoryService.handleBidMessage(dto);
+        messageObject.put("isValidBid", auctionHistoryService.handleBidMessage(dto));
 
         messagingTemplate.convertAndSend("/topic/room/" + room, messageObject.toString());
     }
@@ -103,7 +105,9 @@ public class BidMessageApiController {
         JSONObject messageObject = new JSONObject();
         Set<String> messagesInRoom = msgUsers.getOrDefault(room, new HashSet<>());
 
+        userRoomJoinCount.clear();
         messagesInRoom.clear();
+        roomUsers.clear();
         messagesInRoom.add(messageObject.toString());
         msgUsers.put(room, messagesInRoom);
         messageObject.put("bids", messagesInRoom);
@@ -123,7 +127,16 @@ public class BidMessageApiController {
         ObjectMapper objectMapper = new ObjectMapper();
 
         usersInRoom.add(bidMessage.getEmail());
+        Map<String, Integer> roomJoinCount = userRoomJoinCount.getOrDefault(room, new HashMap<>());
+        roomJoinCount.put(bidMessage.getEmail(), roomJoinCount.getOrDefault(bidMessage.getEmail(), 0) + 1);
+        int joinCount = roomJoinCount.get(bidMessage.getEmail());
+        userRoomJoinCount.put(room, roomJoinCount);
+        System.out.println("roomJoinCount: " + joinCount + " - " + userRoomJoinCount);
         roomUsers.put(room, usersInRoom);
+        List<AuctionHistory> auctionHistoryListByClient = auctionHistoryService.findAuctionHistoriesByIdentity_keyAndUserEmail(bidMessage.getIdentity_key(), bidMessage.getEmail());
+        if(!auctionHistoryListByClient.isEmpty()){
+            messageObject.put("previouslyBid", true);
+        }
         if(!messagesInRoom.isEmpty()){
             messagesInRoom.add(messageObject.toString());
             msgUsers.put(room, messagesInRoom);
@@ -143,6 +156,11 @@ public class BidMessageApiController {
         if(messagesInRoom.isEmpty()){
             messageObject.put("isNewAuction", true);
         }
+        JSONObject userObj = new JSONObject();
+        userObj.put("email", bidMessage.getEmail());
+        userObj.put("joinCount", joinCount);
+        messageObject.put("user", userObj);
+        messageObject.put("room", room);
         messageObject.put("count", usersInRoom.size());
         messageObject.put("users", usersInRoom);
         messageObject.put("newUser", bidMessage.getEmail());

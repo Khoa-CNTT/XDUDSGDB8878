@@ -31,4 +31,16 @@ public interface AuctionHistoryRepository extends JpaRepository<AuctionHistory,S
     AuctionHistory findHighestBidByIdentityKey(@Param("identity_key") String identityKey);
     List<AuctionHistory> findAuctionHistoriesByClientIdAndStatus(String clientId, String status);
     List<AuctionHistory> findAuctionHistoriesByClientId(String clientId);
+
+    @Query("SELECT a FROM AuctionHistory a WHERE a.identity_key = :identityKey")
+    List<AuctionHistory> findAuctionHistoriesByIdentityKey(@Param("identityKey") String identityKey);
+
+    @Query("SELECT a FROM AuctionHistory a JOIN a.client c WHERE a.identity_key = :identityKey AND c.email = :email")
+    List<AuctionHistory> findAuctionHistoriesByIdentityKeyAndEmail(@Param("identityKey") String identityKey, @Param("email") String email);
+
+    @Query(value = "SELECT COUNT(*) FROM auction_histories " +
+            "WHERE identity_key = :identityKey " +
+            "AND bid_amount >= :bidAmount",
+            nativeQuery = true)
+    int countHigherOrEqualBids(@Param("identityKey") String identityKey, @Param("bidAmount") double bidAmount);
 }

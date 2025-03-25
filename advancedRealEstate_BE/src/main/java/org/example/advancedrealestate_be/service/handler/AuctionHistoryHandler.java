@@ -216,19 +216,23 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     }
 
     @Override
-    public void handleBidMessage(AuctionHistoryRequest dto) {
+    public boolean handleBidMessage(AuctionHistoryRequest dto) {
         AuctionHistory auctionHistory = new AuctionHistory();
         Auction auction = auctionRepository.findById(dto.getAuction_id()).orElse(null);
         User client = userRepository.findById(dto.getClient_id()).orElse(null);
+        assert auction != null;
+        if(auctionHistoryRepository.countHigherOrEqualBids(auction.getIdentity_key(), dto.getBidAmount()) > 0){
+            return false;
+        }
         auctionHistory.setMessageBidId(dto.getMessageBidId());
         auctionHistory.setBidTime(dto.getBidTime());
         auctionHistory.setBidAmount(dto.getBidAmount());
         auctionHistory.setStatus(String.valueOf(EnumConstant.YET_CONFIRM));
         auctionHistory.setAuction(auction);
         auctionHistory.setClient(client);
-        assert auction != null;
         auctionHistory.setIdentity_key(auction.getIdentity_key());
         auctionHistoryRepository.save(auctionHistory);
+        return true;
     }
 
     @Override
@@ -236,6 +240,21 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
         Auction auction = auctionRepository.findById(auctionId).orElse(null);
         assert auction != null;
         auctionHistoryRepository.deleteAuctionHistoriesByIdentity_key(auction.getIdentity_key());
+    }
+
+    @Override
+    public List<AuctionHistory> findAuctionHistoriesByIdentity_key(String identity_key) {
+        return auctionHistoryRepository.findAuctionHistoriesByIdentityKey(identity_key);
+    }
+
+    @Override
+    public List<AuctionHistory> findAuctionHistoriesByIdentity_keyAndUserEmail(String identity_key, String email) {
+        return auctionHistoryRepository.findAuctionHistoriesByIdentityKeyAndEmail(identity_key, email);
+    }
+
+    @Override
+    public AuctionHistory findHighestBidByIdentityKey(String identityKey) {
+        return auctionHistoryRepository.findHighestBidByIdentityKey(identityKey);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")

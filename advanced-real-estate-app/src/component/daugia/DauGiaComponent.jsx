@@ -1,8 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "../../assets/css/daugia.module.css";
-import { appInfo } from "../../constants/appInfos";
 import { appVariables } from "../../constants/appVariables";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,19 +10,20 @@ import {
   removeUsers,
   updatedAuctionRoom,
   updateUserInRoom,
-  userOutRoom,
+  setListWaitingUser,
+  removeListWaitingUser,
 } from "../../redux/reducers/auctionReducer";
 import { authSelector } from "../../redux/reducers/authReducer";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import { update } from "../../redux/reducers/chatReducer";
-import RoomAuctionComponent from "./RoomAuctionComponent";
 import { message } from "antd";
 import AuctionMessageModal from "./AuctionMessageModal";
+import AuctionMessage from "./AuctionMessage";
+import AuctionGuideLine from "./AuctionGuideLine";
+import { f_collectionUtil } from "./../../utils/f_collectionUtil";
 
 let stompClient = appVariables.stompClient;
 const DauGiaComponent = () => {
-  const chatMessagesRef = useRef(null);
   const dispatch = useDispatch();
   const auctionReducer = useSelector(auctionSelector);
   const auth = useSelector(authSelector);
@@ -35,12 +33,124 @@ const DauGiaComponent = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [bidAmount, setBidAmount] = useState(0.0);
   const [highestBid, setHighestBid] = useState(0.0);
+  const [bidUpdated, setBidUpdated] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const bidMessageRef = useRef(null);
+  const [elementCoordinates, setElementCoordinates] = useState({});
+  const posBidInputRef = useRef(null);
+  const posTimeRemainingRef = useRef(null);
+  const posItemInfoRef = useRef(null);
+  const posBidButtonRef = useRef(null);
+  const posViewHistoryAuctionRef = useRef(null);
+  const posViewGuestJoinAutionRef = useRef(null);
+  const posBtnOutAuctionRoomRef = useRef(null);
+  const [prevJoinCount, setPrevJoinCount] = useState(null);
+  const [waitingTime, setWaitingTime] = useState(0);
+  const [timeSendBid, setTimeSendBid] = useState(0);
+
+  const getElementCoordinates = (ref) => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const viewportCoords = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left,
+        right: rect.right,
+        bottom: rect.bottom,
+      };
+      const documentCoords = {
+        x: viewportCoords.x + window.scrollX,
+        y: viewportCoords.y + window.scrollY,
+      };
+      const percentCoords = {
+        x: (viewportCoords.x / window.innerWidth) * 100,
+        y: (viewportCoords.y / window.innerHeight) * 100,
+      };
+
+      return {
+        viewport: viewportCoords,
+        document: documentCoords,
+        percent: percentCoords,
+      };
+    }
+    return null;
+  };
 
   useEffect(() => {
-    if (chatMessagesRef.current) {
-      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    const currentUser = auctionReducer?.listWaitingUser?.find(
+      (e) => e?.email === auth?.info?.email
+    );
+    const isEmailUser = currentUser?.isWaiting === true;
+    const userJoinCount = currentUser?.joinCount;
+
+    if (isEmailUser) {
+      if (prevJoinCount !== null && prevJoinCount !== userJoinCount) {
+        setWaitingTime(60);
+      }
+      setPrevJoinCount(userJoinCount);
+
+      const interval = setInterval(() => {
+        setWaitingTime((prev) => {
+          if (prev === 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
     }
-  }, [auctionReducer?.bidMessages]);
+  }, [auctionReducer?.listWaitingUser, auth, prevJoinCount]);
+
+  useEffect(() => {
+    if (timeSendBid > 0) {
+      const interval = setInterval(() => {
+        setTimeSendBid((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timeSendBid]);
+
+  useEffect(() => {
+    if (userData.connected) {
+      const timer = setTimeout(() => {
+        const coords = {
+          bidInput: getElementCoordinates(posBidInputRef),
+          itemInfo: getElementCoordinates(posItemInfoRef),
+          bidButton: getElementCoordinates(posBidButtonRef),
+          timeRemaining: getElementCoordinates(posTimeRemainingRef),
+          btnOutAuction: getElementCoordinates(posBtnOutAuctionRoomRef),
+          viewHistoryAuction: getElementCoordinates(posViewHistoryAuctionRef),
+          viewGuestJoinAution: getElementCoordinates(posViewGuestJoinAutionRef),
+        };
+        setElementCoordinates(coords);
+        // console.log("Element coordinates:", coords);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [userData.connected]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const coords = {
+        bidInput: getElementCoordinates(posBidButtonRef),
+        itemInfo: getElementCoordinates(posItemInfoRef),
+        bidButton: getElementCoordinates(posBidButtonRef),
+        timeRemaining: getElementCoordinates(posTimeRemainingRef),
+        btnOutAuction: getElementCoordinates(posBtnOutAuctionRoomRef),
+        viewHistoryAuction: getElementCoordinates(posViewHistoryAuctionRef),
+        viewGuestJoinAution: getElementCoordinates(posViewGuestJoinAutionRef),
+      };
+      setElementCoordinates(coords);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (userData.connected) {
@@ -49,14 +159,26 @@ const DauGiaComponent = () => {
   }, [userData.connected, roomId]);
 
   useEffect(() => {
+    if (userData.connected) {
+      connect();
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => disconnect();
+  }, []);
+
+  useEffect(() => {
     if (auctionReducer?.bidMessages?.length > 0) {
       const maxBid = appVariables.findMax(auctionReducer?.bidMessages);
-      if (parseFloat(maxBid) !== highestBid) {
-        setBidAmount(parseFloat(maxBid));
-        setHighestBid(parseFloat(maxBid));
+      if (Number.parseFloat(maxBid) !== highestBid) {
+        setBidAmount(Number.parseFloat(maxBid));
+        setHighestBid(Number.parseFloat(maxBid));
+        setBidUpdated(true);
+        setTimeout(() => setBidUpdated(false), 500);
       }
     } else {
-      const auctionPrice = parseFloat(
+      const auctionPrice = Number.parseFloat(
         auctionReducer?.auction?.typeBuilding?.price
       );
       if (auctionPrice !== highestBid) {
@@ -64,7 +186,12 @@ const DauGiaComponent = () => {
         setHighestBid(auctionPrice);
       }
     }
-  }, [auctionReducer?.bidMessages, userData.connected, roomId]);
+  }, [
+    auctionReducer?.bidMessages,
+    userData.connected,
+    roomId,
+    auctionReducer?.auction?.typeBuilding?.price,
+  ]);
 
   useEffect(() => {
     console.log("auctionReducer", auctionReducer);
@@ -99,11 +226,8 @@ const DauGiaComponent = () => {
       connectHeaders: {
         Authorization: `Bearer ${auth?.token}`,
       },
-      debug: (str) => {
-        // console.log("debug: " + str);
-      },
+      debug: (str) => {},
       onConnect: () => {
-        // console.log("WebSocket connected!");
         stompClient.subscribe(`/topic/room/${roomId}`, (message) => {
           onMessageReceived(message).then();
         });
@@ -171,20 +295,35 @@ const DauGiaComponent = () => {
     const msg = JSON.parse(payload.body);
     console.log("message: ", msg);
     if (msg?.isNewAuction) {
+      dispatch(removeListWaitingUser());
       dispatch(removeBidMessages());
       dispatch(removeUsers());
+    }
+    if (msg?.previouslyBid) {
+      dispatch(
+        setListWaitingUser({
+          email: msg.newUser,
+          joinCount: msg?.user?.joinCount,
+          isWaiting: msg?.previouslyBid,
+        })
+      );
     }
     if (msg?.bids) {
       const parsedBidMessages = msg?.bids
         ?.map((message) => JSON.parse(message))
-        ?.filter((parsedMessage) => Object?.keys(parsedMessage).length > 0);
+        ?.filter(
+          (parsedMessage) =>
+            Object?.keys(parsedMessage).length > 0 &&
+            Number.isFinite(Number(parsedMessage.bidAmount))
+        );
       dispatch(addBidMessages(parsedBidMessages));
-    }
-    if (msg?.isSendBid) {
-      message.success(
-        `${msg?.sender} Vừa đấu giá ${appVariables.formatMoney(msg?.bidAmount)}`
-      );
-      msg?.bot_ai && message.success(`${msg?.bot_ai}`);
+
+      msg?.bidAmount &&
+        message.success(
+          `${msg?.sender} Vừa đấu giá ${appVariables.formatMoney(
+            msg?.bidAmount
+          )}`
+        );
     }
     if (msg?.users) {
       dispatch(addUsers(msg?.users));
@@ -198,7 +337,15 @@ const DauGiaComponent = () => {
   };
 
   const handleBidSubmit = () => {
-    const newBid = parseFloat(bidAmount);
+    const isEmailUser = auctionReducer?.listWaitingUser?.some(
+      (e) => e?.email === auth?.info?.email
+    );
+    if (waitingTime > 0 && isEmailUser) return;
+    if (timeSendBid > 0) return;
+
+    setTimeSendBid(30);
+
+    const newBid = Number.parseFloat(bidAmount);
     if (newBid < highestBid) {
       appVariables.toast_notify_error(
         "Bạn không được đấu giá thấp hơn giá khởi điểm!"
@@ -229,6 +376,14 @@ const DauGiaComponent = () => {
           destination: `/app/sendBidToRoom/${roomId}`,
           body: JSON.stringify(chatMessage),
         });
+        setTimeout(() => {
+          if (bidMessageRef.current) {
+            bidMessageRef.current.scrollTo({
+              top: bidMessageRef.current.scrollHeight,
+              behavior: "smooth",
+            });
+          }
+        }, 100);
       } else {
         console.log("STOMP connection is not established yet.");
       }
@@ -236,7 +391,6 @@ const DauGiaComponent = () => {
   };
 
   const handleClearAllBidMessage = () => {
-    console.log("clear bids");
     if (stompClient && stompClient.connected) {
       const chatMessage = {
         sender: auth?.info?.email,
@@ -258,7 +412,7 @@ const DauGiaComponent = () => {
 
   const handleBidChange = (e) => {
     const rawValue = e.target.value.replace(/[^0-9]/g, "");
-    const bidAmount = parseFloat(rawValue);
+    const bidAmount = Number.parseFloat(rawValue);
     setBidAmount(bidAmount || 0);
   };
 
@@ -273,7 +427,7 @@ const DauGiaComponent = () => {
   };
 
   const handleDecrement = () => {
-    const originPrice = parseFloat(
+    const originPrice = Number.parseFloat(
       auctionReducer?.auction?.typeBuilding?.price
     );
     setBidAmount((prevBid) => {
@@ -286,9 +440,23 @@ const DauGiaComponent = () => {
       return Math.max(0, prevBid - 1000000);
     });
   };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   const object = {
+    disconnect: disconnect,
+    users: auctionReducer?.users,
+    bidMessageRef: bidMessageRef,
     deleteBidMessage: deleteBidMessage,
+    countUser: auctionReducer?.users.length,
+    bidMessages: auctionReducer?.bidMessages,
+    formatMoney: appVariables.formatMoney,
     handleClearAllBidMessage: handleClearAllBidMessage,
+    posViewHistoryAuctionRef,
+    posViewGuestJoinAutionRef,
+    posBtnOutAuctionRoomRef,
   };
 
   return (
@@ -296,16 +464,57 @@ const DauGiaComponent = () => {
       {userData.connected && (
         <div className={styles.container}>
           <AuctionMessageModal object={object} />
+          <div className={styles.sidebarToggle} onClick={toggleSidebar}>
+            <i className="fa fa-bars"></i>
+          </div>
+          <AuctionMessage utils={object} />
+          <AuctionGuideLine elementCoordinates={elementCoordinates} />
+          <div
+            className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}
+          >
+            <div className={styles.sidebarHeader}>
+              <div className={styles.sidebarTitle}>Thông tin phòng</div>
+              <button className={styles.closeSidebar} onClick={toggleSidebar}>
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+
+            <div className={styles.userInfo}>
+              <div className={styles.userCount}>
+                PHÒNG ĐẤU GIÁ: {auctionReducer?.auction?.name}
+              </div>
+              <div className={styles.userCount}>
+                SỐ NGƯỜI TRONG PHÒNG: {countUser}
+              </div>
+            </div>
+
+            <div className={styles.sidebarActions}></div>
+          </div>
+          <div
+            className={`${styles.overlay} ${
+              isSidebarOpen ? styles.active : ""
+            }`}
+            onClick={() => {
+              setIsSidebarOpen(false);
+            }}
+          ></div>
+
           <div className={styles.columnsContainer}>
             <div className={styles.auctionColumn}>
               <div className={styles.itemSection}>
                 <img
-                  src={auctionReducer?.auction?.buildingImages[0]}
+                  src={
+                    auctionReducer?.auction?.buildingImages[0] ||
+                    "/placeholder.svg" ||
+                    "/placeholder.svg" ||
+                    "/placeholder.svg" ||
+                    "/placeholder.svg"
+                  }
                   alt="Auction Item"
                   className={styles.itemImage}
                 />
                 <div className={styles.itemSection}>
-                  <div className={styles.itemDescription}>
+                  <div className={styles.itemDescription} ref={posItemInfoRef}>
                     <h4>Tên nhà: {auctionReducer?.auction?.name}</h4>
                   </div>
                   <div className={styles.itemDescription}>
@@ -338,68 +547,70 @@ const DauGiaComponent = () => {
                   Thời hạn đấu giá:{" "}
                   {`${auctionReducer?.auction?.start_time} - ${auctionReducer?.auction?.end_time}`}
                 </p>
-                <p className={styles.timeRemaining}>
+                <p className={styles.timeRemaining} ref={posTimeRemainingRef}>
                   Thời gian đấu giá còn lại: {timeLeft}
                 </p>
               </div>
               <div className={styles.bidSection}>
-                <p className={styles.currentBid}>
+                <p
+                  className={`${styles.currentBid} ${
+                    bidUpdated ? styles.bidUpdate : ""
+                  }`}
+                >
                   Giá khởi điểm của bạn: {appVariables.formatMoney(highestBid)}
                 </p>
+                <div className={styles.bidInputContainer}>
+                  <button
+                    onClick={handleDecrement}
+                    className={styles.decrementButton}
+                  >
+                    −
+                  </button>
+                  <input
+                    type="text"
+                    value={appVariables.formatMoney(bidAmount)}
+                    onChange={handleBidChange}
+                    placeholder="Enter your bid"
+                    className={styles.bidInput}
+                    ref={posBidInputRef}
+                  />
+                  <button
+                    onClick={handleIncrement}
+                    className={styles.incrementButton}
+                  >
+                    +
+                  </button>
+                </div>
                 <button
-                  onClick={handleDecrement}
-                  className={styles.decrementButton}
+                  onClick={handleBidSubmit}
+                  className={styles.bidButton}
+                  style={{
+                    backgroundColor:
+                      timeSendBid > 0
+                        ? "#ff6b6b"
+                        : auctionReducer?.listWaitingUser?.some(
+                            (e) => e?.email === auth?.info?.email
+                          ) && waitingTime > 0
+                        ? "#ff6b6b"
+                        : "#4ecdc4",
+                  }}
+                  disabled={
+                    (auctionReducer?.listWaitingUser?.some(
+                      (e) => e?.email === auth?.info?.email
+                    ) &&
+                      waitingTime > 0) ||
+                    timeSendBid > 0
+                  }
                 >
-                  −
-                </button>
-                <input
-                  type="text"
-                  value={appVariables.formatMoney(bidAmount)}
-                  onChange={handleBidChange}
-                  placeholder="Enter your bid"
-                  className={styles.bidInput}
-                />
-                <button
-                  onClick={handleIncrement}
-                  className={styles.incrementButton}
-                >
-                  +
-                </button>
-                <br />
-                <button onClick={handleBidSubmit} className={styles.bidButton}>
-                  ĐẤU GIÁ
-                </button>
-                <button
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#AuctionMessageModal"
-                  className={`${styles.primaryButton}`}
-                >
-                  XEM TIN NHẮN ĐẤU GIÁ
+                  {timeSendBid > 0
+                    ? `Chờ ${timeSendBid}s`
+                    : auctionReducer?.listWaitingUser?.some(
+                        (e) => e?.email === auth?.info?.email
+                      ) && waitingTime > 0
+                    ? `Chờ ${waitingTime}s`
+                    : "ĐẤU GIÁ"}
                 </button>
               </div>
-            </div>
-
-            <div className={styles.userColumn}>
-              <button
-                onClick={disconnect}
-                className={`${styles.secondaryButton}`}
-              >
-                Rời phòng
-              </button>
-              <hr />
-              <p className={styles.userTitle}>
-                SỐ NGƯỜI TRONG PHÒNG: {countUser}
-              </p>
-              {auctionReducer?.users?.map((user, index) => (
-                <p key={index} className={styles.userName}>
-                  <i
-                    className="fa fa-user-secret text-primary"
-                    id="exampleModalLabel"
-                  ></i>
-                  {" " + user}
-                </p>
-              ))}
             </div>
           </div>
         </div>

@@ -17,4 +17,5 @@ public interface AuthenticationService {
      JSONObject authenticate(AuthenticationRequest request, UserResponse userResponse);
      void logout(LogoutRequest request) throws ParseException, JOSEException;
      AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException;
+     boolean isValidToken(String token);
 }

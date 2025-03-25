@@ -163,8 +163,8 @@
 }
 
 .message.user .bubble {
-  background-color: #0d1329;
-  color: white;
+  background-color: #dcf8c6;
+  color: black;
 }
 
 .message.bot .bubble {

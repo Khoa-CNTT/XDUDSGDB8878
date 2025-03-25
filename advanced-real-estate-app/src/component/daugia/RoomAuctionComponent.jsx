@@ -24,7 +24,6 @@ const RoomAuctionComponent = ({ pageSize }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const auctionReducer = useSelector(auctionSelector);
-  // const pageSize = 3;
   const indexOfLast = currentPage * pageSize;
   const indexOfFirst = indexOfLast - pageSize;
   const currentItems = auctionRooms.slice(indexOfFirst, indexOfLast);
@@ -33,7 +32,6 @@ const RoomAuctionComponent = ({ pageSize }) => {
   useEffect(() => {
     handleAPINotToken("/api/user/auctions", {}, "get")
       .then((res) => {
-        console.log("data: ", res?.data);
         setAuctionRooms(res?.data);
       })
       .catch((error) => console.error("Fetch error: ", error));
