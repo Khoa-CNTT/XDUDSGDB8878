@@ -6,6 +6,7 @@ import org.example.advancedrealestate_be.dto.response.BuildingResponse;
 import org.example.advancedrealestate_be.entity.User;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.model.ChatMessage;
+import org.example.advancedrealestate_be.service.AuthenticationService;
 import org.example.advancedrealestate_be.service.BuildingService;
 import org.example.advancedrealestate_be.service.MessageService;
 import org.example.advancedrealestate_be.service.PythonService;
@@ -48,14 +49,16 @@ public class ChatApiController {
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private String bot = "Bot: ";
     private final BuildingService buildingService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask, BuildingService buildingService) {
+    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask, BuildingService buildingService, AuthenticationService authenticationService) {
         this.messagingTemplate = messagingTemplate;
         this.pythonService = pythonService;
         this.messageService = messageService;
         this.scheduledTask = scheduledTask;
         this.buildingService = buildingService;
+        this.authenticationService = authenticationService;
     }
 
     public static String generateRandomMessageId(int length) {
@@ -92,7 +95,8 @@ public class ChatApiController {
         System.out.println("Ngày và giờ hiện tại (có giây): " + currentDateTime);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("auth: " + message.getIsAuth());
-        if(Objects.equals(message.getIsAuth(), "true")){
+        boolean isValidToken = authenticationService.isValidToken(message.getToken());
+        if(Objects.equals(message.getIsAuth(), "true") && isValidToken){
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setSender(message.getSender());
             chatMessage.setRecipient(message.getRecipient());
@@ -151,6 +155,7 @@ public class ChatApiController {
             .append(randomBuildingInfo)
             .append(". Hãy tư vấn 1 cách chuyên nghiệp cho khách hàng về bất động sản của công ty chúng tôi! ")
             .append("Hãy thực hiện 1 số yêu cầu sau: ")
+            .append(". Giới thiệu tên của bạn là gì? là AI gì?")
             .append(". thêm đường dẫn http://localhost:3000/buildings/mã nhà, để khách hàng bấm xem chi tiết")
             .append(". Kết thúc câu thêm đường link này để khách hàng bấm vào xem bất động sản: ")
             .append("http://localhost:3000/buildings")
@@ -189,7 +194,9 @@ public class ChatApiController {
                 "tối giản 30 chữ"
         };
         String require = "Yêu cầu phản hồi cho tôi ko quá 30 chữ!. ";
-        String requireMsg = require + "Viết 1 đoạn thông báo ... yêu cầu khách hàng đăng nhập vào hệ thống vì đăng nhập mới chat được với nhân viên";
+        String requireMsg = require + "Đầu tiên hãy giới thiệu tên của bạn là gì? là AI gì?. " +
+        "Viết 1 đoạn thông báo ... yêu cầu khách hàng đăng nhập vào hệ thống vì đăng nhập mới " +
+        "chat được với nhân viên";
         Random random = new Random();
         String randomText = paraGraph[random.nextInt(paraGraph.length)];
         String contentMsg = requireMsg.replace("...", randomText);

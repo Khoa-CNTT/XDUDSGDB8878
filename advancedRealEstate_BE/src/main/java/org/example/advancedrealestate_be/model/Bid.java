@@ -17,7 +17,7 @@ public class Bid {
     private String email;
     private String auction_id;
     private String client_id;
-    private String identity_key;;
+    private String identity_key;
     private boolean clear;
 
     public enum BidMessageType {

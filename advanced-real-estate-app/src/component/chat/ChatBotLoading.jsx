@@ -2,7 +2,9 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import styles from "../../assets/css/loading.module.css";
 import { f_collectionUtil } from "../../utils/f_collectionUtil";
 import { useNavigate } from "react-router-dom";
-
+import { appInfo } from "../../constants/appInfos";
+import { RiRobot3Fill } from "react-icons/ri";
+import { RiRobot3Line } from "react-icons/ri";
 const ChatBotLoading = (props) => {
   const [dotsCount, setDotsCount] = useState(1);
   const messagesEndRef = useRef(null);
@@ -28,10 +30,12 @@ const ChatBotLoading = (props) => {
       <li className={`${styles.chatItem} ${styles.botMessage}`}>
         <div className={styles.messageContainer}>
           <div className={styles.avatarWrapper}>
-            <div className={styles.avatar}>{props?.botName.charAt(0)}</div>
+            <div className={styles.avatar}>
+              <RiRobot3Line/>
+            </div>
           </div>
           <div className={styles.contentWrapper}>
-            <span className={styles.senderName}>{props?.botName}</span>
+            <span className={styles.senderName}>{appInfo.nameAI}</span>
             <div className={styles.messageContent}>
               <div className={styles.typingIndicator}>
                 <span className={styles.typingText}>Thinking</span>

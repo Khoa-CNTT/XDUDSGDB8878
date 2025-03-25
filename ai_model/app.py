@@ -6,7 +6,7 @@ import traceback
 from deepseek_ai import deepSeekAI 
 from gemini_ai import geminiAI 
 import random
-from utils import textProcessor, TextProcessor
+from utils import textProcessor, TextProcessor, toolProcessor
 
 app = Flask(__name__)
 
@@ -43,7 +43,7 @@ def predict():
 
         if textProcessor.compare_word_in_list(matchKeys, keywords):
             response = {
-                "result": deepSeekAI(f"{contextMsg}").strip(),
+                "result": geminiAI(f"{contextMsg}").strip(),
             }
             return jsonify({"prediction": response})
         if not model:

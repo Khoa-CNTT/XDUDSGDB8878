@@ -16,11 +16,7 @@ const AuctionRoomClientScreen = () => {
   }, [auctionReducer?.lastAction, navigate, dispatch]);
 
   return (
-    <div
-      style={{
-        paddingTop: "100px",
-      }}
-    >
+    <div style={{ paddingTop: "50px" }}>
       <DauGiaComponent />
     </div>
   );

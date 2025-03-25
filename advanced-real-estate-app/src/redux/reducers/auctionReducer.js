@@ -8,6 +8,7 @@ const initialState = {
     connected: false,
     message: "",
   },
+  listWaitingUser: [],
   bidMessages: [],
   users: [],
 };
@@ -16,6 +17,23 @@ const auctionSlice = createSlice({
   name: "auction",
   initialState,
   reducers: {
+    setListWaitingUser: (state, action) => {
+      if (!state.listWaitingUser) state.listWaitingUser = [];
+      const existingUserIndex = state.listWaitingUser.findIndex(
+        (user) => user.email === action.payload.email
+      );
+      if (existingUserIndex !== -1) {
+        state.listWaitingUser[existingUserIndex] = {
+          ...state.listWaitingUser[existingUserIndex],
+          ...action.payload,
+        };
+        return;
+      }
+      state.listWaitingUser.push(action.payload);
+    },
+    removeListWaitingUser: (state, action) => {
+      state.listWaitingUser = [];
+    },
     joinAuctionRoom: (state, action) => {
       state.roomId = action.payload.roomId;
       state.userData = action.payload.userData;
@@ -68,6 +86,8 @@ export const {
   removeUsers,
   userOutRoom,
   updateUserInRoom,
+  setListWaitingUser,
+  removeListWaitingUser
 } = auctionSlice.actions;
 export default auctionSlice.reducer;
 export const auctionSelector = (state) => state.auction;

@@ -1,6 +1,7 @@
 import handleAPI from "../apis/handlAPI";
 import handleAPINotToken from "../apis/handleAPINotToken";
 import { message } from "antd";
+import { jwtDecode } from "jwt-decode";
 
 //function collection
 export const f_collectionUtil = {
@@ -106,5 +107,36 @@ export const f_collectionUtil = {
         return `<a href="${url}" target="_blank">${url}</a>`;
       })
       .trim();
+  },
+  checkIsValidToken(object) {
+    if (!object?.auth?.token || !object?.auth?.isAuth) return false;
+    const decodedToken = jwtDecode(object?.auth?.token);
+    const currentTime = Date.now() / 1000;
+    const isInValidToken = decodedToken.exp < currentTime;
+    return !isInValidToken;
+  },
+  renderEffect(text, time) {
+    let i = 0;
+    const intervalId = setInterval(() => {
+      if (i < text.length) {
+        text.substring(0, i + 1);
+        i++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, time);
+    return () => clearInterval(intervalId);
+  },
+  getCurrentMinuteTimestamp() {
+    const now = new Date();
+    return new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      now.getHours(),
+      now.getMinutes(),
+      0,
+      0
+    ).getTime();
   },
 };

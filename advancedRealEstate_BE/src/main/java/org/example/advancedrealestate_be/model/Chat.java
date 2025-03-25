@@ -23,6 +23,7 @@ public class Chat {
     private String recipient;
     private String isAuth;
     private String isManagement;
+    private String token;
 
     public enum MessageType {
         CHAT,
