@@ -139,4 +139,31 @@ export const f_collectionUtil = {
       0
     ).getTime();
   },
+  logout: async (utils) => {
+    const token = utils?.auth?.token;
+    const payload = {
+      token: token,
+    };
+    utils?.dispatch(
+      utils?.updatedAuctionRoom({
+        connected: false,
+      })
+    );
+    try {
+      const res = await handleAPI("/api/auth/logout", payload, "post", token);
+      utils?.dispatch(utils?.removeRoleManagerPage());
+      if (res.code === 1000) {
+        message.success("Đăng xuất thành công!");
+        utils?.dispatch(utils?.removeAuth());
+        utils?.navigate("/sign-in");
+      } else {
+        message.error("Đăng xuất thất bại!");
+      }
+    } catch (error) {
+      console.error("error: ", error);
+      message.error(error.message);
+      utils?.dispatch(utils?.removeAuth());
+      utils?.navigate("/sign-in");
+    }
+  },
 };

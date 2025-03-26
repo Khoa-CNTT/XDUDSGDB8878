@@ -25,6 +25,22 @@ export const linkElements = {
       ),
     },
   ],
+  listDropdownMenu: [
+    {
+      link: (
+        <Link to={"/user/info"} className="dropdown-item">
+          THÔNG TIN CÁ NHÂN
+        </Link>
+      ),
+    },
+    {
+      link: (
+        <Link to={"/user/management"} className="dropdown-item">
+          QUẢN LÝ
+        </Link>
+      ),
+    }
+  ],
   signInSignUpClientLinks: [
     {
       link: (
@@ -52,7 +68,7 @@ export const linkElements = {
     {
       link: (
         <Link to={"/buildings"} className="nav-item nav-link">
-          VỀ TÒA NHÀ
+          BẤT ĐỘNG SẢN
         </Link>
       ),
     },
