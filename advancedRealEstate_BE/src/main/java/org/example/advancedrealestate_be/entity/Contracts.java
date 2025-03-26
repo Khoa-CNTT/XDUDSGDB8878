@@ -1,12 +1,11 @@
 package org.example.advancedrealestate_be.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,25 +21,26 @@ public class Contracts {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
-    private String contract_name;
-    private String contract_details;
-
-    // Foreign key linking to Customers
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customers customer;
-
-    // Foreign key linking to Building
+    private String contract_code;
+    private String full_name;
+    private Date birth_date;
+    private String email;
+    private String phone;
+    private String address;
+    private Date start_date;
+    private Date end_date;
+    private String cccdid;
+    private String place_of_issue;
+    private String image_signature;
+    private Double price;
+    private Double total_amount;
+    private Integer status;
+    private String file_contract;
     @ManyToOne
     @JoinColumn(name = "building_id")
     private Building building;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "contracts", cascade = CascadeType.ALL)
-    private List<Transactions> transactions = new ArrayList<>();
 }
 

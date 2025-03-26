@@ -1,23 +1,17 @@
 package org.example.advancedrealestate_be.controller.api.customer;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 import net.minidev.json.JSONObject;
-import org.example.advancedrealestate_be.dto.request.ContractRequest;
+import org.example.advancedrealestate_be.dto.request.CustomerLoginRequest;
 import org.example.advancedrealestate_be.dto.request.CustomerRequest;
-import org.example.advancedrealestate_be.dto.response.CustomerResponse;
-import org.example.advancedrealestate_be.entity.Customers;
 import org.example.advancedrealestate_be.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -50,7 +44,7 @@ public class CustomerApiController {
     }
 
     @PostMapping("/request-password-reset")
-    public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
+    public ResponseEntity<String> requestPasswordReset(@RequestBody String email) {
         customerService.requestPasswordReset(email);
 
         return ResponseEntity.ok("Password reset email sent");
@@ -67,11 +61,12 @@ public class CustomerApiController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JSONObject> loginCustomer(@RequestParam String email, @RequestParam String password) {
-        JSONObject data=new JSONObject();
-        String response =  customerService.login(email, password);
-        data.put("token",response);
-        data.put("message","Token was created successfully");
+    public ResponseEntity<JSONObject> authLogin(@RequestBody CustomerLoginRequest request) {
+        JSONObject data = new JSONObject();
+        String response = customerService.login(request.getEmail(), request.getPassword());
+        data.put("token", response);
+        data.put("message", "Đã đăng nhập thành công!!");
+        data.put("status", 200);
         return new ResponseEntity<>(data,HttpStatus.OK);
     }
 }

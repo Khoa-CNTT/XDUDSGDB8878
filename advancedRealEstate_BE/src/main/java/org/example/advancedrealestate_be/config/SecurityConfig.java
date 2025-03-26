@@ -38,7 +38,7 @@ public class SecurityConfig implements WebMvcConfigurer{
     private final String[] PUBLIC_GET_ENDPOINTS = {
             "/", "/ws/**",
             "/api-docs", "/api/auth/**",
-            "/api/customers/verify",
+            "/api/customers/**",
             "/api/user/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
