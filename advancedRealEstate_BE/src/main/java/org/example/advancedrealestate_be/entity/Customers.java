@@ -46,9 +46,4 @@ public class Customers {
     private String phoneNumber;
 
     private int isActivity;  // 0: inactive, 1: active
-
-
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Contracts> contracts;
 }
