@@ -5,44 +5,33 @@ import { Link, useNavigate } from "react-router-dom";
 import Filter from "./Filter";
 import { appInfo } from "../../constants/appInfos";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, removeAuth, removeRoleManagerPage } from "../../redux/reducers/authReducer";
+import {
+  authSelector,
+  removeAuth,
+  removeRoleManagerPage,
+} from "../../redux/reducers/authReducer";
 import handleAPI from "../../apis/handlAPI";
 import { message } from "antd";
 import styles from "../../assets/css/header-client.module.css";
 import { updatedAuctionRoom } from "../../redux/reducers/auctionReducer";
 import { linkElements } from "../element/linkElement";
+import { f_collectionUtil } from "../../utils/f_collectionUtil";
 
 const Header = () => {
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logout = async () => {
-    const token = auth?.token;
-    const payload = {
-      token: token,
-    };
-    dispatch(
-      updatedAuctionRoom({
-        connected: false,
-      })
-    );
-    try {
-      const res = await handleAPI("/api/auth/logout", payload, "post", token);
-      dispatch(removeRoleManagerPage());
-      if (res.code === 1000) {
-        message.success("Đăng xuất thành công!");
-        dispatch(removeAuth());
-        navigate("/sign-in");
-      } else {
-        message.error("Đăng xuất thất bại!");
-      }
-    } catch (error) {
-      console.error("error: ", error);
-      message.error(error.message);
-      dispatch(removeAuth());
-      navigate("/sign-in");
-    }
+  const utils = {
+    auth,
+    dispatch,
+    navigate,
+    removeAuth,
+    updatedAuctionRoom,
+    removeRoleManagerPage,
+  };
+  const logout = () => {
+    f_collectionUtil?.logout(utils);
   };
 
   return (
@@ -158,9 +147,9 @@ const Header = () => {
                       {" " + auth?.info?.user_name}
                     </Link>
                     <div className="dropdown-menu rounded-0 m-0">
-                      <Link to={"/user/info"} className="dropdown-item">
-                        THÔNG TIN CÁ NHÂN
-                      </Link>
+                      {linkElements?.listDropdownMenu?.map((item, index) => (
+                        <div key={index}>{item?.link}</div>
+                      ))}
                       <Link onClick={logout} className="dropdown-item" to={"#"}>
                         ĐĂNG XUẤT
                       </Link>

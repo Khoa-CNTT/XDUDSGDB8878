@@ -20,6 +20,7 @@ import BuildClientScreen from "../screens/client/BuildClientScreen";
 import RoomChatClientScreen from "../screens/client/RoomChatClientScreen";
 import DauGiaClientScreen from "../screens/client/DauGiaClientScreen";
 import MuaNhaClientScreen from "../screens/user/MuaNhaClientScreen";
+import UserManagerScreen from "../screens/user/UserManagerScreen";
 import SignUp from "../screens/user/auth/SignUp";
 import SignIn from "../screens/user/auth/SignIn";
 import ContactClientScreen from "../screens/client/ContactClientScreen";
@@ -85,6 +86,14 @@ const UserRouter = () => {
     {
       path: "/auction-manager",
       element: <AuctionManagerScreen />,
+      showFilter: false,
+      showBanner: false,
+      showHeader: false,
+      showFooter: false,
+    },
+    {
+      path: "/management",
+      element: <UserManagerScreen />,
       showFilter: false,
       showBanner: false,
       showHeader: false,

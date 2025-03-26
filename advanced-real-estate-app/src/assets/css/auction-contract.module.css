@@ -1,42 +1,362 @@
-.pending {
-  background-color: #bae6fd;
-  color: #0284c7;
-  border: 1px solid 0284C7;
+.pageWrapper {
+  width: 100%;
 }
-.status {
-  display: inline-flex;
+
+.container {
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  color: #000000;
+  margin: 0;
+  display: flex;
   align-items: center;
-  padding: 5px;
-  width: 133px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  gap: 12px;
+}
+
+.titleIcon {
+  color: #fea116;
+  font-size: 24px;
+}
+
+.subtitle {
+  color: #666666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchWrapper {
+  position: relative;
+  width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background-color: #f9f9f9;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #fea116;
+  box-shadow: 0 0 0 3px rgba(254, 161, 22, 0.1);
+  background-color: #fff;
+}
+
+.refreshButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f9f9f9 !important;
+  color: #333333 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  height: auto !important;
+  font-size: 14px !important;
   transition: all 0.2s ease;
 }
 
-.status::before,
-.winBadge::before {
-  content: "";
-  display: inline-block;
+.refreshButton:hover {
+  background-color: #f0f0f0 !important;
+  border-color: #d0d0d0 !important;
+}
+
+/* Loading and Empty States */
+.loading,
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  color: #666666;
+  gap: 16px;
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #fea116;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.emptyState {
+  padding: 64px 0;
+}
+
+.emptyIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 32px;
+  color: #fea116;
+}
+
+.emptyState h3 {
+  color: #000000;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.emptyState p {
+  color: #666666;
+  max-width: 300px;
+  margin: 0;
+}
+
+/* Contracts Grid */
+.contractsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Contract Card */
+.contractCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.contractCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #d0d0d0;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.contractId {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.idLabel {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.idValue {
+  background-color: #f0f0f0;
+  color: #333333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.infoIcon {
+  color: #fea116;
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.infoLabel {
+  color: #666666;
+  font-size: 13px;
+}
+
+.infoValue {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.cardFooter {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+}
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #fea116;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.viewButton:hover {
+  background-color: #e89000;
+  transform: translateY(-2px);
+}
+
+.viewButton:active {
+  transform: translateY(0);
+}
+
+/* Status Badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.statusDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-right: 8px;
+  display: inline-block;
 }
 
-.pending::before {
+.pending {
+  background-color: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.pending .statusDot {
   background-color: #0284c7;
 }
 
-.status:hover,
-.winBadge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.confirmed {
+  background-color: rgba(132, 204, 22, 0.1);
+  color: #65a30d;
+  border: 1px solid rgba(132, 204, 22, 0.3);
 }
 
-.confirmed {
-  background-color: greenyellow;
-  color: black;
+.confirmed .statusDot {
+  background-color: #65a30d;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchWrapper {
+    width: 100%;
+  }
+
+  .contractsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .cardHeader,
+  .cardBody,
+  .cardFooter {
+    padding: 12px;
+  }
 }
