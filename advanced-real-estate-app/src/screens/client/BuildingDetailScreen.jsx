@@ -5,7 +5,11 @@ import { appVariables } from "../../constants/appVariables";
 import handleAPI from "../../apis/handlAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
-import { Radio, Tabs } from "antd";
+import { styled } from "@mui/material";
+import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Slider } from "@mui/material";
+import { message, Radio, Tabs } from "antd";
 import {
   addBuildingDetails,
   buildingSelector,
@@ -34,8 +38,6 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { MdMoneyOff } from "react-icons/md";
 import { MdAttachMoney } from "react-icons/md";
 import { FaPhoneVolume } from "react-icons/fa6";
-import Chart from "chart.js/auto";
-import ChartDataLabels from "chartjs-plugin-datalabels";
 import { appInfo } from "../../constants/appInfos";
 
 Chart.register(ChartDataLabels);
@@ -427,11 +429,9 @@ const BuildingDetailScreen = () => {
                       style={{ fontSize: "30px" }}
                     />
                     <div>
-                      <div style={{ paddingLeft: '10px' }}>
+                      <div style={{ paddingLeft: "10px" }}>
                         <h6 className="mb-1">Số điện thoại tư vấn</h6>
-                        <p className="text-muted mb-0">
-                          {appInfo.phoneNumber}
-                        </p>
+                        <p className="text-muted mb-0">{appInfo.phoneNumber}</p>
                       </div>
                     </div>
                   </div>

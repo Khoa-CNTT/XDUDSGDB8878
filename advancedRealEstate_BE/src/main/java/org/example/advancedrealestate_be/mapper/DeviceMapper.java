@@ -44,7 +44,6 @@ public class DeviceMapper {
         if (request.getId_category() != null) {
             devices.setCategory(category);
         }
-
         return devices;
     }
 

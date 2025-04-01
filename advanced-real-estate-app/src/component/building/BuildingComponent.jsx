@@ -119,9 +119,6 @@ const BuildingComponent = () => {
 
   useEffect(() => {
     const allBuildings = buildingReducer?.buildings || [];
-
-    console.log("allBuildings", allBuildings);
-
     const filteredData = allBuildings.filter((building) => {
       const listTypeBuildingRent = Array.from(
         { length: 999 },
@@ -306,6 +303,7 @@ const BuildingComponent = () => {
         return (index % 3 ? next : next + ",") + prev;
       });
   };
+
   const isRentBuilding =
     detailBuilding?.typeBuilding?.type_name?.toLowerCase().includes("thuê") ??
     false;
@@ -498,7 +496,6 @@ const BuildingComponent = () => {
                             ? `Nhà chưa có chủ`
                             : "Nhà đã có chủ"}
                         </div>
-
                         <div className="me-3 mb-2">
                           <i className="fa fa-building text-primary me-1"></i>
                           {building?.structure

@@ -127,7 +127,7 @@ const BuildingStatistical = () => {
       const ctxTong = thamChieuDenBieuDoTong.current.getContext("2d");
       const ctxThangDau = thamChieuDenBieuDoThangDau.current.getContext("2d");
 
-      // Destroy existing charts
+      // Destroy biểu đồ khi render
       if (doiTuongBieuDoTong.current) {
         doiTuongBieuDoTong.current.destroy();
       }
@@ -305,8 +305,7 @@ const BuildingStatistical = () => {
                 <div className="mb-4">
                   <label className="form-label d-flex align-items-center">
                     {/* <MdOutlinePercentage className="text-primary me-2" />  */}
-                    Tỉ lệ
-                    vay ({tyLeVay}%)
+                    Tỉ lệ vay ({tyLeVay}%)
                   </label>
                   <CustomRangeInput
                     min={10}
@@ -321,8 +320,7 @@ const BuildingStatistical = () => {
                 <div className="mb-4">
                   <label className="form-label d-flex align-items-center">
                     {/* <MdOutlineAccessTime className="text-primary me-2" />  */}
-                    Thời
-                    hạn vay ({thoiHanVay} năm)
+                    Thời hạn vay ({thoiHanVay} năm)
                   </label>
                   <CustomRangeInput
                     min={1}
@@ -337,8 +335,7 @@ const BuildingStatistical = () => {
                 <div className="mb-4">
                   <label className="form-label d-flex align-items-center">
                     {/* <MdOutlinePercentage className="text-primary me-2" />  */}
-                    Lãi
-                    suất ({laiSuat}%/năm)
+                    Lãi suất ({laiSuat}%/năm)
                   </label>
                   <CustomRangeInput
                     min={1}

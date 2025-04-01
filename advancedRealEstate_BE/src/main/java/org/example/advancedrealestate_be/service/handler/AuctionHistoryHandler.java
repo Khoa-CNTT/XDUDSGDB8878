@@ -298,6 +298,7 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     @PreAuthorize("hasAnyRole('CLIENT','ADMIN','STAFF','USER')")
     @Override
     public List<AuctionHistoryResponse> userAuctionHistories(String clientId) {
+        JSONObject responseObject = new JSONObject();
         List<AuctionHistory> auctionHistoryUserList = auctionHistoryRepository.findAuctionHistoriesByClientId(clientId);
         return auctionHistoryUserList.stream()
                 .map(auctionHistoryMapper::mapToAuctionHistory)
