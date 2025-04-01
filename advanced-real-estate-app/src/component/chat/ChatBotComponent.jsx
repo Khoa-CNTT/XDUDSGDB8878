@@ -9,13 +9,20 @@ import AIChat from "./AiChat";
 import StaffChat from "./StaffChat";
 import { BsPeopleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../../redux/reducers/chatReducer";
 import { authSelector } from "../../redux/reducers/authReducer";
+import {
+  add,
+  chatSelector,
+  update,
+  setStaffsOnline,
+  setStaffsOffline,
+} from "../../redux/reducers/chatReducer";
 
 const ChatBotComponent = () => {
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("ai");
   const dispatch = useDispatch();
+  const chat = useSelector(chatSelector);
   const auth = useSelector(authSelector);
 
   const handleChatIconClick = () => {
@@ -51,7 +58,11 @@ const ChatBotComponent = () => {
 
       {/* Chat Box */}
       {isChatBoxVisible && (
-        <div className={styles.chat_box}>
+        <div
+          className={
+            !chat?.isResizeChat ? styles.chat_box : styles.chat_box_resize
+          }
+        >
           {/* Chat Header with Tabs */}
           <div className={styles.chat_header}>
             {/* Tabs */}

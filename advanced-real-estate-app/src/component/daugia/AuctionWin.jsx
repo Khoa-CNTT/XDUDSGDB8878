@@ -12,6 +12,7 @@ import { appVariables } from "../../constants/appVariables";
 import styles from "../../assets/css/auction-win.module.css";
 import DetailAuctionModal from "./DetailAuctionModal";
 import AuctionWinDetailModal from "./AuctionWinDetailModal";
+import { IoMdTrophy } from "react-icons/io";
 
 export const StatusBadge = (props) => {
   return (
@@ -40,7 +41,7 @@ export const StatusBadge = (props) => {
 
 export const WinBadge = (props) => (
   <div className={styles.winBadge}>
-    <i className="fa fa-trophy"></i>
+    {props?.icon}
     <span>{props?.message}</span>
   </div>
 );
@@ -79,8 +80,8 @@ const AuctionWin = () => {
   const utils = {
     isOpen: isModalOpen,
     objectItem: objectItem,
-    onOpen: ()=>setIsModalOpen(true),
-    onClose: ()=>setIsModalOpen(false),
+    onOpen: () => setIsModalOpen(true),
+    onClose: () => setIsModalOpen(false),
   };
 
   return (
@@ -147,16 +148,19 @@ const AuctionWin = () => {
                 <div className={styles.cardHeader}>
                   <div className={styles.auctionId}>
                     <span className={styles.idLabel}>ID:</span>
-                    <span className={styles.idValue}>{item?.id}</span>
+                    <span
+                      className={styles.idValue}
+                    >{`${item?.identity_key}`}</span>
                   </div>
                   {item.result === appVariables.WIN && (
-                    <WinBadge message={"Chiến thắng"} />
+                    <WinBadge icon={<IoMdTrophy />} message={"Chiến thắng"} />
                   )}
                 </div>
 
                 <div className={styles.cardBody}>
-                  <h3 className={styles.auctionName}>{item?.auction?.name}</h3>
-
+                  <h2
+                    className={styles.auctionName}
+                  >{`${item?.auction?.name}`}</h2>
                   <div className={styles.infoRow}>
                     <div className={styles.infoLabel}>
                       <i className="fa fa-envelope"></i>
@@ -185,7 +189,7 @@ const AuctionWin = () => {
                     <StatusBadge
                       trangThaiSoSanh={appVariables.YET_CONFIRM}
                       tranThaiTruyenVao={"Chưa xác nhận"}
-                      status={item.status}
+                      status={item?.status}
                     />
                   </div>
                 </div>

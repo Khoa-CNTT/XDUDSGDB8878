@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { appVariables } from "../../constants/appVariables";
 import { GoXCircle } from "react-icons/go";
+import { BsTrophy } from "react-icons/bs";
 
 const styles = {
   overlay: {
@@ -122,7 +123,7 @@ const AuctionContractRealToolTip = (props) => {
             style={styles.tab(activeTab === "contract")}
             onClick={() => setActiveTab("contract")}
           >
-            Hợp đồng thực
+            Hợp đồng ký kết
           </span>
           <span
             style={styles.tab(activeTab === "cccdFront")}

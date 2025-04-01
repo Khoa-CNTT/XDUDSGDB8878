@@ -24,6 +24,7 @@ public class AuctionContractResponse {
     private String cccd_back;
     private String avatar;
     private String contractImage;
+    private int paymentStatus;
     private UserResponse client;
     private UserResponse staffConfirm;
     private AuctionDetailResponse auctionDetail;

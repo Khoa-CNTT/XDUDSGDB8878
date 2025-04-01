@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { appVariables } from "../../constants/appVariables";
 import styleAuctionWins from "../../assets/css/auction-win.module.css";
 import styles from "../../assets/css/building-link-with-tooltip.module.css";
+import { BsTrophy } from "react-icons/bs";
+import { FaTrophy } from "react-icons/fa";
+
 const AuctionDetailLinkDetailToolTip = (props) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const showTooltip = () => setIsTooltipVisible(true);
@@ -65,7 +68,7 @@ const AuctionDetailLinkDetailToolTip = (props) => {
               <span className={styles.infoLabel}>Kết quả:</span>
               <span className={styles.infoValue}>
                 {props?.result === appVariables.WIN && (
-                  <WinBadge message={"Chiến thắng"} />
+                  <WinBadge icon={<FaTrophy />} message={"Chiến thắng"} />
                 )}
               </span>
             </div>

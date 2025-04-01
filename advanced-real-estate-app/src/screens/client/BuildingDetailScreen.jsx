@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback } from "react";
-import { useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "../../assets/css/building.module.css";
 import { appVariables } from "../../constants/appVariables";
@@ -12,7 +9,7 @@ import { styled } from "@mui/material";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Slider } from "@mui/material";
-import { message, Radio } from "antd";
+import { message, Radio, Tabs } from "antd";
 import {
   addBuildingDetails,
   buildingSelector,
@@ -22,6 +19,26 @@ import {
 import handleAPINotToken from "../../apis/handleAPINotToken";
 import DistanceMapComponent from "../../component/map/DistanceMapComponent";
 import BuildingStatistical from "../../component/bieudo/BuildingStatistical";
+import {
+  FaAddressBook,
+  FaRulerCombined,
+  FaBuilding,
+  FaLayerGroup,
+  FaMapMarkerAlt,
+  FaMotorcycle,
+  FaInfoCircle,
+  FaChartLine,
+  FaMapMarkedAlt,
+  FaArrowLeft,
+  FaArrowRight,
+  FaPhone,
+  FaHeart,
+} from "react-icons/fa";
+import { GiReceiveMoney } from "react-icons/gi";
+import { MdMoneyOff } from "react-icons/md";
+import { MdAttachMoney } from "react-icons/md";
+import { FaPhoneVolume } from "react-icons/fa6";
+import { appInfo } from "../../constants/appInfos";
 
 Chart.register(ChartDataLabels);
 
@@ -33,6 +50,7 @@ const BuildingDetailScreen = () => {
   const auth = useSelector(authSelector);
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [activeTab, setActiveTab] = useState("1");
 
   const fetchData = useCallback(async () => {
     try {
@@ -104,217 +122,320 @@ const BuildingDetailScreen = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleClickKyHopDong = () => {
-    const requiredFields = [
-      "firstName",
-      "lastName",
-      "birthday",
-      "gender",
-      "phoneNumber",
-      "address",
-    ];
-    const missingFields = requiredFields.filter(
-      (field) => !auth?.info?.[field]
-    );
-
-    if (missingFields.length > 0) {
-      message.error(
-        "Vui lòng cập nhật đầy đủ thông tin cá nhân để ký hợp đồng!"
+  const getStatusBadge = () => {
+    if (buildingReducer?.building?.status === 1) {
+      return (
+        <span className="badge bg-success py-2 px-3 rounded-pill">
+          <GiReceiveMoney className="me-1" />
+          Nhà chưa có chủ
+        </span>
       );
-      navigate("/user/info");
-      return;
+    } else {
+      return (
+        <span className="badge bg-secondary py-2 px-3 rounded-pill">
+          <MdMoneyOff className="me-1" /> Nhà đã có chủ
+        </span>
+      );
     }
+  };
 
-    dispatch(addBuildingDetails(buildingReducer?.building));
+  const tabItems = [
+    {
+      key: "1",
+      label: (
+        <span>
+          <FaInfoCircle className="me-2" />
+          Thông tin chi tiết
+        </span>
+      ),
+      children: (
+        <div className="p-4">
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <FaBuilding className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Loại nhà</div>
+                  <div className="fw-bold">
+                    {buildingReducer?.building?.typeBuilding?.type_name ||
+                      "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <FaRulerCombined className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Diện tích</div>
+                  <div className="fw-bold">
+                    {buildingReducer?.building?.area || "N/A"} m²
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <MdAttachMoney className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Giá</div>
+                  <div className="fw-bold">
+                    {appVariables.formatMoney(
+                      buildingReducer?.building?.typeBuilding?.price
+                    ) || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <FaLayerGroup className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Số tầng</div>
+                  <div className="fw-bold">
+                    {buildingReducer?.building?.number_of_basement || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <h5 className="border-bottom pb-2">Kiến trúc</h5>
+            <p>
+              {buildingReducer?.building?.structure || "Không có thông tin"}
+            </p>
+          </div>
+
+          <div className="mt-4">
+            <h5 className="border-bottom pb-2">Mô tả</h5>
+            <div className="position-relative">
+              <p
+                className={`text-muted ${
+                  isExpanded
+                    ? styles.expandedDescription
+                    : styles.collapsedDescription
+                }`}
+                style={{
+                  maxHeight: isExpanded ? "none" : "150px",
+                  overflow: isExpanded ? "visible" : "hidden",
+                  position: "relative",
+                }}
+              >
+                {buildingReducer?.building?.description || "Không có mô tả"}
+              </p>
+              {!isExpanded && (
+                <div
+                  className="position-absolute bottom-0 start-0 end-0"
+                  style={{
+                    background: "linear-gradient(transparent, white)",
+                    height: "5px",
+                  }}
+                ></div>
+              )}
+            </div>
+            <button
+              onClick={toggleDescription}
+              className="btn btn-sm btn-outline-primary mt-2"
+            >
+              {isExpanded ? "Thu gọn" : "Xem thêm"}
+            </button>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <span>
+          <FaMapMarkedAlt className="me-2" />
+          Vị trí
+        </span>
+      ),
+      children: (
+        <div className="p-4">
+          <div className="row mb-4">
+            <div className="col-md-12 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm">
+                <FaMapMarkerAlt className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Địa chỉ</div>
+                  <div className="fw-bold">
+                    {buildingReducer?.building?.map?.address || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <FaMapMarkerAlt className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">
+                    Vị trí hiện tại của bạn
+                  </div>
+                  <div className="fw-bold">
+                    {currentLocation?.display_name || "Đang xác định..."}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 mb-3">
+              <div className="d-flex align-items-center p-3 border rounded bg-white shadow-sm h-100">
+                <FaMotorcycle className="text-primary fs-3 me-3" />
+                <div>
+                  <div className="text-muted small">Khoảng cách</div>
+                  <div className="fw-bold">
+                    {currentLocation?.km || "Đang tính..."}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="border rounded shadow-sm overflow-hidden">
+            <DistanceMapComponent
+              buildingLocation={{ ...buildingReducer?.building?.map }}
+              currentLocation={currentLocation}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <span>
+          <FaChartLine className="me-2" />
+          Thống kê
+        </span>
+      ),
+      children: (
+        <div className="p-4">
+          <BuildingStatistical />
+        </div>
+      ),
+    },
+  ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = buildingReducer?.building?.image?.length || 1;
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
   return (
-    <div
-      style={{
-        paddingTop: "150px",
-      }}
-    >
-      <div className="container-xxl py-5">
-        <div className="container">
-          <div className="row g-4">
-            {/* Carousel Section */}
-            <div
-              id="carouselExample"
-              className="carousel slide mb-4"
-              data-bs-ride="carousel"
-            >
-              <div className="carousel-indicators">
-                <button
-                  type="button"
-                  data-bs-target="#carouselExample"
-                  data-bs-slide-to="0"
-                  className="active"
-                  aria-current="true"
-                  aria-label="Slide 1"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExample"
-                  data-bs-slide-to="1"
-                  aria-label="Slide 2"
-                ></button>
-                <button
-                  type="button"
-                  data-bs-target="#carouselExample"
-                  data-bs-slide-to="2"
-                  aria-label="Slide 3"
-                ></button>
-              </div>
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
-                    alt={buildingReducer?.building?.file_type}
-                    className="d-block w-100 rounded"
-                    style={{
-                      height: "500px",
-                      objectFit: "cover",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    }}
-                  />
-                </div>
-                <div className="carousel-item">
-                  <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
-                    alt={buildingReducer?.building?.file_type}
-                    className="d-block w-100 rounded"
-                    style={{
-                      height: "500px",
-                      objectFit: "cover",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    }}
-                  />
-                </div>
-                <div className="carousel-item">
-                  <img
-                    src={
-                      buildingReducer?.building?.image[0] || "/placeholder.svg"
-                    }
-                    alt={buildingReducer?.building?.file_type}
-                    className="d-block w-100 rounded"
-                    style={{
-                      height: "500px",
-                      objectFit: "cover",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    }}
-                  />
-                </div>
+    <div className="py-5" style={{ paddingTop: "150px", marginTop: "150px" }}>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="position-relative mb-4 rounded overflow-hidden shadow">
+              <div style={{ height: "500px", overflow: "hidden" }}>
+                <img
+                  src={
+                    buildingReducer?.building?.image?.[currentSlide] ||
+                    "/placeholder.svg"
+                  }
+                  alt={`Property image ${currentSlide + 1}`}
+                  className="w-100 h-100"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExample"
-                data-bs-slide="prev"
+                onClick={prevSlide}
+                className="position-absolute top-50 start-0 translate-middle-y btn btn-dark btn-sm ms-2 rounded-circle"
+                style={{ width: "40px", height: "40px", opacity: 0.7 }}
               >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Previous</span>
+                <FaArrowLeft />
               </button>
               <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExample"
-                data-bs-slide="next"
+                onClick={nextSlide}
+                className="position-absolute top-50 end-0 translate-middle-y btn btn-dark btn-sm me-2 rounded-circle"
+                style={{ width: "40px", height: "40px", opacity: 0.7 }}
               >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Next</span>
+                <FaArrowRight />
               </button>
+              <div className="position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                <div className="d-flex gap-1">
+                  {Array.from({ length: totalSlides }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`btn btn-sm rounded-circle ${
+                        currentSlide === index
+                          ? "btn-light"
+                          : "btn-outline-light"
+                      }`}
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        padding: 0,
+                        opacity: currentSlide === index ? 1 : 0.5,
+                      }}
+                    >
+                      <span className="visually-hidden">Slide {index + 1}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-
-            {/* Details Section */}
-            <div className="col-12">
-              <div className="p-4 border rounded bg-light shadow-sm">
-                <h3 className="mb-3">{buildingReducer?.building?.name}</h3>
-                <div className="row mb-2">
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-circle text-primary me-2" />
-                    <strong>Loại nhà:</strong>{" "}
-                    {buildingReducer?.building?.typeBuilding?.type_name}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-arrows text-primary me-2" />
-                    <strong>Diện tích:</strong>{" "}
-                    {buildingReducer?.building?.area} m²
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-money text-primary me-2" />
-                    <strong>Giá:</strong>{" "}
-                    {appVariables.formatMoney(
-                      buildingReducer?.building?.typeBuilding?.price
-                    )}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-home text-primary me-2" />
-                    <strong>Kiến trúc:</strong>{" "}
-                    {buildingReducer?.building?.structure}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-home text-primary me-2" />
-                    <strong>Số tầng:</strong>{" "}
-                    {buildingReducer?.building?.number_of_basement}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-map text-primary me-2" />
-                    <strong>Địa chỉ:</strong>{" "}
-                    {buildingReducer?.building?.map?.address}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-map-marker text-primary me-2" />
-                    <strong>Vị trí hiện tại của bạn:</strong>
-                    {" " + currentLocation?.display_name}
-                  </div>
-                  <div className="col-md-12 mb-3">
-                    <i className="fa fa-motorcycle text-primary me-2" />
-                    <strong>Khoảng cách:</strong>
-                    {" " + currentLocation?.km}
-                  </div>
-                </div>
-                <h4 className="mt-3">Mô tả: </h4>
-                <p
-                  className={`w-75 text-muted ${
-                    isExpanded
-                      ? styles.expandedDescription
-                      : styles.collapsedDescription
-                  }`}
-                >
-                  {buildingReducer?.building?.description}
-                </p>
-                <Link onClick={toggleDescription} to={"#"}>
-                  {isExpanded ? "Thu gọn" : "Xem thêm"}
-                </Link>
-                <div style={{ paddingTop: "20px" }}>
-                  <button
-                    className={"btn btn-primary"}
-                    onClick={handleClickKyHopDong}
+            <div className="bg-white rounded shadow-sm mb-4">
+              <Tabs
+                activeKey={activeTab}
+                onChange={setActiveTab}
+                items={tabItems}
+                className="p-3"
+                type="card"
+              />
+            </div>
+          </div>
+          <div className="col-lg-4">
+            <div className="sticky-top" style={{ top: "150px", zIndex: "1" }}>
+              <div className="card shadow-sm mb-4">
+                <div className="card-body">
+                  <h2
+                    style={{ textAlign: "start" }}
+                    className="card-title h4 mb-3"
                   >
-                    Xem chi tiết hợp đồng
-                  </button>
+                    {buildingReducer?.building?.name}
+                  </h2>
+                  <div className="mb-3">{getStatusBadge()}</div>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="text-muted">Giá</div>
+                    <div className="h3 text-primary mb-0">
+                      {appVariables.formatMoney(
+                        buildingReducer?.building?.typeBuilding?.price
+                      )}
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="text-muted">Diện tích</div>
+                    <div className="h5 mb-0">
+                      {buildingReducer?.building?.area} m²
+                    </div>
+                  </div>
+                  <hr />
                 </div>
-                <div style={{ paddingTop: "20px" }}>
-                  {/*<LeafLetMapComponent buildingLocation={building?.map}*/}
-                  {/*                     currentLocation={currentLocation}*/}
-                  {/*/>*/}
-                  <DistanceMapComponent
-                    buildingLocation={{ ...buildingReducer?.building?.map }}
-                    currentLocation={currentLocation}
-                  />
+              </div>
+              <div className="card shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title mb-3">Thông tin liên hệ</h5>
+                  <div className="d-flex align-items-center mb-3">
+                    <FaPhoneVolume
+                      className="text-primary"
+                      style={{ fontSize: "30px" }}
+                    />
+                    <div>
+                      <div style={{ paddingLeft: "10px" }}>
+                        <h6 className="mb-1">Số điện thoại tư vấn</h6>
+                        <p className="text-muted mb-0">{appInfo.phoneNumber}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                {/* Biểu đồ lãi suất */}
-                <BuildingStatistical />
               </div>
             </div>
           </div>

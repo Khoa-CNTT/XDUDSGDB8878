@@ -31,7 +31,7 @@ const ChatBotLoading = (props) => {
         <div className={styles.messageContainer}>
           <div className={styles.avatarWrapper}>
             <div className={styles.avatar}>
-              <RiRobot3Line/>
+              <RiRobot3Line />
             </div>
           </div>
           <div className={styles.contentWrapper}>

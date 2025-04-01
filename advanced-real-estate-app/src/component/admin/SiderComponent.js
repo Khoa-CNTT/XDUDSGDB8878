@@ -25,6 +25,8 @@ import { BiHome, BiHotel } from "react-icons/bi";
 import { BsCircle, BsPlug, BsServer, BsWrench } from "react-icons/bs";
 import { PiHandshake } from "react-icons/pi";
 import styles from "../../assets/css/sider.module.css";
+import { RiAuctionFill } from "react-icons/ri";
+import { RiContractFill } from "react-icons/ri";
 
 const { Sider } = Layout;
 const { Text } = Typography;
@@ -50,7 +52,7 @@ const SiderComponent = () => {
       key: "admin",
       label: (
         <Link style={{ textDecoration: "none" }} to={path}>
-          Quản Lý Quản Trị Viên
+          Quản Lý Người Dùng
         </Link>
       ),
       icon: <Profile2User size={20} />,
@@ -163,7 +165,7 @@ const SiderComponent = () => {
           Quản Lý Phiên Đấu Giá
         </Link>
       ),
-      icon: <FaBalanceScale size={20} />,
+      icon: <RiAuctionFill size={20} />,
       url: path + "/auction",
     },
     {
@@ -186,7 +188,7 @@ const SiderComponent = () => {
           Quản Lý hợp đồng đấu giá
         </Link>
       ),
-      icon: <FaHistory size={20} />,
+      icon: <RiContractFill size={20} />,
       url: path + "/auction-contract",
     },
     {

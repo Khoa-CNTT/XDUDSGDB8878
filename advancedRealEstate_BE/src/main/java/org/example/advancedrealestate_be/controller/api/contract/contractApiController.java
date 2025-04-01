@@ -64,6 +64,7 @@ public class contractApiController {
 
     @PostMapping("/change-status")
     public ResponseEntity<JSONObject> changeStatus(@PathVariable String id) {
-
+        JSONObject response = new JSONObject();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

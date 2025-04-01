@@ -62,6 +62,7 @@ public class AuctionDetailMapper {
                 .result(auctionDetail.getResult())
                 .bidAmount(auctionDetail.getBidAmount())
                 .status(auctionDetail.getStatus())
+                .identity_key(auctionDetail.getIdentity_key())
                 .auction(AuctionResponse.builder()
                 .id(auction.getId()).name(auction.getName())
                 .start_date(auction.getStart_date())

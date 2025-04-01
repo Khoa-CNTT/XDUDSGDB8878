@@ -1,63 +1,71 @@
-import { useEffect, useState, useCallback } from "react";
-import { useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import styles from "../../assets/css/building.module.css";
-import { appVariables } from "../../constants/appVariables";
-import handleAPI from "../../apis/handlAPI";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "../../redux/reducers/authReducer";
-import { styled } from "@mui/material";
+import { Radio } from "antd";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { Slider } from "@mui/material";
-import { message, Radio } from "antd";
 import {
-  addBuildingDetails,
   buildingSelector,
   removeBuilding,
-  setBuilding,
 } from "../../redux/reducers/buildingReducer";
-import {
-  BlueSliderBuildingStatistical,
-  GreenSliderBuildingStatistical,
-  PinkSliderBuildingStatistical,
-} from "../element/statisticalElement";
+import { appVariables } from "../../constants/appVariables";
+import { BiCalculator, BiInfoCircle } from "react-icons/bi";
+import { IoMdCash } from "react-icons/io";
 
 Chart.register(ChartDataLabels);
 
-const BuildingStatistical = (props) => {
+const CustomRangeInput = ({
+  value,
+  min,
+  max,
+  onChange,
+  step = 1,
+  color = "#3B82F6",
+}) => {
+  return (
+    <div className="w-100 mb-2">
+      <div className="d-flex justify-content-between mb-1">
+        <span className="small text-muted">{min}</span>
+        <span className="fw-bold" style={{ color }}>
+          {value}
+        </span>
+        <span className="small text-muted">{max}</span>
+      </div>
+      <input
+        type="range"
+        className="form-range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{
+          accentColor: color,
+        }}
+      />
+    </div>
+  );
+};
+
+const BuildingStatistical = () => {
   const buildingReducer = useSelector(buildingSelector);
   const dispatch = useDispatch();
-  //thanh trượt cho hiển thị biểu đồ
 
-  const marksTyLeVay = Array.from({ length: 6 }, (_, i) => ({
-    value: i * 20,
-    label: `${i * 20}`,
-  }));
-  const marksThoiHanVay = Array.from({ length: 6 }, (_, i) => ({
-    value: i * 6,
-    label: `${i * 6}`,
-  }));
-  const marksLaiSuatVay = Array.from({ length: 6 }, (_, i) => ({
-    value: i * 5,
-    label: `${i * 5}`,
-  }));
-
-  // useState cho hiển thị biểu đồ
+  // State for loan calculator
   const [giaNhaDat, setGiaNhaDat] = useState(
     buildingReducer?.building?.typeBuilding?.price || 0
   );
+  const [tyLeVay, setTyLeVay] = useState(50);
+  const [thoiHanVay, setThoiHanVay] = useState(20);
+  const [laiSuat, setLaiSuat] = useState(8);
+  const [phuongThucTinh, setPhuongThucTinh] = useState("duNoGiamDan");
 
+  // Chart references
   const thamChieuDenBieuDoTong = useRef(null);
   const thamChieuDenBieuDoThangDau = useRef(null);
   const doiTuongBieuDoTong = useRef(null);
   const doiTuongBieuDoThangDau = useRef(null);
 
-  const [tyLeVay, setTyLeVay] = useState(10);
-  const [thoiHanVay, setThoiHanVay] = useState(1);
-  const [laiSuat, setLaiSuat] = useState(12);
-  const [phuongThucTinh, setPhuongThucTinh] = useState("duNoGiamDan");
-
+  // Calculation results
   const [duLieuTinhTrenBieuDo, setDuLieuTinhTrenBieuDo] = useState({
     soTienVay: 0,
     tongTienLai: 0,
@@ -66,6 +74,12 @@ const BuildingStatistical = (props) => {
     tienGocThangDau: 0,
   });
 
+  // Update property price when building data changes
+  useEffect(() => {
+    setGiaNhaDat(buildingReducer?.building?.typeBuilding?.price || 0);
+  }, [buildingReducer?.building?.typeBuilding?.price]);
+
+  // Calculate loan details
   const xuLyTinhToan = useCallback(() => {
     const soTienVay = (giaNhaDat * tyLeVay) / 100;
     const laiSuatThang = laiSuat / 100 / 12;
@@ -75,6 +89,7 @@ const BuildingStatistical = (props) => {
     let tienGocThangDau = 0;
 
     if (phuongThucTinh === "duNoGiamDan") {
+      // Declining balance method
       const soTienGocTraMoiThang = soTienVay / (thoiHanVay * 12);
       laiThangDau = soTienVay * laiSuatThang;
       tienTraThangDau = soTienGocTraMoiThang + laiThangDau;
@@ -86,17 +101,8 @@ const BuildingStatistical = (props) => {
         tongTienLai += laiSuatThangDuaTrenSoDu;
         soTienNo -= soTienGocTraMoiThang;
       }
-
-      setDuLieuTinhTrenBieuDo({
-        soTienVay,
-        tongTienLai,
-        tienTraThangDau,
-        laiThangDau,
-        tienGocThangDau,
-      });
     } else {
-      // Trả đều hàng tháng
-      const laiSuatThang = laiSuat / 100 / 12;
+      // Equal monthly payment method
       const soThangVay = thoiHanVay * 12;
       const r = Math.pow(1 + laiSuatThang, soThangVay);
       const tienTraHangThang = (soTienVay * laiSuatThang * r) / (r - 1);
@@ -104,23 +110,18 @@ const BuildingStatistical = (props) => {
       laiThangDau = soTienVay * laiSuatThang;
       tienGocThangDau = tienTraHangThang - laiThangDau;
       tongTienLai = tienTraHangThang * soThangVay - soTienVay;
-
-      setDuLieuTinhTrenBieuDo({
-        soTienVay,
-        tongTienLai,
-        tienTraThangDau,
-        laiThangDau,
-        tienGocThangDau,
-      });
-      return; // Add this to prevent the second setDuLieuTinhTrenBieuDo call
     }
+
+    setDuLieuTinhTrenBieuDo({
+      soTienVay,
+      tongTienLai,
+      tienTraThangDau,
+      laiThangDau,
+      tienGocThangDau,
+    });
   }, [giaNhaDat, tyLeVay, thoiHanVay, laiSuat, phuongThucTinh]);
 
-  // useEffect cho hiển thị biểu đồ
-  useEffect(() => {
-    setGiaNhaDat(buildingReducer?.building?.typeBuilding?.price || 0);
-  }, [buildingReducer?.building?.typeBuilding?.price]);
-
+  // Create or update charts
   const taoHoacCapNhatBieuDo = useCallback(() => {
     if (thamChieuDenBieuDoTong.current && thamChieuDenBieuDoThangDau.current) {
       const ctxTong = thamChieuDenBieuDoTong.current.getContext("2d");
@@ -137,152 +138,121 @@ const BuildingStatistical = (props) => {
       const tongTienPhaiTra =
         duLieuTinhTrenBieuDo.soTienVay + duLieuTinhTrenBieuDo.tongTienLai;
 
-      // tạo biểu đồ
       doiTuongBieuDoTong.current = new Chart(ctxTong, {
         type: "doughnut",
         data: {
-          labels: ["Số tiền vay", "Tổng lãi suất", "Tổng tiền phải trả"],
-          color: [
-            "rgba(22, 24, 26, 0.6)",
-            "rgba(255, 0, 55, 0.76)",
-            "rgba(21, 199, 104, 0.6)",
-          ],
+          labels: ["Số tiền vay", "Tổng lãi suất"],
           datasets: [
             {
               data: [
                 duLieuTinhTrenBieuDo.soTienVay,
                 duLieuTinhTrenBieuDo.tongTienLai,
-                tongTienPhaiTra,
               ],
-
-              backgroundColor: [
-                "#06B6D4", //#EF4444
-                "#EF4444",
-                "#1C77BE", //#06B6D4
-              ],
+              backgroundColor: ["#3B82F6", "#EF4444"],
               borderWidth: 1,
-              hoverBorderWidth: 3,
-              hoverBorderColor: "#000",
+              hoverOffset: 4,
             },
           ],
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
+          cutout: "65%",
           plugins: {
-            title: {
-              display: true,
-              text: "Tổng tiền phải trả",
-              font: { size: 20 },
+            legend: {
+              position: "bottom",
+              labels: {
+                padding: 20,
+                usePointStyle: true,
+                pointStyle: "circle",
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const label = context.label || "";
+                  const value = context.raw || 0;
+                  const percentage = ((value / tongTienPhaiTra) * 100).toFixed(
+                    1
+                  );
+                  return `${label}: ${appVariables.formatMoney(
+                    value
+                  )} (${percentage}%)`;
+                },
+              },
             },
             datalabels: {
-              color: "#black",
-              font: {
-                weight: "bold",
-                size: 0,
-              },
-              // formatter: (value, ctx) => {
-              //   const label = ctx.chart.data.labels[ctx.dataIndex];
-              //   if (label === "Tổng tiền phải trả") {
-              //     return appVariables.formatMoney(value);
-              //   }
-              //   return label;
-              // },
-              // align: (ctx) => (ctx.dataIndex === 2 ? "center" : "end"),
-              // anchor: (ctx) => (ctx.dataIndex === 2 ? "center" : "end"),
+              display: false,
             },
-            // tooltip: {
-            //   callbacks: {
-            //     label: (context) => {
-            //       const label = context.label || "";
-            //       const value = context.raw || 0;
-            //       const percentage = ((value / tongTienPhaiTra) * 100).toFixed(
-            //         2
-            //       );
-            //       return `${label}: ${appVariables.formatMoney(
-            //         value
-            //       )} (${percentage}%)`;
-            //     },
-            //   },
-            // },
           },
         },
       });
 
+      // Create first month payment chart
       doiTuongBieuDoThangDau.current = new Chart(ctxThangDau, {
         type: "doughnut",
         data: {
-          labels: ["Tiền gốc", "Lãi tháng đầu", "Tiền trả tháng đầu"],
+          labels: ["Tiền gốc", "Lãi tháng đầu"],
           datasets: [
             {
               data: [
                 duLieuTinhTrenBieuDo.tienGocThangDau || 0,
                 duLieuTinhTrenBieuDo.laiThangDau || 0,
-                duLieuTinhTrenBieuDo.tienTraThangDau || 0,
               ],
-              backgroundColor: [
-                "rgba(10, 148, 240, 0.6)",
-                "rgba(255, 0, 55, 0.76)",
-                "rgba(234, 174, 20, 0.6)",
-              ],
+              backgroundColor: ["#10B981", "#F59E0B"],
               borderWidth: 1,
-              hoverBorderWidth: 3,
-              hoverBorderColor: "#000",
+              hoverOffset: 4,
             },
           ],
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
+          cutout: "65%",
           plugins: {
-            title: {
-              display: true,
-              text: "Tiền trả tháng đầu",
-              font: { size: 20 },
+            legend: {
+              position: "bottom",
+              labels: {
+                padding: 20,
+                usePointStyle: true,
+                pointStyle: "circle",
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const label = context.label || "";
+                  const value = context.raw || 0;
+                  const percentage = (
+                    (value / duLieuTinhTrenBieuDo.tienTraThangDau) *
+                    100
+                  ).toFixed(1);
+                  return `${label}: ${appVariables.formatMoney(
+                    value
+                  )} (${percentage}%)`;
+                },
+              },
             },
             datalabels: {
-              color: "#black",
-              font: {
-                weight: "bold",
-                size: 0,
-              },
-              // formatter: (value, ctx) => {
-              //   const label = ctx.chart.data.labels[ctx.dataIndex];
-              //   if (label === "Tiền trả tháng đầu") {
-              //     // return appVariables.formatMoney(value);
-              //   }
-              //   return label;
-              // },
-              // align: (ctx) => (ctx.dataIndex === 2 ? "center" : "end"),
-              // anchor: (ctx) => (ctx.dataIndex === 2 ? "center" : "end"),
+              display: false,
             },
-            // tooltip: {
-            //   callbacks: {
-            //     label: (context) => {
-            //       // const label = context.label || "";
-            //       // const value = context.raw || 0;
-            //       // const percentage = (
-            //       //   (value / duLieuTinhTrenBieuDo.tienTraThangDau) *
-            //       //   100
-            //       // ).toFixed(2);
-            //       // return `${label}: ${appVariables.formatMoney(
-            //       //   value
-            //       // )} (${percentage}%)`;
-            //     },
-            //   },
-            // },
           },
         },
       });
     }
   }, [duLieuTinhTrenBieuDo]);
 
+  // Run calculations when inputs change
   useEffect(() => {
     xuLyTinhToan();
   }, [xuLyTinhToan]);
 
+  // Update charts when calculations change
   useEffect(() => {
     taoHoacCapNhatBieuDo();
   }, [taoHoacCapNhatBieuDo]);
 
+  // Cleanup charts on unmount
   useEffect(() => {
     return () => {
       if (doiTuongBieuDoTong.current) {
@@ -294,221 +264,197 @@ const BuildingStatistical = (props) => {
     };
   }, []);
 
+  // Cleanup Redux state on unmount
   useEffect(() => {
     return () => {
       dispatch(removeBuilding());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div>
-      <div className="mt-4">
-        <h4>Tính lãi suất vay</h4>
-      </div>
-      <hr></hr>
-      {/* trường thông tin và input */}
-      <div className="col mt-4 md-12" style={{}}>
-        <div
-          className="col mt-4 md-6"
-          style={{ display: "flex", flexDirection: "row" }}
-        >
-          {/* trường thông tin */}
-          <div
-            className="col-md-6"
-            style={{
-              padding: "20px",
-              paddingLeft: "150px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <label style={{ marginBottom: "48px" }}>Giá nhà đất </label>
-            <label style={{ marginBottom: "48px" }}>Tỉ lệ vay (%/năm)</label>
-            <label style={{ marginBottom: "48px" }}>Thời hạn vay</label>
-            <label style={{ marginBottom: "48px" }}>Lãi suất </label>
-            <label>Phương thức tính</label>
-            <div
-              className="mt-1"
-              style={{ display: "flex", justifyContent: "left" }}
-            >
-              {/* <button
-                        className="btn btn-primary"
-                        onClick={xuLyTinhToan}
-                  >
-                        Tính toán
-                  </button> */}
-            </div>
-          </div>
-          {/* input */}
-          <div
-            className="col-md-6"
-            style={{
-              padding: "20px",
-              marginBottom: "20px",
-              paddingBottom: "20px",
-              paddingRight: "100px",
-              display: "flex",
-              flexDirection: "column",
-              value:
-                "{appVariables.formatMoney(building?.typeBuilding?.price)}",
-            }}
-          >
-            <div
-              className="col-md-12"
-              style={{ display: "flex", flexDirection: "col" }}
-            >
-              {/* input giá nhà đất */}
-              <div className="col-md-10">
-                <input
-                  type="text"
-                  className="form-control"
-                  style={{ marginBottom: "35px" }}
-                  value={appVariables.formatMoney(giaNhaDat)}
-                />
-              </div>
-              <div
-                className="col-md-2"
-                style={{
-                  display: "flex",
-                  textAlign: "center",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <input
-                  value={"VND"}
-                  className="form-control"
-                  style={{
-                    marginBottom: "35px",
-                    display: "flex",
-                    textAlign: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "3px",
-                  }}
-                />
-              </div>
-            </div>
-            {/* input tỉ lệ vay */}
-            <div>
-              <BlueSliderBuildingStatistical
-                style={{ marginBottom: "35px" }}
-                aria-label="Pink Slider"
-                defaultValue={tyLeVay}
-                // step={1}
-                min={10}
-                max={100}
-                marks={marksTyLeVay}
-                valueLabelDisplay="auto"
-                valueLabelFormat={(value) => `${value}%`}
-                value={tyLeVay}
-                onChange={(_, newValue) => {
-                  try {
-                    setTyLeVay(newValue);
-                  } catch (error) {
-                    console.error("Error updating tyLeVay:", error);
-                  }
-                }}
-              />
-            </div>
-            {/* input thời hạn vay */}
-            <div>
-              <GreenSliderBuildingStatistical
-                style={{ marginBottom: "35px" }}
-                aria-label="Pink Slider"
-                defaultValue={tyLeVay}
-                // step={1}
-                min={1}
-                max={35}
-                marks={marksThoiHanVay}
-                valueLabelDisplay="auto"
-                valueLabelFormat={(value) => `${value} năm`}
-                value={thoiHanVay}
-                onChange={(_, newValue) => {
-                  try {
-                    setThoiHanVay(newValue);
-                  } catch (error) {
-                    console.error("Error updating thoiHanVay:", error);
-                  }
-                }}
-              />
-            </div>
-            {/* input lãi suất */}
-            <div>
-              <PinkSliderBuildingStatistical
-                style={{ marginBottom: "35px" }}
-                aria-label="Pink Slider"
-                defaultValue={laiSuat}
-                // step={1}
-                min={0}
-                max={20}
-                marks={marksLaiSuatVay}
-                valueLabelDisplay="auto"
-                valueLabelFormat={(value) => `${value}%/năm`}
-                value={laiSuat}
-                onChange={(_, newValue) => {
-                  try {
-                    setLaiSuat(newValue);
-                  } catch (error) {
-                    console.error("Error updating laiSuat:", error);
-                  }
-                }}
-              />
-            </div>
-            {/* input phương thức tính */}
-            <div className="radioPhuongThucTinh" style={{}}>
-              <Radio.Group
-                value={phuongThucTinh}
-                onChange={(e) => setPhuongThucTinh(e.target.value)}
-              >
-                <Radio value="duNoGiamDan">Dư nợ giảm dần</Radio>
-                <Radio value="traDeuTheoThang">Trả đều hàng tháng</Radio>
-              </Radio.Group>
-            </div>
-          </div>
-        </div>
-        {/* biều đồ */}
-        <div
-          className="col mt-4 md-6"
-          style={{
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
-          <div className="col md-3" style={{ marginLeft: "120px" }}>
-            <h3>Biểu đồ tổng tiền phải trả</h3>
-            <div
-              className="chart-container"
-              style={{ width: "300px", height: "300px" }}
-            >
-              <canvas ref={thamChieuDenBieuDoTong}></canvas>
-            </div>
-          </div>
-          <div className="col md-3" style={{ marginLeft: "110px" }}>
-            <h3>Biểu đồ tiền trả tháng đầu</h3>
-            <div
-              className="chart-container"
-              style={{ width: "300px", height: "300px" }}
-            >
-              <canvas ref={thamChieuDenBieuDoThangDau}></canvas>
-            </div>
-          </div>
-        </div>
-
-        {/*  */}
-        <div>
-          <h5
-            className=""
-            style={{
-              marginTop: "50px",
-              fontSize: "13px",
-              color: "grey",
-              textAlign: "center",
-            }}
-          >
-            Bảng tính chỉ có giá trị tham khảo. Vui lòng liên hệ tư vấn trực
-            tiếp để nhận được thông tin chính xác nhất.
+    <div className="loan-calculator">
+      <div className="card border-0 shadow-sm mb-4">
+        <div className="card-header bg-white py-3">
+          <h5 className="mb-0 d-flex align-items-center">
+            <BiCalculator className="me-2 text-primary" size={20} />
+            Tính lãi suất vay
           </h5>
+        </div>
+        <div className="card-body">
+          <div className="row">
+            {/* Input Section */}
+            <div className="col-lg-6 mb-4 mb-lg-0">
+              <div className="p-3 border rounded bg-light">
+                {/* Property Price */}
+                <div className="mb-4">
+                  <label className="form-label d-flex align-items-center">
+                    <IoMdCash className="text-primary me-2" /> Giá nhà đất
+                  </label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={appVariables.formatMoney(giaNhaDat)}
+                      readOnly
+                    />
+                    <span className="input-group-text">VND</span>
+                  </div>
+                </div>
+
+                {/* Loan Percentage */}
+                <div className="mb-4">
+                  <label className="form-label d-flex align-items-center">
+                    {/* <MdOutlinePercentage className="text-primary me-2" />  */}
+                    Tỉ lệ vay ({tyLeVay}%)
+                  </label>
+                  <CustomRangeInput
+                    min={10}
+                    max={90}
+                    value={tyLeVay}
+                    onChange={setTyLeVay}
+                    color="#3B82F6"
+                  />
+                </div>
+
+                {/* Loan Term */}
+                <div className="mb-4">
+                  <label className="form-label d-flex align-items-center">
+                    {/* <MdOutlineAccessTime className="text-primary me-2" />  */}
+                    Thời hạn vay ({thoiHanVay} năm)
+                  </label>
+                  <CustomRangeInput
+                    min={1}
+                    max={35}
+                    value={thoiHanVay}
+                    onChange={setThoiHanVay}
+                    color="#10B981"
+                  />
+                </div>
+
+                {/* Interest Rate */}
+                <div className="mb-4">
+                  <label className="form-label d-flex align-items-center">
+                    {/* <MdOutlinePercentage className="text-primary me-2" />  */}
+                    Lãi suất ({laiSuat}%/năm)
+                  </label>
+                  <CustomRangeInput
+                    min={1}
+                    max={20}
+                    step={0.1}
+                    value={laiSuat}
+                    onChange={setLaiSuat}
+                    color="#EF4444"
+                  />
+                </div>
+
+                {/* Payment Method */}
+                <div className="mb-3">
+                  <label className="form-label d-flex align-items-center">
+                    <BiCalculator className="text-primary me-2" /> Phương thức
+                    tính
+                  </label>
+                  <Radio.Group
+                    value={phuongThucTinh}
+                    onChange={(e) => setPhuongThucTinh(e.target.value)}
+                    className="d-flex flex-column gap-2"
+                  >
+                    <Radio value="duNoGiamDan">Dư nợ giảm dần</Radio>
+                    <Radio value="traDeuTheoThang">Trả đều hàng tháng</Radio>
+                  </Radio.Group>
+                </div>
+              </div>
+            </div>
+
+            {/* Results Section */}
+            <div className="col-lg-6">
+              <div className="row h-100">
+                {/* Summary Cards */}
+                <div className="col-12 mb-4">
+                  <div className="row g-3">
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-light h-100">
+                        <div className="small text-muted mb-1">Số tiền vay</div>
+                        <div className="h5 mb-0 text-primary">
+                          {appVariables.formatMoney(
+                            duLieuTinhTrenBieuDo.soTienVay
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-light h-100">
+                        <div className="small text-muted mb-1">
+                          Tổng tiền lãi
+                        </div>
+                        <div className="h5 mb-0 text-danger">
+                          {appVariables.formatMoney(
+                            duLieuTinhTrenBieuDo.tongTienLai
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-light h-100">
+                        <div className="small text-muted mb-1">
+                          Tổng tiền phải trả
+                        </div>
+                        <div className="h5 mb-0 text-success">
+                          {appVariables.formatMoney(
+                            duLieuTinhTrenBieuDo.soTienVay +
+                              duLieuTinhTrenBieuDo.tongTienLai
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-light h-100">
+                        <div className="small text-muted mb-1">
+                          Tiền trả tháng đầu
+                        </div>
+                        <div className="h5 mb-0 text-warning">
+                          {appVariables.formatMoney(
+                            duLieuTinhTrenBieuDo.tienTraThangDau
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Charts */}
+                <div className="col-12">
+                  <div className="row g-3">
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-white h-100">
+                        <h6 className="text-center mb-3">Tổng chi phí</h6>
+                        <div style={{ height: "180px", position: "relative" }}>
+                          <canvas ref={thamChieuDenBieuDoTong}></canvas>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="p-3 border rounded bg-white h-100">
+                        <h6 className="text-center mb-3">
+                          Thanh toán tháng đầu
+                        </h6>
+                        <div style={{ height: "180px", position: "relative" }}>
+                          <canvas ref={thamChieuDenBieuDoThangDau}></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 text-center">
+            <div className="d-flex align-items-center justify-content-center text-muted small">
+              <BiInfoCircle className="me-1" />
+              Bảng tính chỉ có giá trị tham khảo. Vui lòng liên hệ tư vấn trực
+              tiếp để nhận được thông tin chính xác nhất.
+            </div>
+          </div>
         </div>
       </div>
     </div>

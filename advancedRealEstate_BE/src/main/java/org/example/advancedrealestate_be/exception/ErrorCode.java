@@ -19,6 +19,7 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(404, "Role not found", HttpStatus.NOT_FOUND),
     ROOM_NOT_FOUND(404, "Room not found", HttpStatus.NOT_FOUND),
     BUILDING_NOT_FOUND(404, "Building not found", HttpStatus.NOT_FOUND),
+    DEVICE_CATEGORY_NOT_FOUND(404, "Device category not found", HttpStatus.NOT_FOUND),
     TYPE_BUILDING_NOT_FOUND(404, "Type Building not found", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     USER_NOT_ALLOWED(403, "You do not have permission!", HttpStatus.FORBIDDEN),
