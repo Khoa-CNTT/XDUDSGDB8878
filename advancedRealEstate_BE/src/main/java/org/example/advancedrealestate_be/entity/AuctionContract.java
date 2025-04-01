@@ -27,6 +27,7 @@ public class AuctionContract {
     private String address;
     private String contractStatus;
     private Date settingDate;
+    private int paymentStatus;
 
     @Column(columnDefinition = "text")
     private String note;

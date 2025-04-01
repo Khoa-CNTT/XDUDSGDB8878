@@ -68,7 +68,7 @@ const AuctionCreateModal = ({ refresh }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Thông tin chi tiết
+                Tạo phiên đấu giá
               </h5>
               <button
                 type="button"

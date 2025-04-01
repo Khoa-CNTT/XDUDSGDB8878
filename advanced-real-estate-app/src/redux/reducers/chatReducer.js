@@ -10,6 +10,7 @@ const initialState = {
     messages: [],
   },
   staffsOnline: [],
+  isResizeChat: false,
 };
 
 // Tạo slice cho auth
@@ -34,6 +35,12 @@ const chatSlice = createSlice({
     setStaffsOffline: (state, action) => {
       state.staffsOnline = [];
     },
+    setResizeChat: (state, action) => {
+      state.isResizeChat = true;
+    },
+    closeResizeChat: (state, action) => {
+      state.isResizeChat = false;
+    },
     add: (state, action) => {
       state.room = action.payload.room;
       state.userData = action.payload.userData;
@@ -49,6 +56,8 @@ export const {
   update,
   saveChat,
   removeChat,
+  setResizeChat,
+  closeResizeChat,
   setStaffsOnline,
   setStaffsOffline,
 } = chatSlice.actions;

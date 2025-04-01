@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../../assets/css/building-link-with-tooltip.module.css";
+import { BsTrophy } from "react-icons/bs";
 
 const AuctionLinkDetailToolTip = (props) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);

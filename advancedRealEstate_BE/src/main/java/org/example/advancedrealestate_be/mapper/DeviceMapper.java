@@ -2,8 +2,14 @@ package org.example.advancedrealestate_be.mapper;
 
 import org.example.advancedrealestate_be.dto.request.DeviceRequest;
 import org.example.advancedrealestate_be.dto.response.DeviceResponse;
+import org.example.advancedrealestate_be.entity.AuctionDetail;
+import org.example.advancedrealestate_be.entity.Building;
+import org.example.advancedrealestate_be.entity.Category;
 import org.example.advancedrealestate_be.entity.Devices;
+import org.example.advancedrealestate_be.exception.AppException;
+import org.example.advancedrealestate_be.exception.ErrorCode;
 import org.example.advancedrealestate_be.repository.BuildingRepository;
+import org.example.advancedrealestate_be.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +17,12 @@ import org.springframework.stereotype.Component;
 public class DeviceMapper {
 
     private final BuildingRepository buildingRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public DeviceMapper(BuildingRepository buildingRepository) {
+    public DeviceMapper(BuildingRepository buildingRepository, CategoryRepository categoryRepository) {
         this.buildingRepository = buildingRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Devices toEntity(DeviceRequest request){
@@ -25,12 +33,16 @@ public class DeviceMapper {
         devices.setPrice(request.getPrice());
         devices.setDescription(request.getDescription());
 
-        if (request.getId_buiding() != null) {
-            buildingRepository.findById(request.getId_buiding()).ifPresent(devices::setBuilding);
-        }
+        Building building = buildingRepository.findById(request.getId_building())
+        .orElseThrow(() -> new AppException(ErrorCode.BUILDING_NOT_FOUND));
+        Category category = categoryRepository.findById(request.getId_category())
+        .orElseThrow(() -> new AppException(ErrorCode.DEVICE_CATEGORY_NOT_FOUND));
 
+        if (request.getId_building() != null) {
+            devices.setBuilding(building);
+        }
         if (request.getId_category() != null) {
-            buildingRepository.findById(request.getId_category()).ifPresent(devices::setBuilding);
+            devices.setCategory(category);
         }
 
         return devices;

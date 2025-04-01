@@ -125,6 +125,7 @@ public class AuctionContractHandler implements AuctionContractService {
                 auctionContract.setCccd_back(filePathBK.toString());
                 auctionContract.setAvatar(filePathAV.toString());
                 auctionContract.setSettingDate(now);
+                auctionContract.setPaymentStatus(0);
                 auctionContract.setContractStatus(EnumConstant.PENDING.toString());
                 auctionContractRepository.save(auctionContract);
                 sendEmailService.sendEmailHasTemplate(
@@ -264,9 +265,12 @@ public class AuctionContractHandler implements AuctionContractService {
     @Override
     public JSONObject updateById(String id, AuctionContractRequest dto) {
         JSONObject responseObject = new JSONObject();
-        AuctionContract auctionContract = auctionContractRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
-        AuctionDetail auctionDetail = auctionDetailRepository.findById(dto.getAuctionDetailId()).orElseThrow(()->new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
-        User client = userRepository.findById(dto.getClientId()).orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
+        AuctionContract auctionContract = auctionContractRepository.findById(id)
+        .orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
+        AuctionDetail auctionDetail = auctionDetailRepository.findById(dto.getAuctionDetailId())
+        .orElseThrow(()->new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
+        User client = userRepository.findById(dto.getClientId())
+        .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
         Auction auction = auctionDetail.getAuction();
         Building building = auction.getBuilding();
         TypeBuilding typeBuilding = building.getTypeBuilding();
@@ -280,6 +284,21 @@ public class AuctionContractHandler implements AuctionContractService {
         auctionContract.setNote(dto.getNote());
         auctionContractRepository.save(auctionContract);
         responseObject.put("message", "Update successfully!");
+        return responseObject;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @Override
+    public JSONObject confirm_payment(String id, AuctionContractRequest dto) {
+        JSONObject responseObject = new JSONObject();
+        AuctionContract auctionContract = auctionContractRepository.findById(id)
+        .orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
+        if(auctionContract.getPaymentStatus() >= 1){
+            throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
+        }
+        auctionContract.setPaymentStatus(1);
+        auctionContractRepository.save(auctionContract);
+        responseObject.put("message", "Confirm successfully!");
         return responseObject;
     }
 

@@ -14,6 +14,8 @@ import {
   update,
   setStaffsOnline,
   setStaffsOffline,
+  setResizeChat,
+  closeResizeChat,
 } from "../../redux/reducers/chatReducer";
 import { f_collectionUtil } from "../../utils/f_collectionUtil";
 import { BsPeopleFill } from "react-icons/bs";
@@ -108,16 +110,13 @@ const StaffChat = (props) => {
   }, [userData.connected, activeUser]);
 
   useEffect(() => {
-    return () => {
-      if (stompClient && stompClient.connected) {
-        disconnect().then();
-      }
-    };
-  }, [userData.connected, activeUser]);
+    return () => dispatch(closeResizeChat());
+  }, []);
 
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (stompClient && stompClient.connected) {
+        dispatch(closeResizeChat());
         disconnect().then(() => {
           console.log("Disconnected successfully before reloading.");
         });
@@ -221,6 +220,9 @@ const StaffChat = (props) => {
       setMessages((prevMessages) => [...prevMessages, message]);
       setIsLoading(false);
       return;
+    }
+    if (message?.bot_ai) {
+      dispatch(setResizeChat());
     }
     f_collectionUtil.handleCollectionArray(
       `/api/admin/user-messages/${auth?.info?.id}/${activeUser?.email}`,
@@ -364,7 +366,7 @@ const StaffChat = (props) => {
                   {user?.email}
                 </div>
                 <div style={{ paddingTop: "20px", fontSize: "8.5px" }}>
-                  {user?.roles}
+                  {user?.roles === "ADMIN" ? "Quản trị viên" : "Nhân viên"}
                 </div>
               </div>
             </div>
@@ -395,7 +397,7 @@ const StaffChat = (props) => {
                   {user?.email}
                 </div>
                 <div style={{ paddingTop: "20px", fontSize: "8.5px" }}>
-                  {user?.roles}
+                  {user?.roles === "USER" && "Khách hàng"}
                 </div>
               </div>
             </div>

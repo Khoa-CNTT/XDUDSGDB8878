@@ -24,6 +24,7 @@ import handleAPI from "../../apis/handlAPI";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
 import styles from "../../assets/css/auction-win-detail.module.css";
+import { IoMdTrophy } from "react-icons/io";
 
 const AuctionWinDetailModal = ({ utils }) => {
   const auth = useSelector(authSelector);
@@ -130,7 +131,9 @@ const AuctionWinDetailModal = ({ utils }) => {
       message.success(data?.message);
       onClose();
     } catch (error) {
-      message?.error(`ERROR: ${error.message || "Không xác định"}`);
+      if (error?.code >= 302 && error?.code <= 400) {
+        message.error("Bạn đã tạo hợp đồng cho đơn đấu giá chiến thắng này!");
+      }
     } finally {
       setIsUploading(false);
     }
@@ -155,7 +158,7 @@ const AuctionWinDetailModal = ({ utils }) => {
                     className={styles.headerIcon_AuctionWinDetail}
                   />
                   <h5 className={styles.modalTitle_AuctionWinDetail}>
-                    {"CHI TIẾT HỢP ĐỒNG ĐẤU GIÁ"}
+                    {"TẠO HỢP ĐỒNG ĐẤU GIÁ"}
                   </h5>
                 </div>
                 <button
@@ -530,7 +533,7 @@ const AuctionWinDetailModal = ({ utils }) => {
                           Kết quả:
                         </span>
                         {objectItem?.result === appVariables.WIN && (
-                          <WinBadge message={"Chiến thắng"} />
+                          <WinBadge icon={<IoMdTrophy/>} message={"Chiến thắng"} />
                         )}
                       </div>
                     </div>

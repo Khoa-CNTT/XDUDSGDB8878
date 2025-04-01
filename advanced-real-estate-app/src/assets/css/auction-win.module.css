@@ -238,6 +238,7 @@
 }
 
 .auctionName {
+  text-align: start;
   font-size: 18px;
   font-weight: 600;
   color: #000000;
@@ -248,8 +249,8 @@
 
 .infoRow {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px; 
 }
 
 .infoLabel {
@@ -258,13 +259,16 @@
   gap: 8px;
   color: #666666;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .infoValue {
   font-size: 15px;
   color: #333333;
   word-break: break-word;
+  flex-grow: 1; 
 }
+
 
 .bidAmount {
   color: #fea116;

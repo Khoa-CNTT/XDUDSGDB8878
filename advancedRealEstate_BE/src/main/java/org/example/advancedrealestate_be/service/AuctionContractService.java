@@ -19,6 +19,7 @@ public interface AuctionContractService {
     JSONObject create(AuctionContractRequest dto);
 
     JSONObject updateById(String id, AuctionContractRequest dto);
+    JSONObject confirm_payment(String id, AuctionContractRequest dto);
 
     JSONObject confirmContract(String id, MultipartFile contractImageFile);
 

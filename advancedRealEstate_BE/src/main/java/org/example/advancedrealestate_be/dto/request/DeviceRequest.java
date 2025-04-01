@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DeviceRequest {
     @NonNull
-    private String id_buiding;
+    private String id_building;
     private String id_category;
 
     private String device_name;

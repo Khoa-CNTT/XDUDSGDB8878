@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
 import { Bag, Setting2 } from "iconsax-react";
 import { Button, Checkbox, Dropdown, Space } from "antd";
+import { f_collectionUtil } from './../../utils/f_collectionUtil';
+import { appVariables } from './../../constants/appVariables';
 
 const DeviceScreen = () => {
     const [createDevice, setCreateDevice] = useState({});
@@ -33,6 +35,11 @@ const DeviceScreen = () => {
         getDataCategory();
         getData(pagination.current_page);
     }, [pagination.current_page]);
+
+    useEffect(() => {
+        console.log('createDevice: ',createDevice);
+        
+    }, [createDevice]);
 
     const getData = async (page) => {
         const url = `/api/device?page=${page}&size=5`;
@@ -105,6 +112,8 @@ const DeviceScreen = () => {
     const handleCreate = async () => {
         const url = `/api/device`;
         try {
+            console.log("createDevice: ", createDevice);
+            
             const res = await handleAPI(url, createDevice, "post", auth?.token)
             console.log(res.status);
             
@@ -269,7 +278,7 @@ const DeviceScreen = () => {
                                                         <option value="">Vui lòng chọn tòa nhà</option>
                                                         {
                                                              building.map((value, key) => (
-                                                                <option key={key} value={value.id}>{value.name}</option>
+                                                                <option key={key} value={value?.id}>{value?.name}</option>
                                                             ))
                                                         }
                                                     </select>
@@ -432,7 +441,7 @@ const DeviceScreen = () => {
                                                 <td className="align-middle">{value.building_name || ""}</td>
                                                 <td className="align-middle">{value.category_name || ""}</td>
                                                 <td className="align-middle text-center">{value.installation_date || ""}</td>
-                                                <td className="align-middle text-end">{value.price || ""}</td>
+                                                <td className="align-middle text-end">{appVariables.formatMoney(value?.price)}</td>
                                                 <td className="align-middle">{value.description || ""}</td>
                                                 <td className="text-center align-middle">
                                                     {value.status === 1 ? (
@@ -482,7 +491,7 @@ const DeviceScreen = () => {
                                                             <div className="modal-content">
                                                                 <div className="modal-header">
                                                                     <h5 className="modal-title" id="exampleModalLabel">Cập Nhật
-                                                                        Tài Khoản</h5>
+                                                                        Thiết bị</h5>
                                                                     <button type="button" className="btn-close"
                                                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>

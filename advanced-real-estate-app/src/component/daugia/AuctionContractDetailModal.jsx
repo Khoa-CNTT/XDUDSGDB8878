@@ -17,6 +17,12 @@ import AuctionContractMessage from "../auctionContract/AuctionContractMessage";
 import AuctionContractRealToolTip from "../auctionContract/AuctionContractRealToolTip";
 import BuildingLinkDetailToolTip from "../building/BuildingLinkDetailToolTip";
 import { buttonStyleElements } from "../../component/element/buttonStyleElement";
+import { GrStatusGood } from "react-icons/gr";
+import { GoShieldCheck } from "react-icons/go";
+import { PaymentStatus } from "../../screens/admin/AuctionContractScreen";
+import { TbCoinOff } from "react-icons/tb";
+import { styleElements } from "../element/styleElement";
+import { FaUserCheck } from "react-icons/fa6";
 
 const AuctionContractDetailModal = (props) => {
   const auth = useSelector(authSelector);
@@ -99,7 +105,9 @@ const AuctionContractDetailModal = (props) => {
       message.success(data?.message);
     } catch (error) {
       console.error("Lỗi tải lên:", error);
-      message.error(error?.message);
+      if (error?.code >= 302 && error?.code <= 400) {
+        message.error("Hợp đồng này đã được tải ảnh hợp đồng ký kết lên!");
+      }
     }
   };
 
@@ -261,6 +269,61 @@ const AuctionContractDetailModal = (props) => {
                     </span>
                   </div>
                 )}
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  <span className={styleAuctionContractDetails.detailLabel}>
+                    Các trạng thái:
+                  </span>
+                  {info?.contractStatus !== appVariables.PENDING && (
+                    <StaffStatus
+                      trangThaiSoSanh={appVariables.YET_CONFIRM}
+                      icon={<FaUserCheck />}
+                      message={`Nhân viên phụ trách xác nhận ${info?.staffConfirm?.user_name}`}
+                      styles={styleAuctionWins}
+                      status={info?.auctionDetail?.status}
+                    />
+                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "20px",
+                    }}
+                  >
+                    {info?.paymentStatus === 1 ? (
+                      <PaymentStatus
+                        styles={styleElements.statusConfirmStyle}
+                        message={`Đã xác nhận thanh toán`}
+                        icon={<GrStatusGood style={{ fontSize: "25px" }} />}
+                      />
+                    ) : (
+                      <PaymentStatus
+                        styles={styleElements.statusYetConfirmStyle}
+                        message={`Chưa xác nhận thanh toán`}
+                        icon={<TbCoinOff style={{ fontSize: "25px" }} />}
+                      />
+                    )}
+
+                    {info?.contractStatus !== appVariables.PENDING &&
+                    !hasManagement ? (
+                      <WinBadge
+                        icon={<GoShieldCheck />}
+                        message={"Bạn đã ký thỏa thuận"}
+                      />
+                    ) : (
+                      <WinBadge
+                        icon={<GoShieldCheck />}
+                        message={"Khách đã đồng ý với thỏa thuận"}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div className={styleAuctionContractDetails.termsSection}>
@@ -327,17 +390,6 @@ const AuctionContractDetailModal = (props) => {
           <div
             className={`modal-footer ${styleAuctionContractDetails.modalFooter}`}
           >
-            {info?.contractStatus !== appVariables.PENDING && (
-              <WinBadge message={"Hợp đồng đã được nhân viên xác nhận"} />
-            )}
-            {info?.contractStatus !== appVariables.PENDING && (
-              <StaffStatus
-                trangThaiSoSanh={appVariables.YET_CONFIRM}
-                message={`Nhân viên ${info?.staffConfirm?.user_name} xác nhận`}
-                styles={styleAuctionWins}
-                status={info?.auctionDetail?.status}
-              />
-            )}
             <AuctionContractRealToolTip
               contractImage={info?.contractImage}
               cccdfrontImage={info?.cccd_front}
@@ -348,7 +400,7 @@ const AuctionContractDetailModal = (props) => {
             />
             <Button
               onClick={handleViewContract}
-              style={buttonStyleElements?.confirmButtonStyle}
+              style={buttonStyleElements.confirmButtonStyle}
             >
               {"XEM ẢNH TRONG HỢP ĐỒNG"}
             </Button>
@@ -362,13 +414,14 @@ const AuctionContractDetailModal = (props) => {
 const StaffStatus = (props) => {
   return (
     <span
-      className={`${props.styles.status} 
+      className={`${props.styles.statusBadge}
         ${
           props?.status === props?.trangThaiSoSanh
             ? props.styles.pending
             : props.styles.confirmed
         }`}
     >
+      {props?.icon}
       {props?.message}
     </span>
   );

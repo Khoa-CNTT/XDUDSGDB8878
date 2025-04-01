@@ -67,6 +67,12 @@ public class AuctionContractController {
         return new ResponseEntity<>(auctionContractService.updateById(id, dto), HttpStatus.OK);
     }
 
+    @PatchMapping("/auction-contracts/confirm_payment/{id}")
+    private ResponseEntity<JSONObject> confirm_payment(@PathVariable String id, @RequestBody AuctionContractRequest dto) {
+        return new ResponseEntity<>(auctionContractService.confirm_payment(id, dto), HttpStatus.OK);
+    }
+
+
     @PatchMapping("/auction-contracts/{id}/confirm")
     private ResponseEntity<JSONObject> confirmContract(@PathVariable String id, @RequestParam("contractImageFile") MultipartFile contractImageFile) {
         return new ResponseEntity<>(auctionContractService.confirmContract(id, contractImageFile), HttpStatus.OK);
