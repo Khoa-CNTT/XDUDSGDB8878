@@ -1,0 +1,77 @@
+version: '1.0.2'
+services:
+  frontend_rms:
+    build:
+      context: ./advanced-real-estate-app
+      dockerfile: Dockerfile
+    container_name: frontend_rms
+    working_dir: /var/www/html/RMS/FE
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./advanced-real-estate-app:/var/www/html/RMS/FE
+      - /var/www/html/RMS/FE/node_modules
+    networks:
+      - rms
+    depends_on:
+      - backend_rms  # FE khởi động sau BE
+    mem_limit: 2g
+  backend_rms:
+    build:
+      context: ./advancedRealEstate_BE
+      dockerfile: Dockerfile
+    container_name: backend_rms
+    working_dir: /app
+    ports:
+      - "9090:9090"
+    # volumes:
+    #   - ./advancedRealEstate_BE:/app
+    #   - ~/.m2:/root/.m2  # Cache Maven để tăng tốc độ build
+    environment:
+      DBMS_CONNECTION: jdbc:mysql://mysql:3307/identity_service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DBMS_USERNAME: root
+      DBMS_PASSWORD: 123123aA@
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_USERNAME: manhsubcheo2@gmail.com
+      SPRING_MAIL_PASSWORD: rlss trll bbrj yaop
+      PYTHON_API_BASE_URL: http://python_api:5000
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"  # Bật tính năng hot reload của Spring Boot DevTools
+    networks:
+      - rms
+    depends_on:
+      - mysql
+    mem_limit: 4g
+    # command: mvn spring-boot:run  # Dùng mvnw để chạy ứng dụng
+    # command: java -jar advancedRealEstate_BE-0.0.1.jar
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_rms
+    ports:
+      - "3307:3307"
+    restart: always
+    expose:
+      - 3307
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123123aA@
+      MYSQL_TCP_PORT: 3307
+    networks:
+      - rms
+  webserver_rms:
+    image: nginx:alpine
+    container_name: nginx_rms
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./advanced-real-estate-app:/var/www/html/RMS/FE
+    networks:
+      - rms
+    depends_on:
+      - frontend_rms
+networks:
+  rms:
+
+volumes:
+  mysql_data:

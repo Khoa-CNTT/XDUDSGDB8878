@@ -1,0 +1,273 @@
+
+.chat_container {
+  position: fixed;
+  bottom: 20px;
+  right: 40px;
+  z-index: 1000;
+}
+
+/* Chat Icon */
+.chat_icon {
+  font-size: 55px;
+  cursor: pointer;
+}
+
+.icon_gradient {
+  font-size: 60px;
+  background: linear-gradient(45deg, #061116, #1f578a, #0d1329);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Chat Box */
+.chat_box {
+  width: 500px;
+  height: 600px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chat Header */
+.chat_header {
+  background-color: #0d1329;
+  color: white;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tab Container */
+.tab_container {
+  display: flex;
+  width: 100%;
+}
+
+/* Add these new styles for the bot icon */
+.tab_icon_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  overflow: hidden;
+}
+
+.bot_icon {
+  width: 50px;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: brightness(1.2);
+  transition: transform 0.2s ease;
+}
+
+/* Update the tab styles to better align the icon and text */
+.tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab:hover .bot_icon {
+  transform: scale(1.1);
+}
+
+.active_tab {
+  background-color: #1a2542;
+  border-bottom: 2px solid #4a90e2;
+}
+
+.active_tab .bot_icon {
+  filter: brightness(1.4) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+/* Header Content */
+.header_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.header_title {
+  font-size: 13px;
+}
+
+.close_btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chat_content {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.message {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.bot,
+.message.staff {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.message.user .bubble {
+  background-color: #dcf8c6;
+  color: black;
+}
+
+.message.bot .bubble {
+  background-color: #ececec;
+  color: #333;
+}
+
+.message.staff .bubble {
+  background-color: #1f578a;
+  color: white;
+}
+
+/* Loading animation */
+.loading_bubble {
+  display: flex;
+  align-items: center;
+}
+
+.loading_dots {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.loading_dots span {
+  animation: loadingDots 1.4s infinite ease-in-out both;
+  margin-left: 2px;
+}
+
+.loading_dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading_dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading_dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingDots {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.chat_footer {
+  padding: 10px;
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.chat_input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 5px;
+}
+
+.chat_input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.send_btn {
+  padding: 8px 12px;
+  border: none;
+  background-color: #0d1329;
+  color: #fff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.send_btn:hover:not(:disabled) {
+  background-color: #1a1f3a;
+}
+
+.send_btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .chat_box {
+    width: 300px;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .chat_icon {
+    right: 10px;
+  }
+}

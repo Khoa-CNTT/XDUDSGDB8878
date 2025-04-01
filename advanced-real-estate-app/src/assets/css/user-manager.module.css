@@ -1,0 +1,293 @@
+/* Main container */
+.container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 256px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: 16px;
+}
+
+.sidebarTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.sidebarIcon {
+  font-size: 18px;
+  color: #fea116;
+}
+
+.sidebarTitle {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: #000000;
+}
+
+.sidebarSubtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+}
+
+.sidebarContent {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebarNav {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: #333333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover {
+  background-color: #f5f5f5;
+}
+
+.activeNavButton {
+  background-color: #fff8e6;
+  font-weight: 500;
+  color: #fea116;
+}
+
+.navIcon {
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+  color: #666666;
+}
+
+.activeNavButton .navIcon {
+  color: #fea116;
+}
+
+.navActiveIcon {
+  margin-left: auto;
+  font-size: 14px;
+  color: #fea116;
+}
+
+.sidebarFooter {
+  padding: 16px;
+}
+
+/* Mobile navigation */
+.mobileNav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  justify-content: space-around;
+}
+
+.mobileNavButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  width: 64px;
+  background: transparent;
+  border: none;
+  color: #333333;
+  cursor: pointer;
+}
+
+.activeMobileNavButton {
+  background-color: #fff8e6;
+  color: #fea116;
+}
+
+.mobileNavIcon {
+  font-size: 20px;
+}
+
+/* Main content */
+.mainContent {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 80px;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+.contentWrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.contentCard {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contentTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auctionItem {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.itemTitle {
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+.itemSubtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+.statusBadge {
+  font-size: 12px;
+  background-color: rgba(254, 161, 22, 0.1);
+  color: #fea116;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobileNav {
+    display: flex;
+  }
+
+  .mainContent {
+    padding-bottom: 80px;
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 8px 16px;
+  border: none;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.primary {
+  background-color: #fea116;
+  color: white;
+}
+
+.outline {
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+.outline:hover {
+  background-color: #f5f5f5;
+}
+
+.sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.buttonIcon {
+  margin-right: 8px;
+  font-size: 14px;
+}

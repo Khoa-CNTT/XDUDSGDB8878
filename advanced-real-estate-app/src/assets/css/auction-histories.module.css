@@ -1,0 +1,433 @@
+.pageWrapper {
+  width: 100%;
+}
+
+.container {
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  color: #000000;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.titleIcon {
+  color: #fea116;
+  font-size: 24px;
+}
+
+.subtitle {
+  color: #666666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchWrapper {
+  position: relative;
+  width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background-color: #f9f9f9;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #fea116;
+  box-shadow: 0 0 0 3px rgba(254, 161, 22, 0.1);
+  background-color: #fff;
+}
+
+.filterWrapper {
+  position: relative;
+  width: 150px;
+}
+
+.filterIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  appearance: none;
+  background-color: #f9f9f9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #fea116;
+  box-shadow: 0 0 0 3px rgba(254, 161, 22, 0.1);
+  background-color: #fff;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0;
+  color: #666666;
+  gap: 16px;
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 32px;
+  color: #fea116;
+}
+
+.emptyState h3 {
+  color: #000000;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.emptyState p {
+  color: #666666;
+  max-width: 300px;
+  margin: 0;
+}
+
+/* History Grid */
+.historyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+/* History Card */
+.historyCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.historyCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #d0d0d0;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.auctionId {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.idLabel {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.idValue {
+  background-color: #f0f0f0;
+  color: #333333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.resultBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.winner {
+  background-color: rgba(254, 161, 22, 0.15);
+  color: #fea116;
+  border: 1px solid rgba(254, 161, 22, 0.3);
+}
+
+.participant {
+  background-color: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.cardBody {
+  padding: 16px;
+}
+
+.auctionName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.infoIcon {
+  color: #fea116;
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.infoLabel {
+  color: #666666;
+  font-size: 13px;
+}
+
+.infoValue {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.cardFooter {
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statusBadge {
+  background-color: #f0f0f0;
+  color: #666666;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.detailButton {
+  background-color: transparent;
+  color: #fea116;
+  border: 1px solid #fea116;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detailButton:hover {
+  background-color: #fea116;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.pageButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 8px;
+}
+
+.pageNumber {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageNumber:hover:not(.activePage) {
+  background-color: #f0f0f0;
+  border-color: #d0d0d0;
+}
+
+.activePage {
+  background-color: #fea116;
+  border-color: #fea116;
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .historyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchWrapper,
+  .filterWrapper {
+    width: 100%;
+  }
+
+  .historyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .cardHeader,
+  .cardBody,
+  .cardFooter {
+    padding: 12px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

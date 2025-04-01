@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Review Reminder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background-color: #fea116;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        .email-header img {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+        .email-content {
+            padding: 30px;
+            background-color: #ffffff;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fea116;
+        }
+        .message {
+            margin-bottom: 25px;
+        }
+        .contract-details {
+            background-color: #f5f9f7;
+            border-left: 4px solid #fea116;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .contract-item {
+            margin-bottom: 8px;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #fea116;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .action-button:hover {
+            background-color: #fea116;
+        }
+        .deadline {
+            font-weight: 600;
+            color: #d32f2f;
+        }
+        .email-footer {
+            background-color: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666666;
+            border-top: 1px solid #e0e0e0;
+        }
+        .company-info {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        @media only screen and (max-width: 620px) {
+            .email-container {
+                width: 100%;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <img src="https://via.placeholder.com/200x60"
+             alt="Company Logo"
+             th:src="${companyLogo}"
+        >
+        <h1>Contract Review Reminder</h1>
+    </div>
+
+    <div class="email-content">
+        <div class="greeting">
+            Hello, <span>Employee</span>!
+        </div>
+
+        <div class="message">
+            <p>This is a friendly reminder that you have
+                pending contract(s) in the system that
+                require your review and approval.
+            </p>
+            <p>
+                Timely contract reviews are essential for our
+                business operations and maintaining good
+                relationships with our partners and clients.
+            </p>
+        </div>
+
+        <div class="contract-details">
+            <h3>Pending Contracts:</h3>
+            <div class="contract-item">
+                <strong>Auction Contract</strong> -
+                Submitted on:
+                <span th:text="${date}">
+                    01 Jan 2025
+                </span>
+            </div>
+            <p>No specific contracts to display.</p>
+            <p>
+                <strong>Deadline:</strong>
+                <span class="deadline" th:text="${deadline}">15 Mar 2025</span>
+            </p>
+        </div>
+
+        <a href="#"
+           th:href="${systemUrl}"
+           class="action-button"
+        >
+            <span style="color: #ffffff">
+                Review Contracts Now
+            </span>
+        </a>
+
+        <p>If you have any questions or need assistance
+            with the review process, please contact the
+            contract management team at
+            <a href="mailto:lol00sever@gmai.com">
+                lol00sever@gmai.com
+            </a>.
+        </p>
+
+        <p>Thank you for your prompt attention to this matter.</p>
+
+        <p>Best regards,<br>
+            <strong>Dat Xanh Mien Trung Company</strong></p>
+    </div>
+
+    <div class="email-footer">
+        <p>
+            This is an automated message.
+            Please do not reply to this email.
+        </p>
+        <div class="company-info">
+            <strong >Dat Xanh Mien Trung Company</strong><br>
+            <span>03 Quang Trung, Hai Chau, TP. Da Nang</span><br>
+            <span>0915662495</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

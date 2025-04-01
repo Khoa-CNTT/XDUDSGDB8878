@@ -1,0 +1,18 @@
+.headerClient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: top 0.3s;
+}
+
+.logoProject{
+    width: 125px;
+    height: 95px;
+    /*border-radius: 50%;*/
+}
+
+.titleProject{
+    font-size: 80%;
+}
