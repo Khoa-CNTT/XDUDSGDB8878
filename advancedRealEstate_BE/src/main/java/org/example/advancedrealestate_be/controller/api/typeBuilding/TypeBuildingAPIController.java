@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.DeleteTypeBuildingsRequest;
 import org.example.advancedrealestate_be.dto.request.TypeBuildingCreateResquest;
 import org.example.advancedrealestate_be.dto.request.TypeBuildingUpdateResquest;
@@ -93,7 +94,7 @@ public class TypeBuildingAPIController {
         data.put("message", response);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-type-building")
     @DeleteMapping("/delete-all")
     public ResponseEntity<JSONObject> deleteAllTypeBuilding(@Valid @RequestBody DeleteTypeBuildingsRequest request) {
         JSONObject data = new JSONObject();

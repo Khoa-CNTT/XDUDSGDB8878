@@ -3,6 +3,7 @@ package org.example.advancedrealestate_be.controller.api.device;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.DeviceRequest;
 import org.example.advancedrealestate_be.dto.response.CategoryResponse;
 import org.example.advancedrealestate_be.dto.response.DeviceResponse;
@@ -87,7 +88,7 @@ public class DeviceApiController {
         data.put("message",deviceService.updateDevice(id,request));
         return new ResponseEntity<>(data,HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-device")
     @DeleteMapping("/{id}")
     public ResponseEntity<JSONObject> deleteDevice(@PathVariable String id){
         JSONObject data=new JSONObject();

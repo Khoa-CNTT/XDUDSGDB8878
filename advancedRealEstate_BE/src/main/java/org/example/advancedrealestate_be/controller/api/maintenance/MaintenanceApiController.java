@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.DeleteMaintenanceRequest;
 import org.example.advancedrealestate_be.dto.request.MaintenanceRequest;
 import org.example.advancedrealestate_be.dto.response.CustomerResponse;
@@ -83,7 +84,7 @@ public class MaintenanceApiController {
         data.put("message","Delete maintenance form was deleted successfully");
         return new ResponseEntity<>(data,HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-maintenance")
     @DeleteMapping("/delete-all")
     public ResponseEntity<JSONObject> deleteAllMaintenance(@RequestBody DeleteMaintenanceRequest request){
         JSONObject data=new JSONObject();
