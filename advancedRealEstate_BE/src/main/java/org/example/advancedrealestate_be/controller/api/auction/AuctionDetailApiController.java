@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.AuctionDetailRequest;
 import org.example.advancedrealestate_be.dto.request.AuctionRequest;
 import org.example.advancedrealestate_be.service.AuctionDetailService;
@@ -58,7 +59,7 @@ public class AuctionDetailApiController {
     private ResponseEntity<JSONObject> update(@PathVariable String id, @RequestBody AuctionDetailRequest dto) {
         return new ResponseEntity<>(auctionDetailService.updateById(id, dto), HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-auction")
     @DeleteMapping("/auction-details/{id}")
     private ResponseEntity<JSONObject> remove(@PathVariable String id) {
         return new ResponseEntity<>(auctionDetailService.deleteById(id), HttpStatus.OK);

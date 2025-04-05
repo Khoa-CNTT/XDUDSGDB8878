@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.RoomChatDto;
 import org.example.advancedrealestate_be.service.RoomChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class RoomChatApiController {
         data.put("data", roomChatService.updateById(id ,request));
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-room-chat")
     @DeleteMapping("/room-chats/{id}")
     ResponseEntity<JSONObject> deleteById(@PathVariable String id ,@RequestBody RoomChatDto request) {
         JSONObject data = new JSONObject();
