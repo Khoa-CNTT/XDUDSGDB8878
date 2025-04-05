@@ -76,7 +76,7 @@ public class AuctionContractController {
     private ResponseEntity<JSONObject> confirmContract(@PathVariable String id, @RequestParam("contractImageFile") MultipartFile contractImageFile) {
         return new ResponseEntity<>(auctionContractService.confirmContract(id, contractImageFile), HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-auction")
     @DeleteMapping("/auction-contracts/{id}")
     private ResponseEntity<JSONObject> remove(@PathVariable String id) {
         return new ResponseEntity<>(auctionContractService.deleteById(id), HttpStatus.OK);
