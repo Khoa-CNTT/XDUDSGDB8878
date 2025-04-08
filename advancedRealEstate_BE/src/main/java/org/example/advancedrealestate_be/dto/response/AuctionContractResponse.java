@@ -1,5 +1,6 @@
 package org.example.advancedrealestate_be.dto.response;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 @Setter
 public class AuctionContractResponse {
     private String id;
+    private String code;
     private String full_name;
     private String phone_number;
     private String birthday;
@@ -25,6 +27,11 @@ public class AuctionContractResponse {
     private String avatar;
     private String contractImage;
     private int paymentStatus;
+    private String confirmPaymentDate;
+    private String paymentCode;
+    private double depositAmount;
+    private double outstandingBalance;
+    private String description;
     private UserResponse client;
     private UserResponse staffConfirm;
     private AuctionDetailResponse auctionDetail;

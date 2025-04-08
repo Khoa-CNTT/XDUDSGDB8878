@@ -54,7 +54,7 @@ function AdminRouter() {
       })
       .catch((error) => {
         console.log("ERROR: ", error);
-        message.error("ERROR: " + error);
+        message.error("Đã có lỗi xảy ra!");
         setListRoleManagerPage([]);
       })
       .finally(() => {

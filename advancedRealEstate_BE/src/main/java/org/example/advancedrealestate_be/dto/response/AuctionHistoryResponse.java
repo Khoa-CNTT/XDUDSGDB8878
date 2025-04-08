@@ -22,7 +22,7 @@ public class AuctionHistoryResponse {
     private String identityKey;
     private String status;
     private Auction auction;
-    private Building building;
+    private BuildingResponse buildingResponse;
     private User client;
     List<String> buildingImageUrls;
 }

@@ -225,7 +225,7 @@ const StaffChat = (props) => {
       dispatch(setResizeChat());
     }
     f_collectionUtil.handleCollectionArray(
-      `/api/admin/user-messages/${auth?.info?.id}/${activeUser?.email}`,
+      `/api/admin/user-messages/${auth?.info?.id}/${localStorage.getItem("user")}`,
       setMessages,
       auth?.token
     );

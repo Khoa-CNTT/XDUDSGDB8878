@@ -3,10 +3,10 @@ import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.constant.EnumConstant;
 import org.example.advancedrealestate_be.dto.request.AuctionHistoryRequest;
 import org.example.advancedrealestate_be.dto.response.AuctionHistoryResponse;
-import org.example.advancedrealestate_be.entity.Auction;
-import org.example.advancedrealestate_be.entity.AuctionDetail;
-import org.example.advancedrealestate_be.entity.AuctionHistory;
-import org.example.advancedrealestate_be.entity.User;
+import org.example.advancedrealestate_be.dto.response.BuildingResponse;
+import org.example.advancedrealestate_be.dto.response.MapResponse;
+import org.example.advancedrealestate_be.dto.response.TypeBuildingResponse;
+import org.example.advancedrealestate_be.entity.*;
 import org.example.advancedrealestate_be.exception.AppException;
 import org.example.advancedrealestate_be.exception.ErrorCode;
 import org.example.advancedrealestate_be.mapper.AuctionHistoryMapper;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -74,6 +75,10 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
         AuctionHistory auctionHistory = auctionHistoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.AUCTION_HISTORY_NOT_FOUND));
         JSONObject responseObject = new JSONObject();
         Auction auction = auctionHistory.getAuction();
+        Building building = auction.getBuilding() == null ? null : auction.getBuilding();
+        assert auction.getBuilding() != null;
+        TypeBuilding typeBuilding = auction.getBuilding().getTypeBuilding();
+        org.example.advancedrealestate_be.entity.Map map = auction.getBuilding().getMap();
         List<String> buildingImageUrls = new ArrayList<>();
 
         if (auction.getBuilding().getImage() != null && !auction.getBuilding().getImage().isEmpty()) {
@@ -87,6 +92,21 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
                 }
             }
         }
+        BuildingResponse buildingResponse = BuildingResponse.builder()
+                .id(building.getId())
+                .name(building.getName())
+                .area(building.getAcreage())
+                .status(building.getStatus())
+                .structure(building.getStructure())
+                .description(building.getDescription())
+                .typeBuilding(TypeBuildingResponse.builder()
+                .price(typeBuilding.getPrice())
+                .type_name(typeBuilding.getType_name()).build())
+                .map(MapResponse.builder()
+                .address(map.getAddress()).build())
+                .image(buildingImageUrls)
+                .build();
+
         responseObject.put("data", new AuctionHistoryResponse(
             auctionHistory.getId(),
             auctionHistory.getBidAmount(),
@@ -95,7 +115,7 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
             auctionHistory.getIdentity_key(),
             auctionHistory.getStatus(),
             auctionHistory.getAuction(),
-            auctionHistory.getAuction().getBuilding(),
+            buildingResponse,
             auctionHistory.getClient(),
             buildingImageUrls
         ));
@@ -298,7 +318,6 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     @PreAuthorize("hasAnyRole('CLIENT','ADMIN','STAFF','USER')")
     @Override
     public List<AuctionHistoryResponse> userAuctionHistories(String clientId) {
-        JSONObject responseObject = new JSONObject();
         List<AuctionHistory> auctionHistoryUserList = auctionHistoryRepository.findAuctionHistoriesByClientId(clientId);
         return auctionHistoryUserList.stream()
                 .map(auctionHistoryMapper::mapToAuctionHistory)

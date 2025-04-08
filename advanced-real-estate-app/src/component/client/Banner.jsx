@@ -23,14 +23,14 @@ const Banner = () => {
                                         className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                                         to={"/buildings"}
                                     >
-                                        Our buildings
-                                    </Link>
+                                        BẤT ĐỘNG SẢN CỦA CHÚNG TÔI
+                                        </Link>
                                     <Link
                                         href=""
                                         className="btn btn-light py-md-3 px-md-5 animated slideInRight"
                                         to={"/buildings"}
                                     >
-                                        BUY NOW
+                                        XEM NHÀ NAY
                                     </Link>
                                 </div>
                             </div>
@@ -50,14 +50,14 @@ const Banner = () => {
                                         className="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
                                         to={"/buildings"}
                                     >
-                                        Our buildings
+                                        BẤT ĐỘNG SẢN CỦA CHÚNG TÔI
                                     </Link>
                                     <Link
                                         href=""
                                         className="btn btn-light py-md-3 px-md-5 animated slideInRight"
                                         to={"/buildings"}
                                     >
-                                        BUY NOW
+                                        XEM NGAY
                                     </Link>
                                 </div>
                             </div>

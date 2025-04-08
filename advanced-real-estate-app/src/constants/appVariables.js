@@ -38,11 +38,12 @@ export let appVariables = {
   listPathNoFilterClick: ["/buildings"],
   listRoleRequireForManagerPage: ["MANAGEMENT", "NORMAL"],
   formatMoney: (value) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(value);
+    const number = Number(
+      String(value).replace(/[^\d]/g, "") 
+    );
+    if (isNaN(number)) return "0 VNĐ";
+    const formatted = number.toLocaleString("vi-VN");
+    return `${formatted} VNĐ`;
   },
   checkStatus: (startDate, startTime, endTime) => {
     const now = new Date();

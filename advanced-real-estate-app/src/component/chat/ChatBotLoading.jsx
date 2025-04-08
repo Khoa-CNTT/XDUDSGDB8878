@@ -38,7 +38,7 @@ const ChatBotLoading = (props) => {
             <span className={styles.senderName}>{appInfo.nameAI}</span>
             <div className={styles.messageContent}>
               <div className={styles.typingIndicator}>
-                <span className={styles.typingText}>Thinking</span>
+                <span className={styles.typingText}>Tôi đang suy nghĩ</span>
                 <div className={styles.dotsContainer}>
                   {[1, 2, 3].map((i) => (
                     <div

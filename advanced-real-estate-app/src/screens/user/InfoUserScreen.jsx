@@ -26,7 +26,6 @@ const InfoUserScreen = () => {
       const res = await handleAPI(`/api/users/my-info`, {}, "GET", auth?.token);
       return res;
     } catch (e) {
-      message.error(e.message);
       console.log("Error: ", e);
     }
   };

@@ -3,6 +3,7 @@ package org.example.advancedrealestate_be.service.handler;
 import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.constant.EnumConstant;
 import org.example.advancedrealestate_be.dto.request.AuctionContractRequest;
+import org.example.advancedrealestate_be.dto.request.AuctionPaymentRequest;
 import org.example.advancedrealestate_be.dto.response.*;
 import org.example.advancedrealestate_be.entity.*;
 import org.example.advancedrealestate_be.entity.Map;
@@ -30,6 +31,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -114,6 +118,7 @@ public class AuctionContractHandler implements AuctionContractService {
                 Files.copy(cccdFrontImage.getInputStream(), filePathCF, StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(cccdBackImage.getInputStream(), filePathBK, StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(avatarImage.getInputStream(), filePathAV, StandardCopyOption.REPLACE_EXISTING);
+                auctionContract.setCode(generateCode());
                 auctionContract.setAuctionDetail(auctionDetail);
                 auctionContract.setClient(user);
                 auctionContract.setFull_name(dto.getFull_name());
@@ -191,6 +196,7 @@ public class AuctionContractHandler implements AuctionContractService {
                         .getContractImage()).getFileName().toString()) : null;
         AuctionContractResponse dto = AuctionContractResponse.builder()
                 .id(auctionContract.getId())
+                .code(auctionContract.getCode())
                 .full_name(auctionContract.getFull_name())
                 .phone_number(auctionContract.getPhone_number())
                 .birthday(auctionContract.getBirthday())
@@ -198,6 +204,11 @@ public class AuctionContractHandler implements AuctionContractService {
                 .note(auctionContract.getNote())
                 .settingDate(auctionContract.getSettingDate())
                 .contractStatus(auctionContract.getContractStatus())
+                .depositAmount(auctionContract.getDepositAmount())
+                .outstandingBalance(auctionContract.getOutstandingBalance())
+                .confirmPaymentDate(auctionContract.getConfirmPaymentDate())
+                .paymentCode(auctionContract.getPaymentCode())
+                .description(auctionContract.getDescription())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
                 .getCccd_front()).getFileName().toString()))
@@ -289,17 +300,39 @@ public class AuctionContractHandler implements AuctionContractService {
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @Override
-    public JSONObject confirm_payment(String id, AuctionContractRequest dto) {
+    public JSONObject confirm_payment(String id, AuctionPaymentRequest dto) {
         JSONObject responseObject = new JSONObject();
+        ZonedDateTime currentTimeInVN = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = currentTimeInVN.format(formatter);
         AuctionContract auctionContract = auctionContractRepository.findById(id)
         .orElseThrow(()->new AppException(ErrorCode.AUCTION_CONTRACT_NOT_FOUND));
-        if(auctionContract.getPaymentStatus() >= 1){
+        if(auctionContract.getNumberPayment() >= 3){
             throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
         }
+        double bidAmount =  auctionContract.getAuctionDetail().getBidAmount();
+        auctionContract.setOutstandingBalance(bidAmount - dto.getDepositAmount());
+        auctionContract.setDepositAmount(dto.getDepositAmount());
+        auctionContract.setConfirmPaymentDate(currentDateTime);
+        auctionContract.setDescription(dto.getDescription());
+        auctionContract.setPaymentCode(generateCode());
         auctionContract.setPaymentStatus(1);
         auctionContractRepository.save(auctionContract);
         responseObject.put("message", "Confirm successfully!");
         return responseObject;
+    }
+
+    public static String generateCode() {
+        String prefix = "ADV";
+        int length = 15 - prefix.length();
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(prefix);
+
+        for (int i = 0; i < length; i++) {
+            int digit = random.nextInt(10);
+            sb.append(digit);
+        }
+        return sb.toString();
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")

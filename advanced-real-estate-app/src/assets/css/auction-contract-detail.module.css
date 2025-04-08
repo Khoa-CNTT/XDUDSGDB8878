@@ -126,3 +126,227 @@
   border-top: 1px solid #dee2e6;
   padding: 1rem;
 }
+
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.1);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+/* Enhanced styling for file input with reduced width */
+.input {
+  /* Base styles with reduced width */
+  width: auto; /* Reduced from 100% */
+  max-width: 320px; /* Set a maximum width */
+  min-width: 240px; /* Ensure it doesn't get too small */
+  border: 1px solid #e2e8f0;
+  padding: 0.65rem 1rem 0.65rem 2.75rem; /* Slightly reduced padding */
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  font-size: 0.9rem; /* Slightly smaller font */
+  color: #4b5563;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block; /* Allow it to take natural width */
+}
+
+/* File input specific styling */
+input[type="file"].input {
+  position: relative;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Upload icon - slightly smaller for compact design */
+input[type="file"].input::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem; /* Moved slightly left */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.35rem; /* Slightly smaller */
+  height: 1.35rem; /* Slightly smaller */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'%3E%3C/path%3E%3Cpolyline points='17 8 12 3 7 8'%3E%3C/polyline%3E%3Cline x1='12' y1='3' x2='12' y2='15'%3E%3C/line%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+  transition: all 0.3s ease;
+}
+
+/* Hide the default "Choose File" button */
+input[type="file"].input::file-selector-button {
+  display: none;
+}
+
+/* Add a subtle background gradient */
+input[type="file"].input {
+  background-image: linear-gradient(to bottom, #ffffff, #f9fafb);
+}
+
+/* Placeholder styling */
+input[type="file"].input::placeholder {
+  color: #6b7280;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover state with enhanced effects */
+input[type="file"].input:hover {
+  border-color: #818cf8;
+  box-shadow: 0 3px 8px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+  background-image: linear-gradient(to bottom, #ffffff, #f3f4ff);
+}
+
+input[type="file"].input:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* Focus state with glowing effect */
+input[type="file"].input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  outline: none;
+  background-image: linear-gradient(to bottom, #ffffff, #eef2ff);
+}
+
+/* File selected state - more distinctive */
+input[type="file"].input:not(:placeholder-shown) {
+  background-image: linear-gradient(to bottom, #f9fafb, #eef2ff);
+  border-color: #a5b4fc;
+}
+
+/* Change icon when file is selected */
+input[type="file"].input:not(:placeholder-shown)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 11.08V12a10 10 0 1 1-5.93-9.14'%3E%3C/path%3E%3Cpolyline points='22 4 12 14.01 9 11.01'%3E%3C/polyline%3E%3C/svg%3E");
+  opacity: 0.9;
+}
+
+/* Add a subtle animation when hovering */
+@keyframes gentle-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+input[type="file"].input:hover {
+  animation: gentle-pulse 2s infinite;
+}
+
+/* Add a subtle border animation */
+@keyframes border-glow {
+  0% {
+    border-color: #c7d2fe;
+  }
+  50% {
+    border-color: #818cf8;
+  }
+  100% {
+    border-color: #c7d2fe;
+  }
+}
+
+input[type="file"].input:focus {
+  animation: border-glow 2s infinite;
+}
+
+/* Add a shine effect on hover */
+@keyframes shine {
+  0% {
+    background-position: -100px;
+  }
+  40%,
+  100% {
+    background-position: 300px;
+  }
+}
+
+input[type="file"].input:hover {
+  position: relative;
+  overflow: hidden;
+}
+
+input[type="file"].input:hover::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+/* Disabled state */
+input[type="file"].input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-image: linear-gradient(to bottom, #f9fafb, #f3f4f6);
+  border-color: #e5e7eb;
+}
+
+input[type="file"].input:disabled::before {
+  opacity: 0.4;
+}
+
+/* Add a subtle transition when clicking */
+input[type="file"].input:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Add a beautiful border style */
+input[type="file"].input {
+  border-style: solid;
+  border-width: 1px;
+  border-image: linear-gradient(to right, #c7d2fe, #818cf8, #c7d2fe) 1;
+}
+
+/* Add a subtle text shadow for better readability */
+input[type="file"].input::placeholder {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Add a subtle inset shadow for depth */
+input[type="file"].input {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Add a subtle transition for the placeholder */
+input[type="file"].input::placeholder {
+  transition: color 0.3s ease;
+}
+
+input[type="file"].input:hover::placeholder {
+  color: #4f46e5;
+}
