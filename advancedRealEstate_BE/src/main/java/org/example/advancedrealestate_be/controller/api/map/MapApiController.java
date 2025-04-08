@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.MapDto;
 import org.example.advancedrealestate_be.dto.ServiceDto;
 import org.example.advancedrealestate_be.dto.request.DeleteCategoryRequest;
@@ -55,7 +56,7 @@ public class MapApiController {
     private ResponseEntity<JSONObject> update(@PathVariable String id, @RequestBody MapDto mapDto) {
         return new ResponseEntity<>(mapService.updateById(mapDto ,id), HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-map")
     @DeleteMapping("/maps")
     public ResponseEntity<JSONObject> deleteAllMap(@Valid @RequestBody DeleteMapRequest request) {
         JSONObject data = new JSONObject();
