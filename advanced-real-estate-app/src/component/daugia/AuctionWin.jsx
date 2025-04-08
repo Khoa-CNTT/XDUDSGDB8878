@@ -70,7 +70,6 @@ const AuctionWin = () => {
       );
       setAuctionWins(res?.data);
     } catch (error) {
-      message.error("Fetch error: " + error);
       console.log("Fetch error: ", error);
     } finally {
       setLoading(false);

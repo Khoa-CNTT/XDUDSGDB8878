@@ -27,6 +27,7 @@ import { GoShieldCheck } from "react-icons/go";
 import { FaRegHandshake } from "react-icons/fa6";
 import { BsTrophy } from "react-icons/bs";
 import { WinBadge } from "../../component/daugia/AuctionWin";
+import AuctionPayment from "../../component/daugia/AuctionPayment";
 import { IoMdTrophy } from "react-icons/io";
 import { GrStatusGood } from "react-icons/gr";
 import { TbCoinOff } from "react-icons/tb";
@@ -45,7 +46,7 @@ const AuctionContractScreen = (props) => {
   const navigate = useNavigate();
   const [objectItem, setObjectItem] = useState({});
   const [auctionContracts, setAuctionContracts] = useState([]);
-  const [showSignedContracts, setShowSignedContracts] = useState(false);
+  const [openFormPayment, setOpenFormPayment] = useState(false);
 
   useEffect(() => {
     refresh().then();
@@ -63,7 +64,7 @@ const AuctionContractScreen = (props) => {
         setAuctionContracts(res?.data);
       })
       .catch((error) => {
-        message.error("Fetch error: ", error);
+        message.error("Đã có lỗi sảy ra!");
         console.log("Fetch error: ", error);
       });
   };
@@ -77,37 +78,46 @@ const AuctionContractScreen = (props) => {
     )
       .then((res) => message.success("Delete successfully!"))
       .catch((error) => {
-        message.error(error?.message);
+        message.error("Đã có lỗi sảy ra!");
         console.log("Delete error: ", error);
       });
     await refresh();
   };
 
-  const handleConfirmPayment = async (id) => {
+  const handleConfirmPayment = async (object) => {
+    object?.setIsSubmitting(true);
     try {
       const res = await handleAPI(
-        `/api/admin/auction-contracts/confirm_payment/${id}`,
-        {},
+        `/api/admin/auction-contracts/confirm_payment/${object?.id}`,
+        { ...object?.formData },
         "PATCH",
         auth?.token
       );
       console.log(res);
+      setOpenFormPayment(false);
       await refresh();
     } catch (error) {
       if (error?.code >= 302 && error?.code <= 400) {
         message.error("Hợp đồng này đã được xác nhận thanh toán!");
       }
       console.log(error);
+    } finally {
+      object?.setIsSubmitting(false);
     }
   };
 
   const utils = {
     objectItem: objectItem,
+    handleConfirmPayment,
+    setOpenFormPayment,
     refresh: refresh,
+    openFormPayment,
+    styleElements
   };
 
   return (
     <div>
+      <AuctionPayment utils={utils} />
       <AuctionContractDetailModal utils={utils} />
       <div className="card">
         <div className="d-flex align-items-center justify-content-between">
@@ -177,13 +187,12 @@ const AuctionContractScreen = (props) => {
               <thead>
                 <tr>
                   <th className="align-middle text-center">Cảnh báo</th>
-                  <th className="align-middle text-center">ID</th>
                   <th className="align-middle text-center">Tên khách hàng</th>
                   <th className="align-middle text-center">Phiên đấu giá</th>
+                  <th className="align-middle text-center">Chi tiết đấu giá</th>
                   <th className="align-middle text-center">
                     Trạng thái thanh toán
                   </th>
-                  <th className="align-middle text-center">Chi tiết đấu giá</th>
                   <th className="align-middle text-center">
                     Ngày lập hợp đồng
                   </th>
@@ -242,7 +251,6 @@ const AuctionContractScreen = (props) => {
                           />
                         )}
                       </td>
-                      <td>{item?.id}</td>
                       <td>
                         <InfoLinkDetailToolTip
                           address={item?.address}
@@ -318,7 +326,10 @@ const AuctionContractScreen = (props) => {
                         <Button
                           title="Xác nhận thanh toán hợp đồng"
                           style={buttonStyleElements?.paymentButtonStyle}
-                          onClick={() => handleConfirmPayment(item?.id)}
+                          onClick={() => {
+                            setObjectItem(item);
+                            setOpenFormPayment(true);
+                          }}
                         >
                           <RiSecurePaymentLine />
                         </Button>

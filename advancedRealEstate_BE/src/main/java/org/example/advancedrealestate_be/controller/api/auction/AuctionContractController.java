@@ -8,6 +8,7 @@ import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.AuctionContractRequest;
 import org.example.advancedrealestate_be.dto.request.AuctionDetailRequest;
+import org.example.advancedrealestate_be.dto.request.AuctionPaymentRequest;
 import org.example.advancedrealestate_be.dto.request.BuildingCreateRequest;
 import org.example.advancedrealestate_be.service.AuctionContractService;
 import org.example.advancedrealestate_be.service.AuctionDetailService;
@@ -68,7 +69,7 @@ public class AuctionContractController {
     }
 
     @PatchMapping("/auction-contracts/confirm_payment/{id}")
-    private ResponseEntity<JSONObject> confirm_payment(@PathVariable String id, @RequestBody AuctionContractRequest dto) {
+    private ResponseEntity<JSONObject> confirm_payment(@PathVariable String id, @RequestBody AuctionPaymentRequest dto) {
         return new ResponseEntity<>(auctionContractService.confirm_payment(id, dto), HttpStatus.OK);
     }
 

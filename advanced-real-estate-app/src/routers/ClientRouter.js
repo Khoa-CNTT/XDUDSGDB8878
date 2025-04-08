@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation, matchPath } from "react-router-dom";
+import { Routes, Route, useLocation, matchPath, useNavigate } from "react-router-dom";
 import { Footer, Header } from "../component";
 import HomeScreen from "../screens/client/HomeScreen";
 import BuildClientScreen from "../screens/client/BuildClientScreen";
@@ -12,15 +12,23 @@ import SignUp from "../screens/user/auth/SignUp";
 import SignIn from "../screens/user/auth/SignIn";
 import ContactClientScreen from "../screens/client/ContactClientScreen";
 import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
-import { useSelector } from "react-redux";
-import { authSelector } from "../redux/reducers/authReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { authSelector, removeAuth } from "../redux/reducers/authReducer";
 import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
 import video from "../assets/video/video.mp4";
 import ChatBotComponent from "../component/chat/ChatBotComponent";
+import { jwtDecode } from "jwt-decode";
+import { message } from "antd";
 
 const ClientRouter = () => {
   const location = useLocation();
   const auth = useSelector(authSelector);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("auth: ", auth);
+  }, [auth]);
 
   const addCssLink = (href) => {
     const link = document.createElement("link");
@@ -124,10 +132,6 @@ const ClientRouter = () => {
       document.body.classList.remove("dark-mode");
     }
   }, [currentRoute?.showHeader]);
-
-  useEffect(() => {
-    console.log("auth: ", auth);
-  }, [auth]);
 
   return (
     <div>

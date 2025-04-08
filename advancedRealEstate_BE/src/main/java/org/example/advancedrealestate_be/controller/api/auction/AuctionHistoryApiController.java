@@ -53,7 +53,7 @@ public class AuctionHistoryApiController {
     @GetMapping("/auction-histories")
     private ResponseEntity<JSONObject> index() {
         JSONObject responseObject = new JSONObject();
-        responseObject.put("data", auctionHistoryService.findAll());
+        responseObject.put("data", auctionHistoryService.findAll());    
         responseObject.put("total", auctionHistoryService.findAll().size());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }

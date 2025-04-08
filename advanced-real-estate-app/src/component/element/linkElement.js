@@ -10,20 +10,6 @@ export const linkElements = {
         </Link>
       ),
     },
-    {
-      link: (
-        <Link to={"/room-chat"} className="dropdown-item">
-          PHÒNG NHẮN TIN
-        </Link>
-      ),
-    },
-    {
-      link: (
-        <Link to={"/user/hop-dong"} className="dropdown-item">
-          HỢP ĐỒNG
-        </Link>
-      ),
-    },
   ],
   listDropdownMenu: [
     {
@@ -39,7 +25,7 @@ export const linkElements = {
           QUẢN LÝ
         </Link>
       ),
-    }
+    },
   ],
   signInSignUpClientLinks: [
     {
@@ -74,8 +60,8 @@ export const linkElements = {
     },
     {
       link: (
-        <Link to={"/user/auction-manager"} className="nav-item nav-link">
-          QUẢN LÝ ĐẤU GIÁ
+        <Link to={"/user/management"} className="nav-item nav-link">
+          QUẢN LÝ
         </Link>
       ),
     },

@@ -5,7 +5,7 @@ import { AiOutlineSolution } from "react-icons/ai";
 import { BsHandIndexThumbFill } from "react-icons/bs";
 
 const AuctionGuideLine = (props) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [step, setStep] = useState(0);
 

@@ -26,12 +26,12 @@ import SignIn from "../screens/user/auth/SignIn";
 import ContactClientScreen from "../screens/client/ContactClientScreen";
 import InfoUserScreen from "../screens/user/InfoUserScreen";
 import { jwtDecode } from "jwt-decode";
-import { message } from "antd";
 import { fetchUser } from "../apis/api";
 import AuctionManagerScreen from "../screens/user/auction/AuctionManagerScreen";
 import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
 import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
 import ChatBotComponent from "../component/chat/ChatBotComponent";
+import { message } from "antd";
 
 const UserRouter = () => {
   const location = useLocation();
@@ -128,7 +128,6 @@ const UserRouter = () => {
         "get",
         auth?.token,
         dispatch,
-        message
       ).then();
     }
   }, [auth?.token]);
@@ -139,8 +138,8 @@ const UserRouter = () => {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
-        navigate("/sign-in");
         dispatch(removeAuth());
+        navigate("/sign-in");
       }
     } catch (error) {
       dispatch(removeAuth());

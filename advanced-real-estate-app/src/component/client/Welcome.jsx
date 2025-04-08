@@ -41,7 +41,7 @@ const Welcome = () => {
                                             <h2 className="mb-1" data-toggle="counter-up">
                                                 {buildingReducer?.buildings?.length}
                                             </h2>
-                                            <p className="mb-0">Nhà</p>
+                                            <p className="mb-0">Bất động sản</p>
                                         </div>
                                     </div>
                                 </div>
