@@ -94,11 +94,12 @@ const AuctionContractScreen = (props) => {
         auth?.token
       );
       console.log(res);
+      message.error("Xác nhận thanh toán thành công!");
       setOpenFormPayment(false);
       await refresh();
     } catch (error) {
       if (error?.code >= 302 && error?.code <= 400) {
-        message.error("Hợp đồng này đã được xác nhận thanh toán!");
+        message.error("Không được thanh toán nữa!");
       }
       console.log(error);
     } finally {

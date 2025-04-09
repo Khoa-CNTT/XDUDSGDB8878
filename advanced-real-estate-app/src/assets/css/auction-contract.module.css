@@ -79,8 +79,8 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: #fea116;
-  box-shadow: 0 0 0 3px rgba(254, 161, 22, 0.1);
+  border-color: #666666;
+  box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.1);
   background-color: #fff;
 }
 
@@ -88,9 +88,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #f9f9f9 !important;
-  color: #333333 !important;
-  border: 1px solid #e0e0e0 !important;
+  background-color: #f5f5f5 !important;
+  color: 666666 !important;
+  border: 1px solid #666666 !important;
   border-radius: 8px !important;
   padding: 8px 16px !important;
   height: auto !important;
@@ -99,8 +99,8 @@
 }
 
 .refreshButton:hover {
-  background-color: #f0f0f0 !important;
-  border-color: #d0d0d0 !important;
+  background-color: #d0d0d0 !important;
+  border-color: #666666 !important;
 }
 
 /* Loading and Empty States */
@@ -120,7 +120,7 @@
   width: 40px;
   height: 40px;
   border: 3px solid #f3f3f3;
-  border-top: 3px solid #fea116;
+  border-top: 3px solid #666666;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -142,13 +142,13 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #f9f9f9;
+  background-color: #f0f7ff;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
   font-size: 32px;
-  color: #fea116;
+  color: #999;
 }
 
 .emptyState h3 {
@@ -167,7 +167,7 @@
 .contractsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  gap: 24px;
 }
 
 /* Contract Card */
@@ -175,14 +175,17 @@
   background-color: #ffffff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e6e6e6;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .contractCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   border-color: #d0d0d0;
 }
 
@@ -191,7 +194,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: #f9f9f9;
+  background: linear-gradient(to right, #f9f9f9, #f9f9f9);
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -201,26 +204,24 @@
   gap: 8px;
 }
 
-.idLabel {
-  color: #666666;
-  font-size: 14px;
-  font-weight: 500;
+.contractIcon {
+  color: #fea116;
+  font-size: 18px;
 }
 
 .idValue {
-  background-color: #f0f0f0;
-  color: #333333;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  color: #fea116;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .cardBody {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  flex: 1;
 }
 
 .infoItem {
@@ -233,6 +234,7 @@
   color: #fea116;
   font-size: 16px;
   margin-top: 3px;
+  opacity: 0.8;
 }
 
 .infoContent {
@@ -254,37 +256,111 @@
   word-break: break-word;
 }
 
+.paymentStatusItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px dashed #e6e6e6;
+}
+
+.paymentStatusIcon {
+  color: #fea116;
+  font-size: 16px;
+  margin-top: 3px;
+  opacity: 0.8;
+}
+
+.paymentStatusContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.paymentStatusLabel {
+  color: #666666;
+  font-size: 13px;
+}
+
+.paymentStatusValue {
+  display: flex;
+  align-items: center;
+}
+
+.statusConfirmed,
+.statusPending {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.statusConfirmed {
+  background-color: rgba(132, 204, 22, 0.1);
+  color: #65a30d;
+}
+
+.statusPending {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+.statusIcon {
+  font-size: 14px;
+}
+
 .cardFooter {
   padding: 16px;
   background-color: #f9f9f9;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #e6e6e6;
   display: flex;
-  justify-content: center;
+  gap: 10px;
 }
 
-.viewButton {
+.viewContractButton,
+.viewInvoiceButton {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #fea116;
-  color: white;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
+  flex: 1;
 }
 
-.viewButton:hover {
-  background-color: #e89000;
+.viewContractButton {
+  background-color: #fea116;
+  color: white;
+}
+
+.viewContractButton:hover {
+  background-color: #fea116;
   transform: translateY(-2px);
 }
 
-.viewButton:active {
+.viewInvoiceButton {
+  background-color: #ffffff;
+  color: #fea116;
+  border: 1px solid #fea116;
+}
+
+.viewInvoiceButton:hover {
+  background-color: white;
+  transform: translateY(-2px);
+}
+
+.viewContractButton:active,
+.viewInvoiceButton:active {
   transform: translateY(0);
 }
 
@@ -358,5 +434,9 @@
   .cardBody,
   .cardFooter {
     padding: 12px;
+  }
+
+  .cardFooter {
+    flex-direction: column;
   }
 }

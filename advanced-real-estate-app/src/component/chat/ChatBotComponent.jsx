@@ -17,6 +17,7 @@ import {
   setStaffsOnline,
   setStaffsOffline,
 } from "../../redux/reducers/chatReducer";
+import { useTranslation } from "react-i18next";
 
 const ChatBotComponent = () => {
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
@@ -24,6 +25,7 @@ const ChatBotComponent = () => {
   const dispatch = useDispatch();
   const chat = useSelector(chatSelector);
   const auth = useSelector(authSelector);
+  const { t } = useTranslation();
 
   const handleChatIconClick = () => {
     setIsChatBoxVisible(true);
@@ -80,7 +82,7 @@ const ChatBotComponent = () => {
                     className={styles.bot_icon}
                   />
                 </div>
-                <span>Trợ lý ảo</span>
+                <span>{t("home.labels.ai")}</span>
               </button>
               <button
                 className={`${styles.tab} ${
@@ -89,7 +91,7 @@ const ChatBotComponent = () => {
                 onClick={handleRoomChange}
               >
                 <BsPeopleFill />
-                <span>Nhân viên tư vấn</span>
+                <span>{t("home.labels.couselStaff")}</span>
               </button>
             </div>
 
@@ -97,8 +99,8 @@ const ChatBotComponent = () => {
             <div className={styles.header_content}>
               <span className={styles.header_title}>
                 {activeTab === "ai"
-                  ? "Trợ lý ảo ADVANCED REAL ESTATE"
-                  : "Tư vấn trực tiếp"}
+                  ? t("home.labels.ai") + t("home.title")
+                  : t("home.labels.couselStaff") + t("home.labels.direct")}
               </span>
               <button className={styles.close_btn} onClick={handleCloseChat}>
                 ✖

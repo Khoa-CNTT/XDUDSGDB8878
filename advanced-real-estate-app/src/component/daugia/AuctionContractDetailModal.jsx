@@ -18,9 +18,9 @@ import AuctionContractRealToolTip from "../auctionContract/AuctionContractRealTo
 import BuildingLinkDetailToolTip from "../building/BuildingLinkDetailToolTip";
 import { buttonStyleElements } from "../../component/element/buttonStyleElement";
 import { GrStatusGood } from "react-icons/gr";
+import { TbCoinOff } from "react-icons/tb";
 import { GoShieldCheck } from "react-icons/go";
 import { PaymentStatus } from "../../screens/admin/AuctionContractScreen";
-import { TbCoinOff } from "react-icons/tb";
 import { styleElements } from "../element/styleElement";
 import { FaUserCheck } from "react-icons/fa6";
 import { appInfo } from "../../constants/appInfos";
@@ -36,7 +36,7 @@ const AuctionContractDetailModal = (props) => {
   const [info, setInfo] = useState(null);
   const [files, setFiles] = useState({});
   const [previews, setPreviews] = useState({});
-  const hasManagement =
+  const managementPermission =
     listRoleRequireForManagerPage[0] === auth?.roleUser?.role_type;
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
@@ -249,7 +249,7 @@ const AuctionContractDetailModal = (props) => {
                   </span>
                 </div>
 
-                {hasManagement && (
+                {managementPermission && (
                   <div className={styleAuctionContractDetails.detailItem}>
                     <span className={styleAuctionContractDetails.detailLabel}>
                       Tải ảnh hợp đồng ký kết lên:
@@ -308,7 +308,7 @@ const AuctionContractDetailModal = (props) => {
                     )}
 
                     {info?.contractStatus !== appVariables.PENDING &&
-                    !hasManagement ? (
+                    !managementPermission ? (
                       <WinBadge
                         icon={<GoShieldCheck />}
                         message={"Bạn đã ký thỏa thuận"}

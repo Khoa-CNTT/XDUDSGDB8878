@@ -60,6 +60,7 @@ public class AuctionContractMapper {
                 .depositAmount(auctionContract.getDepositAmount())
                 .settingDate(auctionContract.getSettingDate())
                 .paymentStatus(auctionContract.getPaymentStatus())
+                .numberPayment(auctionContract.getNumberPayment())
                 .contractStatus(auctionContract.getContractStatus())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
