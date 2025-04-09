@@ -208,6 +208,7 @@ public class AuctionContractHandler implements AuctionContractService {
                 .outstandingBalance(auctionContract.getOutstandingBalance())
                 .confirmPaymentDate(auctionContract.getConfirmPaymentDate())
                 .paymentCode(auctionContract.getPaymentCode())
+                .numberPayment(auctionContract.getNumberPayment())
                 .description(auctionContract.getDescription())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract
@@ -311,7 +312,14 @@ public class AuctionContractHandler implements AuctionContractService {
             throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
         }
         double bidAmount =  auctionContract.getAuctionDetail().getBidAmount();
-        auctionContract.setOutstandingBalance(bidAmount - dto.getDepositAmount());
+        double outstandingBalance =  auctionContract.getOutstandingBalance();
+        if(outstandingBalance < 1){
+            throw new AppException(ErrorCode.AUCTION_CONTRACT_BAD_REQUEST);
+        }
+        auctionContract.setOutstandingBalance(
+        auctionContract.getDepositAmount() < 0 ? bidAmount - dto.getDepositAmount() :
+        outstandingBalance - dto.getDepositAmount());
+        auctionContract.setNumberPayment(auctionContract.getNumberPayment() + 1);
         auctionContract.setDepositAmount(dto.getDepositAmount());
         auctionContract.setConfirmPaymentDate(currentDateTime);
         auctionContract.setDescription(dto.getDescription());

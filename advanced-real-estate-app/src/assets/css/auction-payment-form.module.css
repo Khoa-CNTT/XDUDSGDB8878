@@ -14,10 +14,10 @@
 
 .modalContainer {
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 650px; /* Increased from 500px */
+  max-width: 650px;
   position: relative;
   animation: slideIn 0.3s ease;
   overflow: hidden;
@@ -27,9 +27,10 @@
 .receiptHeader {
   display: flex;
   align-items: center;
-  padding: 16px 24px; /* Reduced vertical padding */
-  background-color: #f8f9fa;
+  padding: 20px;
+  background-color: #f0f5ff;
   position: relative;
+  border-bottom: 1px solid #e6efff;
 }
 
 .receiptLogo {
@@ -37,16 +38,17 @@
 }
 
 .logoCircle {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4a90e2, #2563eb);
+  background: linear-gradient(135deg, #1677ff, #0958d9);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 600;
   font-size: 12px;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.2);
 }
 
 .receiptInfo {
@@ -56,24 +58,25 @@
 .receiptTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 6px 0;
+  color: #0958d9;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
 }
 
 .receiptMeta {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
 }
 
 .receiptMetaItem {
   font-size: 13px;
-  color: #64748b;
+  color: #5c6b8a;
 }
 
 .receiptMetaItem span {
   font-weight: 600;
-  color: #475569;
+  color: #1e293b;
 }
 
 .closeButton {
@@ -110,28 +113,31 @@
 
 /* Payment Summary */
 .paymentSummary {
-  padding: 16px 24px; /* Reduced vertical padding */
-  background-color: #f8fafc;
+  padding: 16px 20px;
+  background-color: #fafcff;
   display: flex;
-  justify-content: space-between; /* Make items display side by side */
+  justify-content: space-between;
   flex-wrap: wrap;
+  border-bottom: 1px solid #e6efff;
+}
+
+.summaryColumn {
+  width: 48%;
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px; 
+  margin-bottom: 12px;
   font-size: 14px;
-  width: 48%; 
 }
 
 .summaryRow:last-child {
   margin-bottom: 0;
-  font-weight: 600;
 }
 
 .summaryLabel {
-  font-weight: bold;
+  font-weight: 600;
   color: #475569;
 }
 
@@ -140,27 +146,33 @@
   font-weight: 600;
 }
 
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0958d9;
+  margin: 16px 20px 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e6efff;
+}
+
 .paymentStatusContainer {
-  padding: 8px 24px; 
-  background-color: #ecfdf5;
+  padding: 12px 20px;
+  background-color: #f0fdf4;
   border-left: 4px solid #10b981;
-  margin: 12px 24px; 
-  border-radius: 4px;
+  margin: 16px 20px;
+  border-radius: 6px;
 }
 
 /* Payment Form */
 .paymentForm {
-  padding: 16px 24px; /* Reduced vertical padding */
+  padding: 16px 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
 .formGroup {
-  margin-bottom: 0; /* Remove bottom margin */
-  width: calc(
-    50% - 10px
-  ); /* Make each form group take roughly half the width */
+  width: calc(50% - 10px);
 }
 
 .label {
@@ -178,20 +190,20 @@
 .input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #d1e0ff;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   transition: all 0.2s ease;
   background-color: #f8fafc;
   color: #1e293b;
-  font-weight: 600;
+  font-weight: 500;
   padding-right: 60px;
 }
 
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #1677ff;
+  box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.1);
   background-color: white;
 }
 
@@ -208,19 +220,19 @@
 .textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #d1e0ff;
   border-radius: 8px;
   font-size: 14px;
   resize: none;
   transition: all 0.2s ease;
   background-color: #f8fafc;
-  min-height: 60px; /* Reduced height */
+  min-height: 60px;
 }
 
 .textarea:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #1677ff;
+  box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.1);
   background-color: white;
 }
 
@@ -243,7 +255,7 @@
 
 /* Payment Method */
 .paymentMethod {
-  padding: 0 24px 16px; /* Reduced bottom padding */
+  padding: 0 20px 16px;
 }
 
 .paymentMethodHeader {
@@ -255,7 +267,7 @@
 
 .paymentMethodBody {
   background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d1e0ff;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -271,7 +283,7 @@
 
 .paymentMethodRadio input[type="radio"] {
   margin-right: 10px;
-  accent-color: #3b82f6;
+  accent-color: #1677ff;
 }
 
 .paymentMethodRadio label {
@@ -281,39 +293,39 @@
 
 /* Receipt Footer */
 .receiptFooter {
-  padding: 16px 24px; /* Reduced vertical padding */
-  background-color: #f8f9fa;
-  border-top: 1px solid #e2e8f0;
-  text-align: center;
+  padding: 16px 20px;
+  background-color: #f0f5ff;
+  border-top: 1px solid #e6efff;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .submitButton {
-  width: auto; /* Changed from 100% */
-  padding: 12px 24px; /* Reduced vertical padding */
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #1677ff, #0958d9);
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-  min-width: 200px; 
+  box-shadow: 0 4px 6px rgba(22, 119, 255, 0.2);
+  min-width: 180px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .submitButton:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #0958d9, #003eb3);
   transform: translateY(-1px);
-  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 8px rgba(22, 119, 255, 0.25);
 }
 
 .submitButton:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
 }
 
 .submitButton:disabled {
@@ -324,9 +336,8 @@
 }
 
 .receiptNote {
-  margin-top: 0;
   font-size: 13px;
-  color: #C0162D;
+  color: #e11d48;
   font-style: italic;
 }
 
@@ -358,12 +369,13 @@
     max-width: none;
   }
 
-  .paymentSummary {
-    flex-direction: column;
+  .summaryColumn {
+    width: 100%;
+    margin-bottom: 12px;
   }
 
-  .summaryRow {
-    width: 100%;
+  .summaryColumn:last-child {
+    margin-bottom: 0;
   }
 
   .paymentForm {

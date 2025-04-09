@@ -3,19 +3,21 @@ import styles from "../../assets/css/chatBotComponent.module.css";
 import { message } from "antd";
 import handleAPI from "../../apis/handlAPI";
 import { f_collectionUtil } from "../../utils/f_collectionUtil";
+import { useTranslation } from "react-i18next";
 
 const AiChat = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
         {
-          text: "Chào bạn! Tôi có thể giúp gì cho bạn về bất động sản?",
-          sender: "bot",
+          text: t("home.chat.ai.message"),
+          sender: t("home.chat.ai.sender"),
         },
       ]);
     }
@@ -42,13 +44,17 @@ const AiChat = () => {
       try {
         const res = await handleAPI(url, payload, "POST");
         const pred = res?.prediction;
-        const content = `${pred?.name || null} có diện tích ${
-          pred?.acreage || null
-        } mét vuông, tọa lạc tại số ${pred?.address || null}, quận ${
+        const content = `${pred?.name || null} ${t(
+          "home.chat.ai.messages.area"
+        )} ${pred?.acreage || null} ${t("home.chat.ai.messages.m2")} ${t(
+          "home.chat.ai.messages.address"
+        )} ${pred?.address || null}${t("home.chat.ai.messages.province")} ${
           pred?.district || null
-        }, thành phố ${pred?.province || null}, phù hợp với ${
-          pred?.description || null
-        } và có ${pred?.number_of_basement || null} tầng hầm.`;
+        }${t("home.chat.ai.messages.city")} ${pred?.province || null}${t(
+          "home.chat.ai.messages.phuhop"
+        )}  ${pred?.description || null} ${t("home.chat.ai.messages.vaCo")} ${
+          pred?.number_of_basement || null
+        } ${t("home.chat.ai.messages.tangham")}`;
         setInputMessage(""); // Xóa nội dung input
         // Phản hồi của bot (giả lập)
         setTimeout(() => {
@@ -56,7 +62,7 @@ const AiChat = () => {
             ...prevMessages,
             {
               text: content,
-              sender: "bot",
+              sender: t("home.chat.ai.sender"),
             },
           ]);
         }, 500); // Độ trễ 0.5 giây
@@ -65,7 +71,7 @@ const AiChat = () => {
         message.error("ERROR: " + error?.message);
       }
     } else {
-      alert("Vui lòng nhập tin nhắn!");
+      message.error(t("home.chat.ai.labels.notification"));
     }
   };
 
@@ -109,7 +115,7 @@ const AiChat = () => {
       <div className={styles.chat_footer}>
         <input
           type="text"
-          placeholder="Nhập câu hỏi của bạn..."
+          placeholder={t("home.chat.ai.placeholder.question")}
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyPress={handleKeyPress}

@@ -13,6 +13,7 @@ import RoomAuctionComponent from "../../component/daugia/RoomAuctionComponent";
 import DauGiaComponent from "../../component/daugia/DauGiaComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { auctionSelector } from "../../redux/reducers/auctionReducer";
+import { useTranslation } from "react-i18next";
 
 let stompClient = null;
 
@@ -20,6 +21,7 @@ const HomeScreen = () => {
   const auctionReducer = useSelector(auctionSelector);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (auctionReducer?.lastAction === "joinAuctionRoomCompleted") {
@@ -43,8 +45,10 @@ const HomeScreen = () => {
             }}
           >
             <h1 className="mb-5">
-              CÁC PHIÊN ĐẤU{" "}
-              <span className="text-primary text-uppercase">GIÁ DIỄN RA</span>
+              {t("home.labels.session")}
+              <span className="text-primary text-uppercase">
+                {t("home.labels.auction")}
+              </span>
             </h1>
           </div>
           <div>

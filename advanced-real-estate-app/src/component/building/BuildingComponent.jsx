@@ -31,6 +31,7 @@ import { authSelector } from "../../redux/reducers/authReducer";
 import { FaAddressBook } from "react-icons/fa6";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { message } from "antd";
+import { useTranslation } from "react-i18next";
 
 // Hàm tính khoảng cách giữa hai tọa độ (haversine formula)
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -49,6 +50,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 const BuildingComponent = () => {
+  const { t } = useTranslation();
   const buildingReducer = useSelector(buildingSelector);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
@@ -83,7 +85,7 @@ const BuildingComponent = () => {
       })
       .catch((error) => {
         dispatch(failed());
-        console.error("Fetch error: ", error);
+        console.error(t("home.building.errors.message"), error);
       });
   }, [dispatch]);
 
@@ -109,11 +111,11 @@ const BuildingComponent = () => {
           setNearbyBuildings(filteredBuildings); // Lưu các tòa nhà trong bán kính 1km
         },
         (error) => {
-          console.error("Lỗi khi lấy vị trí người dùng: ", error);
+          console.error(t("home.map.errors.location"), error);
         }
       );
     } else {
-      console.error("Trình duyệt không hỗ trợ Geolocation.");
+      console.error(t("home.map.errors.browser"));
     }
   }, [buildings]); // Lắng nghe sự thay đổi của danh sách tòa nhà để thực hiện lọc khi có dữ liệu mới
 
@@ -213,7 +215,7 @@ const BuildingComponent = () => {
   if (buildingReducer?.isError) {
     return (
       <div>
-        <h3>Loading...</h3>
+        <h3>{t("home.building.messages.loading")}</h3>
       </div>
     );
   }
@@ -278,7 +280,7 @@ const BuildingComponent = () => {
 
   const hanldCreateContract = async () => {
     if (detailBuilding?.status < 1) {
-      message.error("Nhà đã có chủ sở hữu!");
+      message.error(t("home.building.messages.errorCreateContract"));
       return;
     }
     const payload = {
@@ -325,8 +327,10 @@ const BuildingComponent = () => {
               {appInfo.title}
             </h6>
             <h1 className="mb-5">
-              NHÀ CỦA{" "}
-              <span className="text-primary text-uppercase">CHÚNG TÔI</span>
+              {t("home.labels.ourBuilding")}
+              <span className="text-primary text-uppercase">
+                {t("home.labels.we")}
+              </span>
             </h1>
           </div>
           <div className="row g-4">
@@ -341,7 +345,7 @@ const BuildingComponent = () => {
                     <i className="fa fa-search" />
                   </span>
                   <span className={`${styles.filterText}`}>
-                    BẤM VÀO ĐIỂM TÌM KIẾM
+                    {t("home.buttons.search")}
                   </span>
                 </div>
               </div>
@@ -413,7 +417,7 @@ const BuildingComponent = () => {
                     <p>{`Địa chỉ: ${building.map?.address}`}</p>
                     <p>
                       <Link to={`/buildings/${building?.id}`}>
-                        Xem chi tiết ngay
+                        {t("home.map.links.viewDetail")}
                       </Link>
                     </p>
                   </Popup>
@@ -516,7 +520,9 @@ const BuildingComponent = () => {
                               <div className="col">
                                 {building?.typeBuilding?.type_name
                                   ?.toLowerCase()
-                                  .includes("thuê") ?? false ? (
+                                  .includes(
+                                    t("home.building.keys.thue").toLowerCase()
+                                  ) ?? false ? (
                                   <button
                                     className="btn btn-primary h-100 w-100 rounded"
                                     data-bs-toggle="modal"
@@ -524,7 +530,7 @@ const BuildingComponent = () => {
                                     onClick={() => setDetailBuiding(building)}
                                     disabled={building?.status < 1}
                                   >
-                                    Thuê
+                                    {t("home.building.buttons.thue")}
                                   </button>
                                 ) : (
                                   <button
@@ -534,7 +540,7 @@ const BuildingComponent = () => {
                                     onClick={() => setDetailBuiding(building)}
                                     disabled={building?.status < 1}
                                   >
-                                    Mua
+                                    {t("home.building.buttons.buy")}
                                   </button>
                                 )}
                               </div>
@@ -543,7 +549,7 @@ const BuildingComponent = () => {
                                   className="btn btn-info w-100 rounded"
                                   to={`/buildings/${building?.id}`}
                                 >
-                                  Xem chi tiết
+                                  {t("home.building.links.viewDetail")}
                                 </Link>
                               </div>
                             </>
@@ -554,7 +560,7 @@ const BuildingComponent = () => {
                                   className="btn btn-info w-100 rounded"
                                   to={`/buildings/${building?.id}`}
                                 >
-                                  Xem chi tiết
+                                  {t("home.building.links.viewDetail")}
                                 </Link>
                               </div>
                             </>

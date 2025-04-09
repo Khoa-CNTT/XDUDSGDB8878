@@ -27,6 +27,7 @@ public class AuctionContractResponse {
     private String avatar;
     private String contractImage;
     private int paymentStatus;
+    private int numberPayment;
     private String confirmPaymentDate;
     private String paymentCode;
     private double depositAmount;
