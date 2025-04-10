@@ -149,7 +149,7 @@
 
 ### Cách khởi chạy:
 
-\`\`\`bash
+```js
 # Clone repository
 git clone https://github.com/Khoa-CNTT/XDUDSGDB8878.git
 
@@ -158,7 +158,7 @@ cd XDUDSGDB8878
 
 # Khởi chạy với Docker Compose
 docker-compose up --build
-\`\`\`
+```
 
 ## 👨‍💻 Contributors
 
