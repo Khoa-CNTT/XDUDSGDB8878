@@ -13,14 +13,14 @@
 
 ## ✨ Công Nghệ Sử Dụng
 
-<div>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; justify-content: space-between;">
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🐳</span><br>Docker</div>
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🌀</span><br>Spring Boot</div>
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">⚛️</span><br>React</div>
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🤖</span><br>Gemini AI</div>
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🐍</span><br>Flask</div>
-    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🧠</span><br>DeepSeek AI</div>
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🐳</span><br>Docker</div>
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🌀</span><br>Spring Boot</div>
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">⚛️</span><br>React</div>
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🤖</span><br>Gemini AI</div>
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🐍</span><br>Flask</div>
+    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🧠</span><br>DeepSeek AI</div>
   </div>
 </div>
 
@@ -234,9 +234,9 @@ docker-compose up --build
 
 ## 👨‍💻 Contributors
 
-<div>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px; justify-content: space-between;">
-    <div style="width: 150px; text-align: center;">
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+    <div style="text-align: center; width: 150px;">
       <a href="https://github.com/ngockhanhnktech">
         <img src="https://github.com/ngockhanhnktech.png" width="100px;" alt="Nguyễn Ngọc Khánh" style="border-radius: 50%;"/>
         <br />
@@ -244,7 +244,7 @@ docker-compose up --build
       </a>
       <div>@ngockhanhnktech</div>
     </div>
-    <div style="width: 150px; text-align: center;">
+    <div style="text-align: center; width: 150px;">
       <a href="https://github.com/vanmanh1303">
         <img src="https://github.com/vanmanh1303.png" width="100px;" alt="Phùng Văn Mạnh" style="border-radius: 50%;"/>
         <br />
@@ -252,7 +252,7 @@ docker-compose up --build
       </a>
       <div>@vanmanh1303</div>
     </div>
-    <div style="width: 150px; text-align: center;">
+    <div style="text-align: center; width: 150px;">
       <a href="https://github.com/namNguyen212003">
         <img src="https://github.com/namNguyen212003.png" width="100px;" alt="Nguyễn Khắc Hoài Nam" style="border-radius: 50%;"/>
         <br />
@@ -260,7 +260,7 @@ docker-compose up --build
       </a>
       <div>@namNguyen212003</div>
     </div>
-    <div style="width: 150px; text-align: center;">
+    <div style="text-align: center; width: 150px;">
       <a href="https://github.com/ntiendev">
         <img src="https://github.com/ntiendev.png" width="100px;" alt="Trần Ngọc Tiến" style="border-radius: 50%;"/>
         <br />
@@ -268,7 +268,7 @@ docker-compose up --build
       </a>
       <div>@ntiendev</div>
     </div>
-    <div style="width: 150px; text-align: center;">
+    <div style="text-align: center; width: 150px;">
       <a href="https://github.com/tuongclearlove7">
         <img src="https://github.com/tuongclearlove7.png" width="100px;" alt="Trần Thế Tường" style="border-radius: 50%;"/>
         <br />
