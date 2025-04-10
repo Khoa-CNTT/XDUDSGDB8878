@@ -1,0 +1,162 @@
+{
+  "home": {
+    "welcome": "Welcome to ",
+    "title": "ADVANCED REAL ESTATE",
+    "nameAI": "ADVANCED REAL ESTATE AI",
+    "description": "Website giao dịch bất động sản là nền tảng trực tuyến hiện đại giúp người dùng dễ dàng tìm kiếm, mua bán, cho thuê nhà đất và các loại hình bất động sản khác. Với giao diện thân thiện, công cụ tìm kiếm thông minh và dữ liệu luôn được cập nhật, người dùng có thể tiếp cận nhanh chóng các cơ hội đầu tư tiềm năng, minh bạch và an toàn.",
+    "email": "nhom12@dtu.edu.vn",
+    "companyName": "Công Ty CP Đất Xanh Miền Trung",
+    "address": "15 Quang Trung, Hải Châu 1, Hải Châu, Đà Nẵng",
+    "phoneNumber": "+84915662495",
+    "siteName": "advenced.real.estate.com, ",
+    "char": "© ",
+    "team": "Nhóm 12",
+    "html": "HTML Codex",
+    "headers": {
+      "links": {
+        "menu": "Trang chủ",
+        "building": "Bất động sản",
+        "management": "Quản lý",
+        "auction": "Đấu giá",
+        "other": "Khác",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "logout": "Đăng xuất",
+        "info": "Thông tin cá nhân",
+        "contact": "Liên hệ"
+      },
+      "buttons": {
+        "title": "ADVANCED REAL ESTATE",
+        "send": "GỬI"
+      }
+    },
+    "banners": {
+      "labels": {
+        "discover": "Discover A"
+      },
+      "title": "ADVANCED REAL ESTATE",
+      "buttons": {
+        "ourBuilding": "Bất động sản của chúng tôi",
+        "view": "Xem ngay"
+      }
+    },
+    "footers": {
+      "title": "ADVANCED REAL ESTATE",
+      "labels": {
+        "contact": "LIÊN HỆ",
+        "company": "CÔNG TY",
+        "service": "DỊCH VỤ",
+        "customer": "Khách hàng",
+        "description": "Đã đăng ký Bản quyền. ",
+        "by": "Được thiết kế bởi "
+      },
+      "links": {
+        "service": {
+          "auction": "Đấu giá",
+          "buy": "Mua bán bất động sản"
+        },
+        "company": {
+          "contact": "Liên hệ chúng tôi",
+          "us": "Về chúng tôi",
+          "policy": "Chính sách bảo mật"
+        },
+        "contact": {},
+        "cookies": "Cookies",
+        "home": "Trang chủ",
+        "help": "Trợ giúp",
+        "faq": "FQAs"
+      }
+    },
+    "labels": {
+      "user": "Người dùng",
+      "ai": "Trợ lý ảo ",
+      "couselStaff": "Nhân viên tư vấn ",
+      "direct": "trực tiếp",
+      "bds": "Bất động sản",
+      "staff": "Nhân viên",
+      "customer": "Khách hàng",
+      "ourBuilding": "NHÀ CỦA ",
+      "we": "CHÚNG TÔI",
+      "auction": "ĐẤU GIÁ DIỄN RA",
+      "session": "CÁC PHIÊN ",
+      "contactOur": "LIÊN HỆ VỚI CHÚNG TÔI ",
+      "detail": "ĐỂ BIẾT THÊM CHI TIẾT",
+      "yourEmail": "EMAIL CỦA BẠN",
+      "content": "NỘI DUNG GỬI"
+    },
+    "buttons": {
+      "search": "BẤM VÀO ĐIỂM TÌM KIẾM",
+      "explore": "Khám phá thêm",
+      "send": "GỬI"
+    },
+    "building": {
+      "messages": {
+        "loading": "Loading...",
+        "errorCreateContract": "Nhà đã có chủ sở hữu!"
+      },
+      "keys": {
+        "thue": "thuê",
+        "buy": "mua"
+      },
+      "buttons": {
+        "buy": "Mua",
+        "thue": "Thuê"
+      },
+      "links": {
+        "viewDetail": "Xem chi tiết"
+      },
+      "errors": {
+        "message": "Đã có lỗi xảy ra"
+      }
+    },
+    "map": {
+      "links": {
+        "viewDetail": "Xem chi tiết ngay"
+      },
+      "errors": {
+        "message": "Đã có lỗi xảy ra",
+        "location": "Lỗi khi lấy vị trí người dùng: ",
+        "browser": "Trình duyệt không hỗ trợ Geolocation."
+      }
+    },
+    "chat": {
+      "ai": {
+        "message": "Chào bạn! Tôi có thể giúp gì cho bạn về bất động sản?",
+        "thinking": "Tôi đang suy nghĩ",
+        "sender": "bot",
+        "placeholder": {
+          "question": "Nhập câu hỏi của bạn..."
+        },
+        "messages": {
+          "area": "có diện tích",
+          "tangham": "tầng hầm.",
+          "city": ", thành phố",
+          "address": "tọa lạc tại số",
+          "m2": "mét vuông,",
+          "province": ", quận",
+          "phuhop": ", phù hợp với",
+          "vaCo": "và có"
+        },
+        "labels": {
+          "notification": "Vui lòng nhập tin nhắn!"
+        }
+      },
+      "withStaff": {
+        "placeholder": {
+          "message": "Nhập tin nhắn..."
+        },
+        "sibar": {
+          "user": "Người dùng",
+          "hideList": "Ẩn danh sách",
+          "showList": "Hiện danh sách",
+          "admin": "Quản trị viên",
+          "staff": "Nhân viên",
+          "customer": "Khách hàng"
+        },
+        "labels": {
+          "notification": "Vui lòng chọn một nhân viên để bắt đầu trò chuyện"
+        }
+      }
+    }
+  }
+}

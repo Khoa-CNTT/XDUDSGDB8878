@@ -47,13 +47,20 @@ public class AuctionContractMapper {
 
         AuctionContractResponse dto = AuctionContractResponse.builder()
                 .id(auctionContract.getId())
+                .code(auctionContract.getCode())
                 .full_name(auctionContract.getFull_name())
                 .phone_number(auctionContract.getPhone_number())
                 .birthday(auctionContract.getBirthday())
                 .address(auctionContract.getAddress())
                 .note(auctionContract.getNote())
+                .paymentCode(auctionContract.getPaymentCode())
+                .description(auctionContract.getDescription())
+                .confirmPaymentDate(auctionContract.getConfirmPaymentDate())
+                .outstandingBalance(auctionContract.getOutstandingBalance())
+                .depositAmount(auctionContract.getDepositAmount())
                 .settingDate(auctionContract.getSettingDate())
                 .paymentStatus(auctionContract.getPaymentStatus())
+                .numberPayment(auctionContract.getNumberPayment())
                 .contractStatus(auctionContract.getContractStatus())
                 .cccd_front(String.format("http://%s:%s/api/user/auction-contract/%s",
                 serverHost, serverPort, Paths.get(auctionContract

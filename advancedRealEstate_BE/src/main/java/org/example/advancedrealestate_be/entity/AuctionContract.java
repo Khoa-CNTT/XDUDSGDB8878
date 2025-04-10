@@ -21,6 +21,7 @@ public class AuctionContract {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    private String code;
     private String full_name;
     private String phone_number;
     private String birthday;
@@ -28,6 +29,14 @@ public class AuctionContract {
     private String contractStatus;
     private Date settingDate;
     private int paymentStatus;
+    private String confirmPaymentDate;
+    private String paymentCode;
+    private double depositAmount;
+    private double outstandingBalance;
+    private int numberPayment;
+
+    @Column(columnDefinition = "text")
+    private String description;
 
     @Column(columnDefinition = "text")
     private String note;

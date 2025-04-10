@@ -18,11 +18,12 @@ import AuctionContractRealToolTip from "../auctionContract/AuctionContractRealTo
 import BuildingLinkDetailToolTip from "../building/BuildingLinkDetailToolTip";
 import { buttonStyleElements } from "../../component/element/buttonStyleElement";
 import { GrStatusGood } from "react-icons/gr";
+import { TbCoinOff } from "react-icons/tb";
 import { GoShieldCheck } from "react-icons/go";
 import { PaymentStatus } from "../../screens/admin/AuctionContractScreen";
-import { TbCoinOff } from "react-icons/tb";
 import { styleElements } from "../element/styleElement";
 import { FaUserCheck } from "react-icons/fa6";
+import { appInfo } from "../../constants/appInfos";
 
 const AuctionContractDetailModal = (props) => {
   const auth = useSelector(authSelector);
@@ -35,7 +36,7 @@ const AuctionContractDetailModal = (props) => {
   const [info, setInfo] = useState(null);
   const [files, setFiles] = useState({});
   const [previews, setPreviews] = useState({});
-  const hasManagement =
+  const managementPermission =
     listRoleRequireForManagerPage[0] === auth?.roleUser?.role_type;
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
@@ -44,10 +45,6 @@ const AuctionContractDetailModal = (props) => {
       ...props?.utils?.objectItem,
     });
   }, [props]);
-
-  useEffect(() => {
-    console.log("info:", info);
-  }, [info]);
 
   useEffect(() => {
     return () => {
@@ -156,10 +153,10 @@ const AuctionContractDetailModal = (props) => {
               <div className={styleAuctionContractDetails.contractInfo}>
                 <div className={styleAuctionContractDetails.infoItem}>
                   <span className={styleAuctionContractDetails.infoLabel}>
-                    Số Hợp Đồng:
+                    Mã Hợp Đồng:
                   </span>
                   <span className={styleAuctionContractDetails.infoValue}>
-                    AUC-2025-{info?.id}
+                    AUC-2025-{info?.code}
                   </span>
                 </div>
                 <div className={styleAuctionContractDetails.infoItem}>
@@ -190,7 +187,7 @@ const AuctionContractDetailModal = (props) => {
                   <h4 className={styleAuctionContractDetails.partyTitle}>
                     Bên A (Đơn Vị Tổ Chức Đấu Giá):
                   </h4>
-                  <p>Công Ty CP Đất Xanh Miền Trung</p>
+                  <p>{appInfo.companyName}</p>
                   <p>Địa chỉ: 03 Quang Trung, Hải Châu, TP. Đà Nẵng</p>
                   <p>Đại diện: Ông/Bà Nguyễn Ngọc Khánh</p>
                 </div>
@@ -252,16 +249,16 @@ const AuctionContractDetailModal = (props) => {
                   </span>
                 </div>
 
-                {hasManagement && (
+                {managementPermission && (
                   <div className={styleAuctionContractDetails.detailItem}>
                     <span className={styleAuctionContractDetails.detailLabel}>
-                      Tải ảnh hợp đồng thực lên:
+                      Tải ảnh hợp đồng ký kết lên:
                     </span>
                     <span className={styleAuctionContractDetails.detailValue}>
                       <input
                         type="file"
                         id="contractImage"
-                        className={styleAuctionDetails.input}
+                        className={styleAuctionContractDetails.input}
                         placeholder="Chọn căn cước công dân mặt sau"
                         name={"contractImage"}
                         onChange={handleChooseFileChange}
@@ -300,18 +297,18 @@ const AuctionContractDetailModal = (props) => {
                       <PaymentStatus
                         styles={styleElements.statusConfirmStyle}
                         message={`Đã xác nhận thanh toán`}
-                        icon={<GrStatusGood style={{ fontSize: "25px" }} />}
+                        icon={<GrStatusGood style={{ fontSize: "15px" }} />}
                       />
                     ) : (
                       <PaymentStatus
                         styles={styleElements.statusYetConfirmStyle}
                         message={`Chưa xác nhận thanh toán`}
-                        icon={<TbCoinOff style={{ fontSize: "25px" }} />}
+                        icon={<TbCoinOff style={{ fontSize: "15px" }} />}
                       />
                     )}
 
                     {info?.contractStatus !== appVariables.PENDING &&
-                    !hasManagement ? (
+                    !managementPermission ? (
                       <WinBadge
                         icon={<GoShieldCheck />}
                         message={"Bạn đã ký thỏa thuận"}

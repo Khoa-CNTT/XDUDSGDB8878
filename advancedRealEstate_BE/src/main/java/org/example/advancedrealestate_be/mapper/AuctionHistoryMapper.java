@@ -1,7 +1,6 @@
 package org.example.advancedrealestate_be.mapper;
 
-import org.example.advancedrealestate_be.dto.response.AuctionDetailResponse;
-import org.example.advancedrealestate_be.dto.response.AuctionHistoryResponse;
+import org.example.advancedrealestate_be.dto.response.*;
 import org.example.advancedrealestate_be.entity.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,6 +24,9 @@ public class AuctionHistoryMapper {
         Auction auction = auctionHistory.getAuction() == null ? null : auctionHistory.getAuction();
         assert auction != null;
         Building building = auction.getBuilding() == null ? null : auction.getBuilding();
+        assert auction.getBuilding() != null;
+        TypeBuilding typeBuilding = auction.getBuilding().getTypeBuilding();
+        Map map = auction.getBuilding().getMap();
         User client = auctionHistory.getClient() == null ? null : auctionHistory.getClient();
         List<String> buildingImageUrls = new ArrayList<>();
 
@@ -47,7 +49,20 @@ public class AuctionHistoryMapper {
                 .messageBidId(auctionHistory.getMessageBidId())
                 .status(auctionHistory.getStatus())
                 .auction(auction)
-                .building(building)
+                .buildingResponse(BuildingResponse.builder()
+                .id(building.getId())
+                .name(building.getName())
+                .area(building.getAcreage())
+                .status(building.getStatus())
+                .structure(building.getStructure())
+                .description(building.getDescription())
+                .typeBuilding(TypeBuildingResponse.builder()
+                .price(typeBuilding.getPrice())
+                .type_name(typeBuilding.getType_name()).build())
+                .map(MapResponse.builder()
+                .address(map.getAddress()).build())
+                .image(buildingImageUrls)
+                .build())
                 .client(client)
                 .buildingImageUrls(buildingImageUrls)
                 .build();

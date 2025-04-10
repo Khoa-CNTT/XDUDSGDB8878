@@ -13,177 +13,76 @@ import {
   LeftOutlined,
   RightOutlined,
 } from "@ant-design/icons";
+import { Button, message } from "antd";
+import handleAPI from "../../apis/handlAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { authSelector } from "../../redux/reducers/authReducer";
+import { f_collectionUtil } from "../../utils/f_collectionUtil";
+import { AiFillExclamationCircle } from "react-icons/ai";
 
-const mockAuctionHistory = [
-  {
-    id: "AH-1001",
-    auctionName: "Biệt thự Vinhomes Ocean Park",
-    date: "15/03/2023",
-    time: "14:30",
-    bidAmount: 5800000000,
-    propertyType: "Biệt thự",
-    location: "Hà Nội",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1002",
-    auctionName: "Căn hộ cao cấp Landmark 81",
-    date: "22/04/2023",
-    time: "10:00",
-    bidAmount: 12500000000,
-    propertyType: "Căn hộ",
-    location: "TP. Hồ Chí Minh",
-    result: "Chiến thắng",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1003",
-    auctionName: "Nhà phố Phú Mỹ Hưng",
-    date: "05/05/2023",
-    time: "15:45",
-    bidAmount: 8900000000,
-    propertyType: "Nhà phố",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1004",
-    auctionName: "Đất nền Bình Chánh",
-    date: "18/06/2023",
-    time: "09:30",
-    bidAmount: 3200000000,
-    propertyType: "Đất nền",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1005",
-    auctionName: "Căn hộ The Marq",
-    date: "30/06/2023",
-    time: "13:15",
-    bidAmount: 9500000000,
-    propertyType: "Căn hộ",
-    location: "TP. Hồ Chí Minh",
-    result: "Chiến thắng",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1006",
-    auctionName: "Biệt thự Đảo Kim Cương",
-    date: "12/07/2023",
-    time: "11:00",
-    bidAmount: 25000000000,
-    propertyType: "Biệt thự",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1007",
-    auctionName: "Nhà phố Thảo Điền",
-    date: "25/07/2023",
-    time: "16:30",
-    bidAmount: 15800000000,
-    propertyType: "Nhà phố",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1008",
-    auctionName: "Căn hộ Masteri An Phú",
-    date: "08/08/2023",
-    time: "10:45",
-    bidAmount: 6700000000,
-    propertyType: "Căn hộ",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1009",
-    auctionName: "Đất nền Long Thành",
-    date: "20/08/2023",
-    time: "09:00",
-    bidAmount: 4500000000,
-    propertyType: "Đất nền",
-    location: "Đồng Nai",
-    result: "Chiến thắng",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1010",
-    auctionName: "Biệt thự Ecopark",
-    date: "05/09/2023",
-    time: "14:00",
-    bidAmount: 18000000000,
-    propertyType: "Biệt thự",
-    location: "Hưng Yên",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1011",
-    auctionName: "Căn hộ Vinhomes Central Park",
-    date: "18/09/2023",
-    time: "11:30",
-    bidAmount: 7800000000,
-    propertyType: "Căn hộ",
-    location: "TP. Hồ Chí Minh",
-    result: "Tham gia",
-    status: "Đã kết thúc",
-  },
-  {
-    id: "AH-1012",
-    auctionName: "Nhà phố Lakeview City",
-    date: "30/09/2023",
-    time: "15:00",
-    bidAmount: 12000000000,
-    propertyType: "Nhà phố",
-    location: "TP. Hồ Chí Minh",
-    result: "Chiến thắng",
-    status: "Đã kết thúc",
-  },
-];
-
-const ResultBadge = ({ result }) => {
-  const isWinner = result === "Chiến thắng";
+const ResultBadge = ({ result, status, icon }) => {
+  const isConfirmed = status === appVariables.CONFIRMED;
   return (
     <div
       className={`${styles.resultBadge} ${
-        isWinner ? styles.winner : styles.participant
+        !isConfirmed ? styles.winner : styles.participant
       }`}
     >
-      {isWinner ? (
-        <i className="fa fa-trophy"></i>
-      ) : (
-        <i className="fa fa-check-circle"></i>
-      )}
+      {icon}
       <span>{result}</span>
     </div>
   );
 };
 
 const AuctionHistory = () => {
+  const auth = useSelector(authSelector);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const [auctionHistories, setAuctionHistories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 2;
 
-  const filteredHistory = mockAuctionHistory.filter((item) => {
+  useEffect(() => {
+    refresh().then();
+  }, []);
+
+  const refresh = async () => {
+    setLoading(true);
+    try {
+      const res = await handleAPI(
+        `/api/admin/auction-histories/user-auction-histories/${auth?.info?.id}`,
+        {},
+        "get",
+        auth?.token
+      );
+      console.log("data: ", res?.data);
+
+      setAuctionHistories(res?.data);
+    } catch (error) {
+      message.error("Đã có lỗi xảy ra");
+      console.log("Fetch error: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredHistory = auctionHistories.filter((item) => {
     const matchesSearch =
-      item.auctionName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.id.toLowerCase().includes(searchTerm.toLowerCase());
+      item?.auction?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.buildingResponse?.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      item?.messageBidId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.buildingResponse?.map?.address
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
     if (filterType === "all") return matchesSearch;
-    if (filterType === "winner")
-      return matchesSearch && item.result === "Chiến thắng";
-    if (filterType === "participant")
-      return matchesSearch && item.result === "Tham gia";
+    if (filterType === "confimed")
+      return matchesSearch && item?.status === appVariables.CONFIRMED;
+    if (filterType === "yet_confirm")
+      return matchesSearch && item?.status !== appVariables.CONFIRMED;
 
     return matchesSearch;
   });
@@ -195,6 +94,11 @@ const AuctionHistory = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleSearchChange = (e) => {
+    const input = e.target.value;
+    setSearchTerm(input);
   };
 
   useEffect(() => {
@@ -222,7 +126,7 @@ const AuctionHistory = () => {
                 className={styles.searchInput}
                 placeholder="Tìm kiếm..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
               />
             </div>
 
@@ -234,8 +138,8 @@ const AuctionHistory = () => {
                 onChange={(e) => setFilterType(e.target.value)}
               >
                 <option value="all">Tất cả</option>
-                <option value="winner">Chiến thắng</option>
-                <option value="participant">Tham gia</option>
+                <option value="confirmed">Đã duyệt</option>
+                <option value="yet_confirm">Chưa duyệt</option>
               </select>
             </div>
           </div>
@@ -257,13 +161,31 @@ const AuctionHistory = () => {
                   <div className={styles.cardHeader}>
                     <div className={styles.auctionId}>
                       <span className={styles.idLabel}>ID:</span>
-                      <span className={styles.idValue}>{item.id}</span>
+                      <span className={styles.idValue}>
+                        {item?.messageBidId}
+                      </span>
                     </div>
-                    <ResultBadge result={item.result} />
+                    <ResultBadge
+                      result={
+                        item?.status === appVariables.CONFIRMED
+                          ? "Đã duyệt"
+                          : "Chưa duyệt"
+                      }
+                      icon={
+                        item?.status === appVariables.CONFIRMED ? (
+                          <i className="fa fa-check-circle"></i>
+                        ) : (
+                          <AiFillExclamationCircle />
+                        )
+                      }
+                      status={item?.status}
+                    />
                   </div>
 
                   <div className={styles.cardBody}>
-                    <h3 className={styles.auctionName}>{item.auctionName}</h3>
+                    <h3 className={styles.auctionName}>
+                      {item?.auction?.name}
+                    </h3>
 
                     <div className={styles.infoGrid}>
                       <div className={styles.infoItem}>
@@ -271,7 +193,7 @@ const AuctionHistory = () => {
                         <div className={styles.infoContent}>
                           <span className={styles.infoLabel}>Ngày & Giờ:</span>
                           <span className={styles.infoValue}>
-                            {item.date} - {item.time}
+                            {item?.bidTime}
                           </span>
                         </div>
                       </div>
@@ -283,7 +205,7 @@ const AuctionHistory = () => {
                             Số tiền đấu giá:
                           </span>
                           <span className={styles.infoValue}>
-                            {appVariables.formatMoney(item.bidAmount)}
+                            {appVariables.formatMoney(item?.bidAmount)}
                           </span>
                         </div>
                       </div>
@@ -293,7 +215,7 @@ const AuctionHistory = () => {
                         <div className={styles.infoContent}>
                           <span className={styles.infoLabel}>Loại BĐS:</span>
                           <span className={styles.infoValue}>
-                            {item.propertyType}
+                            {item?.buildingResponse?.typeBuilding?.type_name}
                           </span>
                         </div>
                       </div>
@@ -303,7 +225,7 @@ const AuctionHistory = () => {
                         <div className={styles.infoContent}>
                           <span className={styles.infoLabel}>Địa điểm:</span>
                           <span className={styles.infoValue}>
-                            {item.location}
+                            {item?.buildingResponse?.map?.address}
                           </span>
                         </div>
                       </div>
@@ -311,7 +233,16 @@ const AuctionHistory = () => {
                   </div>
 
                   <div className={styles.cardFooter}>
-                    <div className={styles.statusBadge}>{item.status}</div>
+                    <div className={styles.statusBadge}>
+                      {f_collectionUtil.checkTime(
+                        item?.bidTime,
+                        24 * 60 * 60 * 1000
+                      ) === appVariables.NEW ? (
+                        <span>Mới</span>
+                      ) : (
+                        <span>Cũ</span>
+                      )}
+                    </div>
                     <button className={styles.detailButton}>
                       Xem chi tiết
                     </button>

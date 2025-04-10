@@ -14,13 +14,15 @@ import handleAPI from "../../apis/handlAPI";
 import { message } from "antd";
 import styles from "../../assets/css/header-client.module.css";
 import { updatedAuctionRoom } from "../../redux/reducers/auctionReducer";
-import { linkElements } from "../element/linkElement";
+import { getLinkElements } from "../element/linkElement";
 import { f_collectionUtil } from "../../utils/f_collectionUtil";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const auth = useSelector(authSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const utils = {
     auth,
@@ -58,11 +60,11 @@ const Header = () => {
               <div className="col-lg-7 px-5 text-start">
                 <div className="h-100 d-inline-flex align-items-center py-2 me-4">
                   <i className="fa fa-envelope text-primary me-2" />
-                  <p className="mb-0">{appInfo.email}</p>
+                  <p className="mb-0">{t("home.email")}</p>
                 </div>
                 <div className="h-100 d-inline-flex align-items-center py-2">
                   <i className="fa fa-phone text-primary me-2" />
-                  <p className="mb-0">{appInfo.phoneNumber}</p>
+                  <p className="mb-0">{t("home.phoneNumber")}</p>
                 </div>
               </div>
               <div className="col-lg-5 px-5 text-end">
@@ -88,7 +90,7 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
               <a href="index.html" className="navbar-brand d-block d-lg-none">
                 <b className="m-0 text-primary text-uppercase">
-                  {appInfo.title}
+                  {t("home.title")}
                 </b>
               </a>
               <button
@@ -104,7 +106,7 @@ const Header = () => {
                 id="navbarCollapse"
               >
                 <div className="navbar-nav mr-auto py-0">
-                  {linkElements?.navItemNavLinks?.map((item, index) => (
+                  {getLinkElements(t)?.navItemNavLinks?.map((item, index) => (
                     <div key={index}>{item?.link}</div>
                   ))}
                   <div className="nav-item dropdown">
@@ -113,17 +115,19 @@ const Header = () => {
                       className="nav-link dropdown-toggle"
                       data-bs-toggle="dropdown"
                     >
-                      KHÁC
+                      {t("home.headers.links.other")}
                     </Link>
                     <div className="dropdown-menu rounded-0 m-0">
-                      {linkElements?.dropdownItems?.map((item, index) => (
+                      {getLinkElements(t)?.dropdownItems?.map((item, index) => (
                         <div key={index}>{item?.link}</div>
                       ))}
                     </div>
                   </div>
-                  {linkElements?.signInSignUpClientLinks?.map((item, index) => (
-                    <div key={index}>{item?.link}</div>
-                  ))}
+                  {getLinkElements(t)?.signInSignUpClientLinks?.map(
+                    (item, index) => (
+                      <div key={index}>{item?.link}</div>
+                    )
+                  )}
                 </div>
                 {!auth?.token && Object.keys(auth.info).length === 0 ? (
                   <div>
@@ -132,7 +136,7 @@ const Header = () => {
                       className="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block"
                       to={"/"}
                     >
-                      {appInfo.title}
+                      {t("home.title")}
                       <i className="fa fa-arrow-right ms-3" />
                     </Link>
                   </div>
@@ -147,11 +151,13 @@ const Header = () => {
                       {" " + auth?.info?.user_name}
                     </Link>
                     <div className="dropdown-menu rounded-0 m-0">
-                      {linkElements?.listDropdownMenu?.map((item, index) => (
-                        <div key={index}>{item?.link}</div>
-                      ))}
+                      {getLinkElements(t)?.listDropdownMenu?.map(
+                        (item, index) => (
+                          <div key={index}>{item?.link}</div>
+                        )
+                      )}
                       <Link onClick={logout} className="dropdown-item" to={"#"}>
-                        ĐĂNG XUẤT
+                        {t("home.headers.links.logout")}
                       </Link>
                     </div>
                   </div>

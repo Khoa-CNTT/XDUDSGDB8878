@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.request.AuctionDetailRequest;
 import org.example.advancedrealestate_be.dto.request.AuctionHistoryRequest;
 import org.example.advancedrealestate_be.service.AuctionDetailService;
@@ -53,7 +54,7 @@ public class AuctionHistoryApiController {
     @GetMapping("/auction-histories")
     private ResponseEntity<JSONObject> index() {
         JSONObject responseObject = new JSONObject();
-        responseObject.put("data", auctionHistoryService.findAll());
+        responseObject.put("data", auctionHistoryService.findAll());    
         responseObject.put("total", auctionHistoryService.findAll().size());
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
@@ -80,7 +81,7 @@ public class AuctionHistoryApiController {
     private ResponseEntity<JSONObject> handleAcceptanceAuctionHistories(@PathVariable String identity_key) {
         return new ResponseEntity<>(auctionHistoryService.handleAcceptanceAuctionHistories(identity_key), HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-auction")
     @DeleteMapping("/auction-histories/{id}")
     private ResponseEntity<JSONObject> remove(@PathVariable String id) {
         return new ResponseEntity<>(auctionHistoryService.deleteById(id), HttpStatus.OK);

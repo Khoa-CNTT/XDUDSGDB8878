@@ -28,6 +28,7 @@ import { RiRobot3Fill } from "react-icons/ri";
 import { RiRobot3Line } from "react-icons/ri";
 import { appInfo } from "./../../constants/appInfos";
 import { jwtDecode } from "jwt-decode";
+import { useTranslation } from "react-i18next";
 
 let stompClient = appVariables.stompClient;
 
@@ -64,6 +65,7 @@ const StaffChat = (props) => {
   const userData = chat?.userData;
   const dispatch = useDispatch();
   const room = chat?.room;
+  const { t } = useTranslation();
 
   useEffect(() => {
     const type = listRoleRequireForManagerPage[0];
@@ -225,7 +227,9 @@ const StaffChat = (props) => {
       dispatch(setResizeChat());
     }
     f_collectionUtil.handleCollectionArray(
-      `/api/admin/user-messages/${auth?.info?.id}/${activeUser?.email}`,
+      `/api/admin/user-messages/${auth?.info?.id}/${localStorage.getItem(
+        "user"
+      )}`,
       setMessages,
       auth?.token
     );
@@ -316,7 +320,9 @@ const StaffChat = (props) => {
         }`}
       >
         <div className={styles.sidebar_header}>
-          <span className={styles.sidebar_title}>Người dùng</span>
+          <span className={styles.sidebar_title}>
+            {t("home.chat.withStaff.sibar.user")}
+          </span>
         </div>
         <div className={styles.toggle_container}>
           <div
@@ -333,7 +339,9 @@ const StaffChat = (props) => {
             </div>
             <div className={styles.staff_info}>
               <div className={styles.staff_email}>
-                {sidebarVisible ? "Ẩn danh sách" : "Hiện danh sách"}
+                {sidebarVisible
+                  ? t("home.chat.withStaff.sibar.hideList")
+                  : t("home.chat.withStaff.sibar.showList")}
               </div>
             </div>
           </div>
@@ -366,7 +374,9 @@ const StaffChat = (props) => {
                   {user?.email}
                 </div>
                 <div style={{ paddingTop: "20px", fontSize: "8.5px" }}>
-                  {user?.roles === "ADMIN" ? "Quản trị viên" : "Nhân viên"}
+                  {user?.roles === "ADMIN"
+                    ? t("home.chat.withStaff.sibar.admin")
+                    : t("home.chat.withStaff.sibar.staff")}
                 </div>
               </div>
             </div>
@@ -397,7 +407,8 @@ const StaffChat = (props) => {
                   {user?.email}
                 </div>
                 <div style={{ paddingTop: "20px", fontSize: "8.5px" }}>
-                  {user?.roles === "USER" && "Khách hàng"}
+                  {user?.roles === "USER" &&
+                    t("home.chat.withStaff.sibar.customer")}
                 </div>
               </div>
             </div>
@@ -491,14 +502,14 @@ const StaffChat = (props) => {
                     </div>
                   </Fragment>
                 ))}
-              {isLoading && <ChatBotLoading botName="Bot AI" />}
+              {isLoading && <ChatBotLoading />}
             </div>
 
             <div className={styles.chat_input_area}>
               <input
                 type="text"
                 className={styles.chat_input}
-                placeholder="Nhập tin nhắn..."
+                placeholder={t("home.chat.withStaff.placeholder.message")}
                 value={userData.message}
                 onChange={(e) => dispatch(update({ message: e.target.value }))}
                 onKeyPress={(e) => e.key === "Enter" && sendMessage()}
@@ -514,7 +525,7 @@ const StaffChat = (props) => {
           </>
         ) : (
           <div className={styles.no_staff_selected}>
-            Please select a staff member to start chatting
+            {t("home.chat.withStaff.labels.notification")}
           </div>
         )}
       </div>

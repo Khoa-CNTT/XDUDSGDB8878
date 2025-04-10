@@ -5,9 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { appInfo } from "../../constants/appInfos";
 import { RiRobot3Fill } from "react-icons/ri";
 import { RiRobot3Line } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
+
 const ChatBotLoading = (props) => {
   const [dotsCount, setDotsCount] = useState(1);
   const messagesEndRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,7 +41,9 @@ const ChatBotLoading = (props) => {
             <span className={styles.senderName}>{appInfo.nameAI}</span>
             <div className={styles.messageContent}>
               <div className={styles.typingIndicator}>
-                <span className={styles.typingText}>Thinking</span>
+                <span className={styles.typingText}>
+                  {t("home.chat.withStaff.labels.notification")}
+                </span>
                 <div className={styles.dotsContainer}>
                   {[1, 2, 3].map((i) => (
                     <div

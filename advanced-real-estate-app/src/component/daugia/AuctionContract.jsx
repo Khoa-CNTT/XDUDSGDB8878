@@ -22,9 +22,15 @@ import {
   HomeOutlined,
   ReloadOutlined,
   SearchOutlined,
-  EyeOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  FileProtectOutlined,
+  DollarOutlined,
 } from "@ant-design/icons";
+import { styleElements } from "../../component/element/styleElement";
+import AuctionPayment from "./AuctionPayment";
+import { PaymentStatus } from "../../screens/admin/AuctionContractScreen";
+import { GrStatusGood } from "react-icons/gr";
+import { TbCoinOff } from "react-icons/tb";
 
 const AuctionContract = () => {
   const auth = useSelector(authSelector);
@@ -34,6 +40,7 @@ const AuctionContract = () => {
   const [objectItem, setObjectItem] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [openFormPayment, setOpenFormPayment] = useState(false);
 
   useEffect(() => {
     refresh().then();
@@ -75,12 +82,16 @@ const AuctionContract = () => {
 
   const utils = {
     objectItem: objectItem,
+    setOpenFormPayment,
+    refresh: refresh,
+    openFormPayment,
+    styleElements,
   };
 
   return (
     <div className={styles.pageWrapper}>
+      <AuctionPayment utils={utils} />
       <AuctionContractDetailModal utils={utils} />
-
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.titleSection}>
@@ -133,8 +144,8 @@ const AuctionContract = () => {
               <div key={index} className={styles.contractCard}>
                 <div className={styles.cardHeader}>
                   <div className={styles.contractId}>
-                    <span className={styles.idLabel}>ID:</span>
-                    <span className={styles.idValue}>{item?.id}</span>
+                    <FileProtectOutlined className={styles.contractIcon} />
+                    <span className={styles.idValue}>{item?.code}</span>
                   </div>
                   <StatusBadge
                     trangThaiSoSanh={appVariables.PENDING}
@@ -147,7 +158,7 @@ const AuctionContract = () => {
                   <div className={styles.infoItem}>
                     <UserOutlined className={styles.infoIcon} />
                     <div className={styles.infoContent}>
-                      <span className={styles.infoLabel}>Họ và tên:</span>
+                      <span className={styles.infoLabel}>Họ và tên</span>
                       <span className={styles.infoValue}>
                         {item?.full_name}
                       </span>
@@ -157,7 +168,7 @@ const AuctionContract = () => {
                   <div className={styles.infoItem}>
                     <PhoneOutlined className={styles.infoIcon} />
                     <div className={styles.infoContent}>
-                      <span className={styles.infoLabel}>Số điện thoại:</span>
+                      <span className={styles.infoLabel}>Số điện thoại</span>
                       <span className={styles.infoValue}>
                         {item?.phone_number}
                       </span>
@@ -167,15 +178,40 @@ const AuctionContract = () => {
                   <div className={styles.infoItem}>
                     <HomeOutlined className={styles.infoIcon} />
                     <div className={styles.infoContent}>
-                      <span className={styles.infoLabel}>Địa chỉ:</span>
+                      <span className={styles.infoLabel}>Địa chỉ</span>
                       <span className={styles.infoValue}>{item?.address}</span>
                     </div>
                   </div>
+
                   <div className={styles.infoItem}>
                     <CalendarOutlined className={styles.infoIcon} />
                     <div className={styles.infoContent}>
-                      <span className={styles.infoLabel}>Ngày lập:</span>
-                      <span className={styles.infoValue}>{item?.settingDate}</span>
+                      <span className={styles.infoLabel}>Ngày lập</span>
+                      <span className={styles.infoValue}>
+                        {item?.settingDate}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={styles.paymentStatusItem}>
+                    <DollarOutlined className={styles.paymentStatusIcon} />
+                    <div className={styles.paymentStatusContent}>
+                      <span className={styles.paymentStatusLabel}>
+                        Trạng thái thanh toán
+                      </span>
+                      <div className={styles.paymentStatusValue}>
+                        {item?.paymentStatus === 1 ? (
+                          <div className={styles.statusConfirmed}>
+                            <GrStatusGood className={styles.statusIcon} />
+                            <span>Đã xác nhận thanh toán</span>
+                          </div>
+                        ) : (
+                          <div className={styles.statusPending}>
+                            <TbCoinOff className={styles.statusIcon} />
+                            <span>Chưa xác nhận thanh toán</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -188,10 +224,19 @@ const AuctionContract = () => {
                     onClick={() => {
                       setObjectItem(item);
                     }}
-                    to={`#`}
-                    className={styles.viewButton}
+                    className={styles.viewContractButton}
                   >
-                    <EyeOutlined /> Xem hợp đồng
+                    <FileTextOutlined /> Xem hợp đồng
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setObjectItem(item);
+                      setOpenFormPayment(true);
+                    }}
+                    className={styles.viewInvoiceButton}
+                  >
+                    <DollarOutlined /> Xem hóa đơn
                   </button>
                 </div>
               </div>

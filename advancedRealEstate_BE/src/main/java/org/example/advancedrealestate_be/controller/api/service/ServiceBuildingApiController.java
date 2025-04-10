@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.example.advancedrealestate_be.Utils.CheckPermissionUtil;
 import org.example.advancedrealestate_be.dto.ServiceDto;
 import org.example.advancedrealestate_be.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class ServiceBuildingApiController {
     private ResponseEntity<JSONObject> update(@PathVariable String id, @RequestBody ServiceDto serviceDto) {
         return new ResponseEntity<>(serviceService.updateById(id, serviceDto), HttpStatus.OK);
     }
-
+    @CheckPermissionUtil("/admin/delete-service")
     @DeleteMapping("/services/{id}")
     private ResponseEntity<JSONObject> remove(@PathVariable String id) {
         return new ResponseEntity<>(serviceService.deleteById(id), HttpStatus.OK);
