@@ -11,6 +11,80 @@
   <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
 </div>
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/b2aac000-d83f-4142-82a5-09ae9747bd81" alt="Smart Real Estate Management System" width="180px" />
+  
+  # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
+  
+  <p align="center">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge" alt="Version" />
+    <img src="https://img.shields.io/badge/status-stable-green?style=for-the-badge" alt="Status" />
+    <img src="https://img.shields.io/badge/license-MIT-orange?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge" alt="PRs Welcome" />
+  </p>
+  
+  <br />
+  
+  <div align="center">
+    <table>
+      <tr>
+        <td align="center">
+          <img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker"/>
+        </td>
+        <td align="center">
+          <img src="https://img.shields.io/badge/-Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
+        </td>
+        <td align="center">
+          <img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React"/>
+        </td>
+        <td align="center">
+          <img src="https://img.shields.io/badge/-Gemini_AI-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini AI"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <br />
+  
+  <div align="center">
+    <kbd>
+      <p align="center" style="padding: 10px; background-color: #f8f9fa; border-radius: 5px; width: 80%; margin: 0 auto;">
+        <i>Giải pháp toàn diện để quản lý, theo dõi và tương tác với bất động sản theo cách hiện đại, 
+        kết hợp công nghệ AI và giao diện người dùng thân thiện.</i>
+      </p>
+    </kbd>
+  </div>
+  
+  <br />
+  
+  <div align="center">
+    <a href="#-tính-năng-nổi-bật">🚀 Tính Năng</a> •
+    <a href="#-hình-ảnh-demo">🖼️ Demo</a> •
+    <a href="#-các-chức-năng-chính">🧩 Chức Năng</a> •
+    <a href="#-triển-khai">🚧 Triển Khai</a> •
+    <a href="#-contributors">👨‍💻 Đóng Góp</a>
+  </div>
+</div>
+
+---
+
+## ✨ Giới Thiệu
+
+**Hệ Thống Quản Lý Bất Động Sản Thông Minh** là một nền tảng toàn diện được thiết kế để hiện đại hóa cách quản lý và tương tác với bất động sản. Dự án này kết hợp các công nghệ tiên tiến như AI, xử lý dữ liệu thời gian thực và giao diện người dùng trực quan để mang lại trải nghiệm quản lý bất động sản hiệu quả và thông minh.
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3 align="center">🌟 Tầm Nhìn</h3>
+      <p align="center">Chuyển đổi số ngành bất động sản thông qua công nghệ AI và trải nghiệm người dùng xuất sắc</p>
+    </td>
+    <td width="50%">
+      <h3 align="center">🎯 Mục Tiêu</h3>
+      <p align="center">Cung cấp giải pháp toàn diện, dễ sử dụng và hiệu quả cho mọi nhu cầu quản lý bất động sản</p>
+    </td>
+  </tr>
+</table>
+
 ## ✨ Công Nghệ Sử Dụng
 
 <div align="center">
