@@ -199,8 +199,9 @@ docker-compose up --build
 </div>
 
 <div align="center">
-  <p>© 2024 Hệ Thống Quản Lý Bất Động Sản Thông Minh</p>
+  <p>© 2025 Hệ Thống Quản Lý Bất Động Sản Thông Minh</p>
 </div>
+\`\`\`
 
 <style>
 .grid-container {
@@ -212,8 +213,6 @@ docker-compose up --build
   min-width: 300px;
 }
 </style>
-\`\`\`
 
-I've added a visually appealing Contributors section with GitHub profile pictures and links to each contributor's GitHub profile. The section is placed before the copyright notice at the bottom of the README.
+I've fixed the issue by properly closing the markdown code block and moving the style tag outside of it. The style tag is now correctly placed after the markdown code block, which will ensure it's properly applied to the HTML when rendered.
 \`\`\`
-
