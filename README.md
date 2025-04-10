@@ -1,227 +1,258 @@
-### 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
+<div align="center">
 
-<div>
-  
-  ![Version](https://img.shields.io/badge/version-1.0.0-blue)
-  ![Status](https://img.shields.io/badge/status-stable-green)
-  
+# 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
+
+[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](https://github.com/Khoa-CNTT/XDUDSGDB8878)
+[![Status](https://img.shields.io/badge/status-stable-green?style=for-the-badge)](https://github.com/Khoa-CNTT/XDUDSGDB8878)
+[![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](https://github.com/Khoa-CNTT/XDUDSGDB8878/pulls)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b2aac000-d83f-4142-82a5-09ae9747bd81" alt="Banner" width="700px"/>
+</p>
+
+### Giải pháp toàn diện để quản lý, theo dõi và tương tác với bất động sản theo cách hiện đại, kết hợp công nghệ AI và giao diện người dùng thân thiện.
+
+[🚀 Tính Năng](#-tính-năng-nổi-bật) • 
+[🖼️ Demo](#-hình-ảnh-demo) • 
+[🧩 Chức Năng](#-các-chức-năng-chính) • 
+[🚧 Triển Khai](#-triển-khai) • 
+[👨‍💻 Đóng Góp](#-contributors)
+
 </div>
-
-<p>Giải pháp toàn diện để quản lý, theo dõi và tương tác với bất động sản theo cách hiện đại, kết hợp công nghệ AI và giao diện người dùng thân thiện.</p>
 
 ---
 
 ## ✨ Công Nghệ Sử Dụng
 
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-  <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🐳</span><br>Docker</div>
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🌀</span><br>Spring Boot</div>
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">⚛️</span><br>React</div>
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🤖</span><br>Gemini AI</div>
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🐍</span><br>Flask</div>
-    <div style="text-align: center; padding: 10px; width: 120px;"><span style="font-size: 24px;">🧠</span><br>DeepSeek AI</div>
-  </div>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+        <br/>
+        <span style="font-size: 24px;">🐳</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
+        <br/>
+        <span style="font-size: 24px;">🌀</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+        <br/>
+        <span style="font-size: 24px;">⚛️</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini AI"/>
+        <br/>
+        <span style="font-size: 24px;">🤖</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
+        <br/>
+        <span style="font-size: 24px;">🐍</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-DeepSeek_AI-5C2D91?style=for-the-badge&logo=ai&logoColor=white" alt="DeepSeek AI"/>
+        <br/>
+        <span style="font-size: 24px;">🧠</span>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ## 🚀 Tính Năng Nổi Bật
 
-<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
-  <div style="flex: 1; min-width: 300px;">
-    <h3>🔹 Dockerized Setup</h3>
-    <p>Hệ thống được đóng gói sẵn với Docker, hỗ trợ triển khai nhanh chóng và linh hoạt thông qua <code>docker-compose</code>.</p>
-  </div>
-  <div style="flex: 1; min-width: 300px;">
-    <h3>🌀 Spring Boot Backend</h3>
-    <p>API backend được xây dựng với Spring Boot, cung cấp các endpoint RESTful cho toàn bộ hệ thống.</p>
-  </div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
-  <div style="flex: 1; min-width: 300px;">
-    <h3>⚛️ ReactJS Frontend</h3>
-    <p>Giao diện người dùng được xây dựng bằng ReactJS, mang đến trải nghiệm mượt mà và hiện đại.</p>
-  </div>
-  <div style="flex: 1; min-width: 300px;">
-    <h3>🌟 Tích Hợp Gemini AI</h3>
-    <p>Ứng dụng AI của Google Gemini giúp xử lý và phân tích dữ liệu thông minh hơn.</p>
-  </div>
-</div>
-
-<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
-  <div style="flex: 1; min-width: 300px;">
-    <h3>🐍 Dịch Vụ Flask</h3>
-    <p>Dịch vụ Flask API phụ trách các tác vụ nền và xử lý dữ liệu chuyên sâu.</p>
-  </div>
-  <div style="flex: 1; min-width: 300px;">
-    <h3>🧠 Hỗ Trợ DeepSeek AI</h3>
-    <p>DeepSeek AI được tích hợp để nâng cao khả năng xử lý ngôn ngữ tự nhiên và tương tác với người dùng.</p>
-  </div>
-</div>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🔹 Dockerized Setup</h3>
+      <p>Hệ thống được đóng gói sẵn với Docker, hỗ trợ triển khai nhanh chóng và linh hoạt thông qua <code>docker-compose</code>.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>🌀 Spring Boot Backend</h3>
+      <p>API backend được xây dựng với Spring Boot, cung cấp các endpoint RESTful cho toàn bộ hệ thống.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>⚛️ ReactJS Frontend</h3>
+      <p>Giao diện người dùng được xây dựng bằng ReactJS, mang đến trải nghiệm mượt mà và hiện đại.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>🌟 Tích Hợp Gemini AI</h3>
+      <p>Ứng dụng AI của Google Gemini giúp xử lý và phân tích dữ liệu thông minh hơn.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🐍 Dịch Vụ Flask</h3>
+      <p>Dịch vụ Flask API phụ trách các tác vụ nền và xử lý dữ liệu chuyên sâu.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>🧠 Hỗ Trợ DeepSeek AI</h3>
+      <p>DeepSeek AI được tích hợp để nâng cao khả năng xử lý ngôn ngữ tự nhiên và tương tác với người dùng.</p>
+    </td>
+  </tr>
+</table>
 
 ## 🖼️ Hình Ảnh Demo
 
-<div>
+<div align="center">
   <table>
     <tr>
-      <td><strong>Xem bất động sản trên bản đồ</strong></td>
-      <td><strong>Đấu giá thời gian thực</strong></td>
+      <td align="center"><strong>Xem bất động sản trên bản đồ</strong></td>
+      <td align="center"><strong>Đấu giá thời gian thực</strong></td>
     </tr>
     <tr>
-      <td><img src="https://github.com/user-attachments/assets/b2aac000-d83f-4142-82a5-09ae9747bd81" alt="Bản đồ" width="100%"/></td>
-      <td><img src="https://github.com/user-attachments/assets/88d60816-1afe-4f50-b1c4-a3efe57e7ed0" alt="Đấu giá" width="100%"/></td>
+      <td><img src="https://github.com/user-attachments/assets/b2aac000-d83f-4142-82a5-09ae9747bd81" alt="Bản đồ" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/></td>
+      <td><img src="https://github.com/user-attachments/assets/88d60816-1afe-4f50-b1c4-a3efe57e7ed0" alt="Đấu giá" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/></td>
     </tr>
     <tr>
-      <td><strong>Nhắn tin thời gian thực với AI</strong></td>
-      <td><strong>Giao diện chat AI</strong></td>
+      <td align="center"><strong>Nhắn tin thời gian thực với AI</strong></td>
+      <td align="center"><strong>Giao diện chat AI</strong></td>
     </tr>
     <tr>
-      <td><img src="https://github.com/user-attachments/assets/f3a40cd9-0742-4d7e-a1f9-b174ab2c91fe" alt="Realtime AI Chat" width="100%"/></td>
-      <td><img src="https://github.com/user-attachments/assets/864ddc8e-1691-4913-ac29-fce06f80bd42" alt="Chat AI" width="100%"/></td>
+      <td><img src="https://github.com/user-attachments/assets/f3a40cd9-0742-4d7e-a1f9-b174ab2c91fe" alt="Realtime AI Chat" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/></td>
+      <td><img src="https://github.com/user-attachments/assets/864ddc8e-1691-4913-ac29-fce06f80bd42" alt="Chat AI" width="100%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/></td>
     </tr>
   </table>
 </div>
 
 ## 🛠️ Cải Tiến & Sửa Lỗi
 
-<div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px;">
-  <div style="flex: 1; min-width: 200px; padding: 15px; border-radius: 8px; background-color: #f8f9fa;">
-    <div style="font-size: 24px; margin-bottom: 10px;">🔄</div>
-    <div><strong>Tối ưu giao tiếp</strong></div>
-    <div>Giữa Flask và Spring Boot thông qua API Gateway</div>
-  </div>
-  <div style="flex: 1; min-width: 200px; padding: 15px; border-radius: 8px; background-color: #f8f9fa;">
-    <div style="font-size: 24px; margin-bottom: 10px;">🚀</div>
-    <div><strong>Cải thiện hiệu suất AI</strong></div>
-    <div>Khi sử dụng kết hợp DeepSeek và Gemini</div>
-  </div>
-  <div style="flex: 1; min-width: 200px; padding: 15px; border-radius: 8px; background-color: #f8f9fa;">
-    <div style="font-size: 24px; margin-bottom: 10px;">🐛</div>
-    <div><strong>Sửa lỗi kết nối</strong></div>
-    <div>Giữa ReactJS và Flask API</div>
-  </div>
-  <div style="flex: 1; min-width: 200px; padding: 15px; border-radius: 8px; background-color: #f8f9fa;">
-    <div style="font-size: 24px; margin-bottom: 10px;">📦</div>
-    <div><strong>Tăng khả năng triển khai</strong></div>
-    <div>Linh hoạt với Docker Compose</div>
-  </div>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="25%">
+        <div style="font-size: 36px;">🔄</div>
+        <h3>Tối ưu giao tiếp</h3>
+        <p>Giữa Flask và Spring Boot thông qua API Gateway</p>
+      </td>
+      <td align="center" width="25%">
+        <div style="font-size: 36px;">🚀</div>
+        <h3>Cải thiện hiệu suất AI</h3>
+        <p>Khi sử dụng kết hợp DeepSeek và Gemini</p>
+      </td>
+      <td align="center" width="25%">
+        <div style="font-size: 36px;">🐛</div>
+        <h3>Sửa lỗi kết nối</h3>
+        <p>Giữa ReactJS và Flask API</p>
+      </td>
+      <td align="center" width="25%">
+        <div style="font-size: 36px;">📦</div>
+        <h3>Tăng khả năng triển khai</h3>
+        <p>Linh hoạt với Docker Compose</p>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ## 🧩 Các Chức Năng Chính
 
-<div style="display: flex; flex-wrap: wrap;">
-  <div style="flex: 1; min-width: 300px;">
-    <ul>
-      <li>✅ Xem bản đồ bất động sản</li>
-      <li>✅ Chat với AI</li>
-      <li>✅ Xem bất động sản trên bản đồ</li>
-      <li>✅ Đấu giá thời gian thực</li>
-      <li>✅ Thống kê lãi suất thuê/mua nhà</li>
-      <li>✅ Đăng nhập / Quên mật khẩu / Đăng ký</li>
-      <li>✅ Chat realtime</li>
-      <li>✅ Quản lý thiết bị</li>
-      <li>✅ Quản lý đấu giá</li>
-    </ul>
-  </div>
-  <div style="flex: 1; min-width: 300px;">
-    <ul>
-      <li>✅ Quản lý phân quyền</li>
-      <li>✅ Quản lý lịch sử đấu giá</li>
-      <li>✅ Quản lý hợp đồng</li>
-      <li>✅ Quản lý thuê, mua nhà</li>
-      <li>✅ Quản lý hệ thống báo cháy</li>
-      <li>✅ Quản lý thanh toán</li>
-      <li>✅ Quản lý bản đồ</li>
-      <li>✅ Quản lý khách hàng</li>
-    </ul>
-  </div>
-</div>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <ul>
+        <li>✅ <b>Xem bản đồ bất động sản</b> - Hiển thị vị trí trên bản đồ</li>
+        <li>✅ <b>Chat với AI</b> - Tương tác thông minh với trợ lý ảo</li>
+        <li>✅ <b>Đấu giá thời gian thực</b> - Theo dõi và tham gia đấu giá</li>
+        <li>✅ <b>Thống kê lãi suất</b> - Phân tích chi phí thuê/mua nhà</li>
+        <li>✅ <b>Đăng nhập / Đăng ký</b> - Hệ thống xác thực người dùng</li>
+        <li>✅ <b>Chat realtime</b> - Nhắn tin tức thời với người dùng khác</li>
+        <li>✅ <b>Quản lý thiết bị</b> - Theo dõi thiết bị thông minh</li>
+        <li>✅ <b>Quản lý đấu giá</b> - Tạo và quản lý phiên đấu giá</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <ul>
+        <li>✅ <b>Quản lý phân quyền</b> - Phân quyền người dùng chi tiết</li>
+        <li>✅ <b>Quản lý lịch sử đấu giá</b> - Theo dõi các phiên đã tham gia</li>
+        <li>✅ <b>Quản lý hợp đồng</b> - Tạo và theo dõi hợp đồng</li>
+        <li>✅ <b>Quản lý thuê, mua nhà</b> - Quy trình thuê và mua bất động sản</li>
+        <li>✅ <b>Quản lý hệ thống báo cháy</b> - Giám sát an toàn</li>
+        <li>✅ <b>Quản lý thanh toán</b> - Xử lý giao dịch tài chính</li>
+        <li>✅ <b>Quản lý bản đồ</b> - Cập nhật thông tin địa lý</li>
+        <li>✅ <b>Quản lý khách hàng</b> - CRM cho người dùng</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ## 📊 Lịch Sử Commit
 
-<div style="margin-bottom: 30px;">
-  <table style="width: 100%; border-collapse: collapse;">
-    <thead>
-      <tr style="background-color: #f8f9fa;">
-        <th style="padding: 10px; text-align: left;">Thành viên</th>
-        <th style="padding: 10px; text-align: left;">Commit</th>
-        <th style="padding: 10px; text-align: left;">Ngày</th>
-        <th style="padding: 10px; text-align: left;">Hash</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="padding: 10px; border-top: 1px solid #eee;">
-          <div style="display: flex; align-items: center;">
-            <img src="https://github.com/ngockhanhnktech.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
-            <span>Nguyễn Ngọc Khánh</span>
-          </div>
-        </td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">Cập nhật API đấu giá bất động sản</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">15/03/2024</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;"><code>a7d8e3f</code></td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border-top: 1px solid #eee;">
-          <div style="display: flex; align-items: center;">
-            <img src="https://github.com/vanmanh1303.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
-            <span>Phùng Văn Mạnh</span>
-          </div>
-        </td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">Tích hợp Gemini AI cho phân tích dữ liệu</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">12/03/2024</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;"><code>b9c2d5e</code></td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border-top: 1px solid #eee;">
-          <div style="display: flex; align-items: center;">
-            <img src="https://github.com/namNguyen212003.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
-            <span>Nguyễn Khắc Hoài Nam</span>
-          </div>
-        </td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">Cải thiện giao diện người dùng trang chủ</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">10/03/2024</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;"><code>e4f7g8h</code></td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border-top: 1px solid #eee;">
-          <div style="display: flex; align-items: center;">
-            <img src="https://github.com/ntiendev.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
-            <span>Trần Ngọc Tiến</span>
-          </div>
-        </td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">Sửa lỗi kết nối API Flask và Spring Boot</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">08/03/2024</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;"><code>i9j1k2l</code></td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border-top: 1px solid #eee;">
-          <div style="display: flex; align-items: center;">
-            <img src="https://github.com/tuongclearlove7.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
-            <span>Trần Thế Tường</span>
-          </div>
-        </td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">Thêm tính năng chat realtime với DeepSeek AI</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;">05/03/2024</td>
-        <td style="padding: 10px; border-top: 1px solid #eee;"><code>m3n6p9q</code></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th align="center" width="20%">Thành viên</th>
+      <th align="left" width="40%">Commit</th>
+      <th align="center" width="20%">Ngày</th>
+      <th align="center" width="20%">Hash</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/ngockhanhnktech.png" width="40px" style="border-radius: 50%;" /><br/>
+        <b>Nguyễn Ngọc Khánh</b>
+      </td>
+      <td>Cập nhật API đấu giá bất động sản</td>
+      <td align="center">15/03/2024</td>
+      <td align="center"><code>a7d8e3f</code></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/vanmanh1303.png" width="40px" style="border-radius: 50%;" /><br/>
+        <b>Phùng Văn Mạnh</b>
+      </td>
+      <td>Tích hợp Gemini AI cho phân tích dữ liệu</td>
+      <td align="center">12/03/2024</td>
+      <td align="center"><code>b9c2d5e</code></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/namNguyen212003.png" width="40px" style="border-radius: 50%;" /><br/>
+        <b>Nguyễn Khắc Hoài Nam</b>
+      </td>
+      <td>Cải thiện giao diện người dùng trang chủ</td>
+      <td align="center">10/03/2024</td>
+      <td align="center"><code>e4f7g8h</code></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/ntiendev.png" width="40px" style="border-radius: 50%;" /><br/>
+        <b>Trần Ngọc Tiến</b>
+      </td>
+      <td>Sửa lỗi kết nối API Flask và Spring Boot</td>
+      <td align="center">08/03/2024</td>
+      <td align="center"><code>i9j1k2l</code></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/tuongclearlove7.png" width="40px" style="border-radius: 50%;" /><br/>
+        <b>Trần Thế Tường</b>
+      </td>
+      <td>Thêm tính năng chat realtime với DeepSeek AI</td>
+      <td align="center">05/03/2024</td>
+      <td align="center"><code>m3n6p9q</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ## 🚧 Triển Khai
 
-<div style="margin-bottom: 20px;">
+<div align="center">
   <h3>Yêu cầu:</h3>
-  <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+  <p>
     <img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
     <img src="https://img.shields.io/badge/-Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Compose" />
-  </div>
+  </p>
 </div>
 
 ### Cách khởi chạy:
 
-\`\`\`bash
+```js
 # Clone repository
 git clone https://github.com/Khoa-CNTT/XDUDSGDB8878.git
 
@@ -230,53 +261,185 @@ cd XDUDSGDB8878
 
 # Khởi chạy với Docker Compose
 docker-compose up --build
-\`\`\`
-
+```
 ## 👨‍💻 Contributors
 
-<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-  <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-    <div style="text-align: center; width: 150px;">
-      <a href="https://github.com/ngockhanhnktech">
-        <img src="https://github.com/ngockhanhnktech.png" width="100px;" alt="Nguyễn Ngọc Khánh" style="border-radius: 50%;"/>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="20%">
+        <a href="https://github.com/ngockhanhnktech">
+          <img src="https://github.com/ngockhanhnktech.png" width="100px" style="border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Nguyễn Ngọc Khánh"/>
+          <br />
+          <b>Nguyễn Ngọc Khánh</b>
+        </a>
         <br />
-        <div style="margin-top: 10px;"><b>Nguyễn Ngọc Khánh</b></div>
-      </a>
-      <div>@ngockhanhnktech</div>
-    </div>
-    <div style="text-align: center; width: 150px;">
-      <a href="https://github.com/vanmanh1303">
-        <img src="https://github.com/vanmanh1303.png" width="100px;" alt="Phùng Văn Mạnh" style="border-radius: 50%;"/>
+        <sub>@ngockhanhnktech</sub>
         <br />
-        <div style="margin-top: 10px;"><b>Phùng Văn Mạnh</b></div>
-      </a>
-      <div>@vanmanh1303</div>
-    </div>
-    <div style="text-align: center; width: 150px;">
-      <a href="https://github.com/namNguyen212003">
-        <img src="https://github.com/namNguyen212003.png" width="100px;" alt="Nguyễn Khắc Hoài Nam" style="border-radius: 50%;"/>
+        <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/commits?author=ngockhanhnktech">
+          <img src="https://img.shields.io/badge/commits-12-blue?style=flat-square" alt="commits" />
+        </a>
         <br />
-        <div style="margin-top: 10px;"><b>Nguyễn Khắc Hoài Nam</b></div>
-      </a>
-      <div>@namNguyen212003</div>
-    </div>
-    <div style="text-align: center; width: 150px;">
-      <a href="https://github.com/ntiendev">
-        <img src="https://github.com/ntiendev.png" width="100px;" alt="Trần Ngọc Tiến" style="border-radius: 50%;"/>
+        <small>Backend Developer</small>
+      </td>
+      <td align="center" width="20%">
+        <a href="https://github.com/vanmanh1303">
+          <img src="https://github.com/vanmanh1303.png" width="100px" style="border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Phùng Văn Mạnh"/>
+          <br />
+          <b>Phùng Văn Mạnh</b>
+        </a>
         <br />
-        <div style="margin-top: 10px;"><b>Trần Ngọc Tiến</b></div>
-      </a>
-      <div>@ntiendev</div>
-    </div>
-    <div style="text-align: center; width: 150px;">
-      <a href="https://github.com/tuongclearlove7">
-        <img src="https://github.com/tuongclearlove7.png" width="100px;" alt="Trần Thế Tường" style="border-radius: 50%;"/>
+        <sub>@vanmanh1303</sub>
         <br />
-        <div style="margin-top: 10px;"><b>Trần Thế Tường</b></div>
-      </a>
-      <div>@tuongclearlove7</div>
-    </div>
-  </div>
+        <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/commits?author=vanmanh1303">
+          <img src="https://img.shields.io/badge/commits-9-blue?style=flat-square" alt="commits" />
+        </a>
+        <br />
+        <small>AI Engineer</small>
+      </td>
+      <td align="center" width="20%">
+        <a href="https://github.com/namNguyen212003">
+          <img src="https://github.com/namNguyen212003.png" width="100px" style="border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Nguyễn Khắc Hoài Nam"/>
+          <br />
+          <b>Nguyễn Khắc Hoài Nam</b>
+        </a>
+        <br />
+        <sub>@namNguyen212003</sub>
+        <br />
+        <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/commits?author=namNguyen212003">
+          <img src="https://img.shields.io/badge/commits-8-blue?style=flat-square" alt="commits" />
+        </a>
+        <br />
+        <small>Frontend Developer</small>
+      </td>
+      <td align="center" width="20%">
+        <a href="https://github.com/ntiendev">
+          <img src="https://github.com/ntiendev.png" width="100px" style="border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Trần Ngọc Tiến"/>
+          <br />
+          <b>Trần Ngọc Tiến</b>
+        </a>
+        <br />
+        <sub>@ntiendev</sub>
+        <br />
+        <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/commits?author=ntiendev">
+          <img src="https://img.shields.io/badge/commits-7-blue?style=flat-square" alt="commits" />
+        </a>
+        <br />
+        <small>DevOps Engineer</small>
+      </td>
+      <td align="center" width="20%">
+        <a href="https://github.com/tuongclearlove7">
+          <img src="https://github.com/tuongclearlove7.png" width="100px" style="border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" alt="Trần Thế Tường"/>
+          <br />
+          <b>Trần Thế Tường</b>
+        </a>
+        <br />
+        <sub>@tuongclearlove7</sub>
+        <br />
+        <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/commits?author=tuongclearlove7">
+          <img src="https://img.shields.io/badge/commits-10-blue?style=flat-square" alt="commits" />
+        </a>
+        <br />
+        <small>AI/ML Engineer</small>
+      </td>
+    </tr>
+  </table>
 </div>
 
-<p>© 2025 Hệ Thống Quản Lý Bất Động Sản Thông Minh</p>
+<div align="center">
+  <h3>🏆 Đóng Góp Theo Lĩnh Vực</h3>
+  <table>
+    <tr>
+      <th align="center">Backend</th>
+      <th align="center">Frontend</th>
+      <th align="center">AI/ML</th>
+      <th align="center">DevOps</th>
+      <th align="center">Documentation</th>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/ngockhanhnktech">
+          <img src="https://github.com/ngockhanhnktech.png" width="40px" style="border-radius: 50%;" alt="Nguyễn Ngọc Khánh"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/namNguyen212003">
+          <img src="https://github.com/namNguyen212003.png" width="40px" style="border-radius: 50%;" alt="Nguyễn Khắc Hoài Nam"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/vanmanh1303">
+          <img src="https://github.com/vanmanh1303.png" width="40px" style="border-radius: 50%;" alt="Phùng Văn Mạnh"/>
+        </a>
+        <a href="https://github.com/tuongclearlove7">
+          <img src="https://github.com/tuongclearlove7.png" width="40px" style="border-radius: 50%;" alt="Trần Thế Tường"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/ntiendev">
+          <img src="https://github.com/ntiendev.png" width="40px" style="border-radius: 50%;" alt="Trần Ngọc Tiến"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/ngockhanhnktech">
+          <img src="https://github.com/ngockhanhnktech.png" width="40px" style="border-radius: 50%;" alt="Nguyễn Ngọc Khánh"/>
+        </a>
+        <a href="https://github.com/namNguyen212003">
+          <img src="https://github.com/namNguyen212003.png" width="40px" style="border-radius: 50%;" alt="Nguyễn Khắc Hoài Nam"/>
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="center">
+  <h3>📊 Thống Kê Đóng Góp</h3>
+  <table>
+    <tr>
+      <th align="center">Thành viên</th>
+      <th align="center">Commits</th>
+      <th align="center">Pull Requests</th>
+      <th align="center">Issues</th>
+    </tr>
+    <tr>
+      <td align="center">Nguyễn Ngọc Khánh</td>
+      <td align="center">12</td>
+      <td align="center">5</td>
+      <td align="center">3</td>
+    </tr>
+    <tr>
+      <td align="center">Phùng Văn Mạnh</td>
+      <td align="center">9</td>
+      <td align="center">4</td>
+      <td align="center">2</td>
+    </tr>
+    <tr>
+      <td align="center">Nguyễn Khắc Hoài Nam</td>
+      <td align="center">8</td>
+      <td align="center">3</td>
+      <td align="center">4</td>
+    </tr>
+    <tr>
+      <td align="center">Trần Ngọc Tiến</td>
+      <td align="center">7</td>
+      <td align="center">2</td>
+      <td align="center">5</td>
+    </tr>
+    <tr>
+      <td align="center">Trần Thế Tường</td>
+      <td align="center">10</td>
+      <td align="center">4</td>
+      <td align="center">3</td>
+    </tr>
+  </table>
+</div>
+
+<div align="center">
+  <h3>🌟 Cảm Ơn Đặc Biệt</h3>
+  <p>Chúng tôi xin gửi lời cảm ơn đến tất cả những người đã đóng góp vào dự án này, từ việc báo cáo lỗi, đề xuất tính năng, đến việc cải thiện tài liệu và mã nguồn.</p>
+  <p>
+    <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/graphs/contributors">
+      <img src="https://img.shields.io/github/contributors/Khoa-CNTT/XDUDSGDB8878?style=for-the-badge" alt="Contributors" />
+    </a>
+  </p>
+</div>
