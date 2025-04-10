@@ -264,6 +264,10 @@ docker-compose up --build
 ```
 ## 👨‍💻 Contributors
 
+<a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Khoa-CNTT/XDUDSGDB8878" />
+</a>
+
 <div align="center">
   <table>
     <tr>
