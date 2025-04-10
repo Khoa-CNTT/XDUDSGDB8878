@@ -27,21 +27,39 @@
   
   <div align="center">
     <table>
-      <tr>
-        <td align="center">
-          <img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker"/>
-        </td>
-        <td align="center">
-          <img src="https://img.shields.io/badge/-Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
-        </td>
-        <td align="center">
-          <img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React"/>
-        </td>
-        <td align="center">
-          <img src="https://img.shields.io/badge/-Gemini_AI-4285F4?style=flat-square&logo=google&logoColor=white" alt="Gemini AI"/>
-        </td>
-      </tr>
-    </table>
+    <tr>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+        <br/>
+        <span style="font-size: 24px;">🐳</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
+        <br/>
+        <span style="font-size: 24px;">🌀</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+        <br/>
+        <span style="font-size: 24px;">⚛️</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini AI"/>
+        <br/>
+        <span style="font-size: 24px;">🤖</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
+        <br/>
+        <span style="font-size: 24px;">🐍</span>
+      </td>
+      <td align="center" width="16.6%">
+        <img src="https://img.shields.io/badge/-DeepSeek_AI-5C2D91?style=for-the-badge&logo=ai&logoColor=white" alt="DeepSeek AI"/>
+        <br/>
+        <span style="font-size: 24px;">🧠</span>
+      </td>
+    </tr>
+  </table>
   </div>
   
   <br />
