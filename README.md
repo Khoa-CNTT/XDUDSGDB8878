@@ -1,3 +1,146 @@
+# Hệ Thống Mã Nguồn Mở [Open Source]
+
+<div align="center">
+  <p>Dự án được phát triển và duy trì như một hệ thống mã nguồn mở, khuyến khích cộng đồng đóng góp và cải thiện.</p>
+  
+  <div>
+    <img src="https://img.shields.io/badge/branches-5-blue?style=for-the-badge" alt="Branches" />
+    <img src="https://img.shields.io/badge/commits-46-green?style=for-the-badge" alt="Commits" />
+    <img src="https://img.shields.io/badge/pull_requests-18-purple?style=for-the-badge" alt="Pull Requests" />
+    <img src="https://img.shields.io/badge/contributors-5-yellow?style=for-the-badge" alt="Contributors" />
+    <img src="https://img.shields.io/badge/stars-3-red?style=for-the-badge" alt="Stars" />
+    <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
+  </div>
+</div>
+
+## 📊 Hoạt Động Dự Án
+
+<div align="center">
+  <img src="https://sjc.microlink.io/PqXzCF4-i6bOZg-IBaqWAc1E8Nf3Xyp-TxDVVDgIMeUrjoR6mfRaBTYN_xHmUfzpidZu5vIIaZzOt_YUF_fQbw.jpeg" alt="Commit Activity" width="800px" style="border-radius: 8px; border: 1px solid #ddd;" />
+  <p><a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/graphs/contributors?selectedMetric=commits">Xem biểu đồ hoạt động đầy đủ</a></p>
+</div>
+
+## 🤝 Cách Đóng Góp
+
+Chúng tôi rất hoan nghênh mọi đóng góp từ cộng đồng! Dưới đây là các bước để bắt đầu:
+
+1. **Fork repository** về tài khoản GitHub của bạn
+2. **Tạo branch mới** cho tính năng hoặc sửa lỗi: `git checkout -b feature/amazing-feature`
+3. **Commit các thay đổi** với message rõ ràng: `git commit -m 'Add: amazing feature'`
+4. **Push branch** lên fork của bạn: `git push origin feature/amazing-feature`
+5. **Tạo Pull Request** vào repository chính
+
+### Quy Tắc Đóng Góp
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>Quy Tắc Coding</h4>
+      <ul>
+        <li>Tuân thủ chuẩn code style của dự án</li>
+        <li>Viết unit test cho mã mới</li>
+        <li>Đảm bảo không có lỗi linting</li>
+        <li>Tối ưu hiệu suất khi có thể</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h4>Quy Trình Pull Request</h4>
+      <ul>
+        <li>Mô tả chi tiết các thay đổi</li>
+        <li>Liên kết đến issue liên quan</li>
+        <li>Đảm bảo CI/CD pass</li>
+        <li>Yêu cầu review từ maintainers</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+## 📋 Pull Requests Gần Đây
+
+<table>
+  <tr>
+    <th align="left">Tiêu đề</th>
+    <th align="left">Tác giả</th>
+    <th align="left">Thời gian</th>
+  </tr>
+  <tr>
+    <td>Cải thiện giao diện người dùng trang chủ</td>
+    <td>Nguyễn Khắc Hoài Nam</td>
+    <td>2 ngày trước</td>
+  </tr>
+  <tr>
+    <td>Tích hợp Gemini AI cho phân tích dữ liệu</td>
+    <td>Phùng Văn Mạnh</td>
+    <td>5 ngày trước</td>
+  </tr>
+  <tr>
+    <td>Sửa lỗi kết nối API Flask và Spring Boot</td>
+    <td>Trần Ngọc Tiến</td>
+    <td>1 tuần trước</td>
+  </tr>
+</table>
+
+## ⚠️ Issues Đang Mở
+
+<table>
+  <tr>
+    <th align="left">Tiêu đề</th>
+    <th align="left">Loại</th>
+    <th align="left">Báo cáo bởi</th>
+  </tr>
+  <tr>
+    <td>Lỗi hiển thị bản đồ trên thiết bị di động</td>
+    <td>🐛 Bug</td>
+    <td>tuongclearlove7</td>
+  </tr>
+  <tr>
+    <td>Đề xuất: Thêm tính năng thông báo đẩy</td>
+    <td>✨ Feature</td>
+    <td>ngockhanhnktech</td>
+  </tr>
+  <tr>
+    <td>Cải thiện hiệu suất tải trang chủ</td>
+    <td>🚀 Performance</td>
+    <td>vanmanh1303</td>
+  </tr>
+</table>
+
+## 🌟 Lợi Ích Khi Đóng Góp
+
+- 📚 Học hỏi và phát triển kỹ năng lập trình
+- 🔍 Xây dựng portfolio cá nhân
+- 🤝 Kết nối với cộng đồng lập trình viên
+- 🏆 Được ghi nhận trong danh sách contributors
+- 🌐 Tham gia phát triển công nghệ mở
+
+## 🚀 Tham Gia Cùng Chúng Tôi
+
+<div align="center">
+  <p>Dự án này được phát triển bởi cộng đồng và chúng tôi luôn chào đón những đóng góp mới.<br/>Bạn không cần phải là một lập trình viên chuyên nghiệp để tham gia!</p>
+  
+  <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/issues/new">
+    <img src="https://img.shields.io/badge/Báo_Cáo_Lỗi-red?style=for-the-badge" alt="Báo Cáo Lỗi" />
+  </a>
+  
+  <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/issues/new?labels=enhancement">
+    <img src="https://img.shields.io/badge/Đề_Xuất_Tính_Năng-blue?style=for-the-badge" alt="Đề Xuất Tính Năng" />
+  </a>
+  
+  <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/fork">
+    <img src="https://img.shields.io/badge/Fork_Repository-green?style=for-the-badge" alt="Fork Repository" />
+  </a>
+</div>
+
+## 📈 Thống Kê Đóng Góp
+
+[![Contributors](https://contrib.rocks/image?repo=Khoa-CNTT/XDUDSGDB8878)](https://github.com/Khoa-CNTT/XDUDSGDB8878/graphs/contributors)
+
+<div align="center">
+  <a href="https://github.com/Khoa-CNTT/XDUDSGDB8878/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/Khoa-CNTT/XDUDSGDB8878?style=for-the-badge" alt="Contributors" />
+  </a>
+</div>
+
 <div align="center">
 
 # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
