@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
 </div>
 
-<div align="center"> # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh </div>
+        # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
 
 <div align="center">  
   <p align="center">
