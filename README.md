@@ -1,6 +1,6 @@
 # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
 
-## 🚀 Phiên Bản: v0.0.1 - Initial Stable Release
+## 🚀 Phiên Bản: v1.0.0 - Initial Stable Release
 
       Chào mừng bạn đến với hệ thống quản lý bất động sản thông minh! 
       Dự án này cung cấp giải pháp toàn diện để quản lý, theo dõi và 
