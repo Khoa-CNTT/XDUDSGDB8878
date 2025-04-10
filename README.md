@@ -1,16 +1,14 @@
 # Hệ Thống Mã Nguồn Mở [Open Source]
 
-<div align="center">
-  <p>Dự án được phát triển và duy trì như một hệ thống mã nguồn mở, khuyến khích cộng đồng đóng góp và cải thiện.</p>
+<p>Dự án được phát triển và duy trì như một hệ thống mã nguồn mở, khuyến khích cộng đồng đóng góp và cải thiện.</p>
   
-  <div>
-    <img src="https://img.shields.io/badge/branches-5-blue?style=for-the-badge" alt="Branches" />
-    <img src="https://img.shields.io/badge/commits-46-green?style=for-the-badge" alt="Commits" />
-    <img src="https://img.shields.io/badge/pull_requests-18-purple?style=for-the-badge" alt="Pull Requests" />
-    <img src="https://img.shields.io/badge/contributors-5-yellow?style=for-the-badge" alt="Contributors" />
-    <img src="https://img.shields.io/badge/stars-3-red?style=for-the-badge" alt="Stars" />
-    <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
-  </div>
+<div>
+  <img src="https://img.shields.io/badge/branches-5-blue?style=for-the-badge" alt="Branches" />
+  <img src="https://img.shields.io/badge/commits-46-green?style=for-the-badge" alt="Commits" />
+  <img src="https://img.shields.io/badge/pull_requests-18-purple?style=for-the-badge" alt="Pull Requests" />
+  <img src="https://img.shields.io/badge/contributors-5-yellow?style=for-the-badge" alt="Contributors" />
+  <img src="https://img.shields.io/badge/stars-3-red?style=for-the-badge" alt="Stars" />
+  <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
 </div>
 
 ## 📊 Hoạt Động Dự Án
