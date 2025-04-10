@@ -14,13 +14,13 @@
 ## ✨ Công Nghệ Sử Dụng
 
 <div>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
-    <div style="padding: 10px;"><span style="font-size: 24px;">🐳</span><br>Docker</div>
-    <div style="padding: 10px;"><span style="font-size: 24px;">🌀</span><br>Spring Boot</div>
-    <div style="padding: 10px;"><span style="font-size: 24px;">⚛️</span><br>React</div>
-    <div style="padding: 10px;"><span style="font-size: 24px;">🤖</span><br>Gemini AI</div>
-    <div style="padding: 10px;"><span style="font-size: 24px;">🐍</span><br>Flask</div>
-    <div style="padding: 10px;"><span style="font-size: 24px;">🧠</span><br>DeepSeek AI</div>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; justify-content: space-between;">
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🐳</span><br>Docker</div>
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🌀</span><br>Spring Boot</div>
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">⚛️</span><br>React</div>
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🤖</span><br>Gemini AI</div>
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🐍</span><br>Flask</div>
+    <div style="padding: 10px; flex: 1; text-align: center;"><span style="font-size: 24px;">🧠</span><br>DeepSeek AI</div>
   </div>
 </div>
 
@@ -137,6 +137,78 @@
   </div>
 </div>
 
+## 📊 Lịch Sử Commit
+
+<div style="margin-bottom: 30px;">
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f8f9fa;">
+        <th style="padding: 10px; text-align: left;">Thành viên</th>
+        <th style="padding: 10px; text-align: left;">Commit</th>
+        <th style="padding: 10px; text-align: left;">Ngày</th>
+        <th style="padding: 10px; text-align: left;">Hash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 10px; border-top: 1px solid #eee;">
+          <div style="display: flex; align-items: center;">
+            <img src="https://github.com/ngockhanhnktech.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
+            <span>Nguyễn Ngọc Khánh</span>
+          </div>
+        </td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">Cập nhật API đấu giá bất động sản</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">15/03/2024</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;"><code>a7d8e3f</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border-top: 1px solid #eee;">
+          <div style="display: flex; align-items: center;">
+            <img src="https://github.com/vanmanh1303.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
+            <span>Phùng Văn Mạnh</span>
+          </div>
+        </td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">Tích hợp Gemini AI cho phân tích dữ liệu</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">12/03/2024</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;"><code>b9c2d5e</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border-top: 1px solid #eee;">
+          <div style="display: flex; align-items: center;">
+            <img src="https://github.com/namNguyen212003.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
+            <span>Nguyễn Khắc Hoài Nam</span>
+          </div>
+        </td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">Cải thiện giao diện người dùng trang chủ</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">10/03/2024</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;"><code>e4f7g8h</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border-top: 1px solid #eee;">
+          <div style="display: flex; align-items: center;">
+            <img src="https://github.com/ntiendev.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
+            <span>Trần Ngọc Tiến</span>
+          </div>
+        </td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">Sửa lỗi kết nối API Flask và Spring Boot</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">08/03/2024</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;"><code>i9j1k2l</code></td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border-top: 1px solid #eee;">
+          <div style="display: flex; align-items: center;">
+            <img src="https://github.com/tuongclearlove7.png" width="30px" style="border-radius: 50%; margin-right: 10px;" />
+            <span>Trần Thế Tường</span>
+          </div>
+        </td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">Thêm tính năng chat realtime với DeepSeek AI</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;">05/03/2024</td>
+        <td style="padding: 10px; border-top: 1px solid #eee;"><code>m3n6p9q</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 ## 🚧 Triển Khai
 
 <div style="margin-bottom: 20px;">
@@ -163,8 +235,8 @@ docker-compose up --build
 ## 👨‍💻 Contributors
 
 <div>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
-    <div style="width: 150px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px; justify-content: space-between;">
+    <div style="width: 150px; text-align: center;">
       <a href="https://github.com/ngockhanhnktech">
         <img src="https://github.com/ngockhanhnktech.png" width="100px;" alt="Nguyễn Ngọc Khánh" style="border-radius: 50%;"/>
         <br />
@@ -172,7 +244,7 @@ docker-compose up --build
       </a>
       <div>@ngockhanhnktech</div>
     </div>
-    <div style="width: 150px;">
+    <div style="width: 150px; text-align: center;">
       <a href="https://github.com/vanmanh1303">
         <img src="https://github.com/vanmanh1303.png" width="100px;" alt="Phùng Văn Mạnh" style="border-radius: 50%;"/>
         <br />
@@ -180,7 +252,7 @@ docker-compose up --build
       </a>
       <div>@vanmanh1303</div>
     </div>
-    <div style="width: 150px;">
+    <div style="width: 150px; text-align: center;">
       <a href="https://github.com/namNguyen212003">
         <img src="https://github.com/namNguyen212003.png" width="100px;" alt="Nguyễn Khắc Hoài Nam" style="border-radius: 50%;"/>
         <br />
@@ -188,7 +260,7 @@ docker-compose up --build
       </a>
       <div>@namNguyen212003</div>
     </div>
-    <div style="width: 150px;">
+    <div style="width: 150px; text-align: center;">
       <a href="https://github.com/ntiendev">
         <img src="https://github.com/ntiendev.png" width="100px;" alt="Trần Ngọc Tiến" style="border-radius: 50%;"/>
         <br />
@@ -196,7 +268,7 @@ docker-compose up --build
       </a>
       <div>@ntiendev</div>
     </div>
-    <div style="width: 150px;">
+    <div style="width: 150px; text-align: center;">
       <a href="https://github.com/tuongclearlove7">
         <img src="https://github.com/tuongclearlove7.png" width="100px;" alt="Trần Thế Tường" style="border-radius: 50%;"/>
         <br />
