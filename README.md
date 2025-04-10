@@ -11,10 +11,8 @@
   <img src="https://img.shields.io/badge/forks-1-orange?style=for-the-badge" alt="Forks" />
 </div>
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/b2aac000-d83f-4142-82a5-09ae9747bd81" alt="Smart Real Estate Management System" width="180px" />
-  
-  # 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
+<div align="center">  
+# 🏡 Hệ Thống Quản Lý Bất Động Sản Thông Minh
   
   <p align="center">
     <img src="https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge" alt="Version" />
