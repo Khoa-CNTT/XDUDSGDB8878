@@ -1,4 +1,162 @@
 {
-  "welcome": "Welcome",
-  "login": "Login"
+  "home": {
+    "welcome": "Welcome to ",
+    "title": "ADVANCED REAL ESTATE",
+    "nameAI": "ADVANCED REAL ESTATE AI",
+    "description": "The real estate trading website is a modern online platform that helps users easily search, buy, sell, and rent real estate and other property types. With a user-friendly interface, smart search tools, and constantly updated data, users can quickly access transparent, safe, and potential investment opportunities.",
+    "email": "nhom12@dtu.edu.vn",
+    "companyName": "Dat Xanh Mien Trung Joint Stock Company",
+    "address": "15 Quang Trung, Hai Chau 1, Hai Chau, Da Nang",
+    "phoneNumber": "+84915662495",
+    "siteName": "advenced.real.estate.com, ",
+    "char": "© ",
+    "team": "Team 12",
+    "html": "HTML Codex",
+    "headers": {
+      "links": {
+        "menu": "Home",
+        "building": "Real Estate",
+        "management": "Management",
+        "auction": "Auction",
+        "other": "Others",
+        "login": "Login",
+        "register": "Register",
+        "logout": "Logout",
+        "info": "Personal Info",
+        "contact": "Contact"
+      },
+      "buttons": {
+        "title": "ADVANCED REAL ESTATE",
+        "send": "SEND"
+      }
+    },
+    "banners": {
+      "labels": {
+        "discover": "Discover A"
+      },
+      "title": "ADVANCED REAL ESTATE",
+      "buttons": {
+        "ourBuilding": "Our Real Estate",
+        "view": "View Now"
+      }
+    },
+    "footers": {
+      "title": "ADVANCED REAL ESTATE",
+      "labels": {
+        "contact": "CONTACT",
+        "company": "COMPANY",
+        "service": "SERVICES",
+        "customer": "Customers",
+        "description": "All rights reserved.",
+        "by": "Designed by "
+      },
+      "links": {
+        "service": {
+          "auction": "Auction",
+          "buy": "Buy/Sell Real Estate"
+        },
+        "company": {
+          "contact": "Contact Us",
+          "us": "About Us",
+          "policy": "Privacy Policy"
+        },
+        "contact": {},
+        "cookies": "Cookies",
+        "home": "Home",
+        "help": "Help",
+        "faq": "FAQs"
+      }
+    },
+    "labels": {
+      "user": "User",
+      "ai": "Virtual Assistant ",
+      "couselStaff": "Consulting Staff ",
+      "direct": "directly",
+      "bds": "Real Estate",
+      "staff": "Staff",
+      "customer": "Customer",
+      "ourBuilding": "OUR PROPERTIES",
+      "we": "WE",
+      "auction": "ONGOING AUCTIONS",
+      "session": "SESSIONS",
+      "contactOur": "CONTACT US ",
+      "detail": "FOR MORE DETAILS",
+      "yourEmail": "YOUR EMAIL",
+      "content": "MESSAGE CONTENT"
+    },
+    "buttons": {
+      "search": "CLICK TO SEARCH",
+      "explore": "Explore More",
+      "send": "SEND"
+    },
+    "building": {
+      "messages": {
+        "loading": "Loading...",
+        "errorCreateContract": "This property already has an owner!"
+      },
+      "keys": {
+        "thue": "rent",
+        "buy": "buy"
+      },
+      "buttons": {
+        "buy": "Buy",
+        "thue": "Rent"
+      },
+      "links": {
+        "viewDetail": "View Details"
+      },
+      "errors": {
+        "message": "An error has occurred"
+      }
+    },
+    "map": {
+      "links": {
+        "viewDetail": "View details now"
+      },
+      "errors": {
+        "message": "An error has occurred",
+        "location": "Error getting user location: ",
+        "browser": "Browser does not support Geolocation."
+      }
+    },
+    "chat": {
+      "ai": {
+        "message": "Hello! How can I help you with real estate?",
+        "thinking": "I'm thinking",
+        "sender": "bot",
+        "placeholder": {
+          "question": "Enter your question..."
+        },
+        "messages": {
+          "area": "has an area of",
+          "tangham": "a basement.",
+          "city": ", city",
+          "address": "located at number",
+          "m2": "square meters,",
+          "province": ", district",
+          "phuhop": ", suitable for",
+          "vaCo": "and has"
+        },
+        "labels": {
+          "notification": "Please enter a message!"
+        }
+      },
+      "withStaff": {
+        "placeholder": {
+          "message": "Enter message..."
+        },
+        "sibar": {
+          "user": "User",
+          "hideList": "Hide list",
+          "showList": "Show list",
+          "admin": "Administrator",
+          "staff": "Staff",
+          "customer": "Customer"
+        },
+        "labels": {
+          "notification": "Please select a staff member to start a conversation"
+        }
+      }
+    }
+  }
 }
