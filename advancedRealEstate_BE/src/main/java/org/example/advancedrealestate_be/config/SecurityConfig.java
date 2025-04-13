@@ -95,7 +95,7 @@ public class SecurityConfig implements WebMvcConfigurer{
 
         // Cho phép tất cả các origin
 //        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://example.com"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://example.com", "https://advanced-real-estate-fe.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("X-Auth-Token"));
