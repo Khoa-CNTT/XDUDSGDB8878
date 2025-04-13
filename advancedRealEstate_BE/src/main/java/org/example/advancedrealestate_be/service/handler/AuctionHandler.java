@@ -43,7 +43,8 @@ public class AuctionHandler implements AuctionService {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
-
+    @Value("${app.protocol}")
+    private String protocol;
     @Autowired
     public AuctionHandler(AuctionRepository auctionRepository, AuctionDetailRepository auctionDetailRepository, BuildingRepository buildingRepository, UserRepository userRepository, ModelMapper modelMapper, AuctionMapper auctionMapper) {
         this.auctionRepository = auctionRepository;
@@ -75,8 +76,8 @@ public class AuctionHandler implements AuctionService {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("http://%s:%s/api/user/building/%s",
-                    serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s:%s/api/user/building/%s",
+                    protocol, serverHost, serverPort, fileName);
                     imageUrls.add(url);
                 }
             }

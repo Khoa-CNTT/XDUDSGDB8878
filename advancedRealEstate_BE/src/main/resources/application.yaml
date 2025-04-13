@@ -70,6 +70,8 @@
 server:
   port: 9090
   host: localhost
+app:
+  protocol: ${APP_PROTOCOL:https}
 spring:
   thymeleaf:
     enabled: true
@@ -87,7 +89,7 @@ spring:
     password: ${DBMS_PASSWORD:123456}
     # dùng để chạy ở host
     #password: ${DBMS_PASSWORD:123123aA@}
-    username: ${DBMS_USERNAME:root}
+    username: ${DBMS_USERNAME:}
   jpa:
     hibernate:
       ddl-auto: update
