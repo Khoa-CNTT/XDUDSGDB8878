@@ -68,8 +68,8 @@
 #        debug: true
 
 server:
-  forward-headers-strategy: framework
 #  production: on
+#  forward-headers-strategy: framework
 #  require-ssl: true
   port: 9090
   host: localhost
