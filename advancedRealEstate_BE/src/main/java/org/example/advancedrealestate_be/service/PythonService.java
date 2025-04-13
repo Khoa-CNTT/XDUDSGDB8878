@@ -2,6 +2,7 @@ package org.example.advancedrealestate_be.service;
 
 import org.example.advancedrealestate_be.exception.AppException;
 import org.example.advancedrealestate_be.exception.ErrorCode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
@@ -14,7 +15,9 @@ import java.util.Map;
 @Service
 public class PythonService {
 
-    private final String pythonApiUrl = "http://localhost:5000/predict";  // Python service URL
+//    private final String pythonApiUrl = "http://localhost:5000/predict";  // Python service URL
+    @Value("${python.api.base-url}")
+    private String pythonApiUrl;
 
     public Map<String, Object> getPrediction(String message) {
         RestTemplate restTemplate = new RestTemplate();
