@@ -39,6 +39,8 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
+    @Value("${app.protocol}")
+    private String protocol;
     private final AuctionDetailRepository auctionDetailRepository;
     private final AuctionHistoryRepository auctionHistoryRepository;
     private final UserRepository userRepository;
@@ -47,6 +49,7 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
     private final Lock lock = new ReentrantLock();
     private final AuctionHistoryMapper auctionHistoryMapper;
     private final EmailService sendEmailService;
+
 
     @Autowired
     public AuctionHistoryHandler(AuctionDetailRepository auctionDetailRepository, AuctionHistoryRepository auctionHistoryRepository, UserRepository userRepository, ModelMapper modelMapper, AuctionRepository auctionRepository, AuctionHistoryMapper auctionHistoryMapper, EmailService sendEmailService) {
@@ -86,8 +89,8 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("http://%s:%s/api/user/building/%s",
-                            serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s:%s/api/user/building/%s",
+                            protocol, serverHost, serverPort, fileName);
                     buildingImageUrls.add(url);
                 }
             }

@@ -212,6 +212,8 @@ public class UserMapperImpl implements UserMapper {
     @Value("${server.host}")
     private String serverHost;
     private String url = "http://";
+    @Value("${app.protocol}")
+    private String protocol;
 
     private final PermissionService permissionService;
 
@@ -281,7 +283,7 @@ public class UserMapperImpl implements UserMapper {
         String avatarUrl = null;
         if (user.getAvatar() != null) {
             String fileName = Paths.get(user.getAvatar()).getFileName().toString();
-            avatarUrl = url + serverHost + ":" + serverPort + "/api/user/" + fileName;
+            avatarUrl = protocol + serverHost + ":" + serverPort + "/api/user/" + fileName;
         }
 
         // Build UserResponse

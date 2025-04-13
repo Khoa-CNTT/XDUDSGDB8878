@@ -35,6 +35,8 @@ public class AuctionDetailHandler implements AuctionDetailService {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
+    @Value("${app.protocol}")
+    private String protocol;
 
     @Autowired
     public AuctionDetailHandler(AuctionDetailRepository auctionDetailRepository, UserRepository userRepository, ModelMapper modelMapper, AuctionRepository auctionRepository, AuctionDetailMapper auctionDetailMapper) {
@@ -82,8 +84,8 @@ public class AuctionDetailHandler implements AuctionDetailService {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("http://%s:%s/api/user/building/%s",
-                            serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s:%s/api/user/building/%s",
+                            protocol, serverHost, serverPort, fileName);
                     buildingImageUrl.add(url);
                 }
             }

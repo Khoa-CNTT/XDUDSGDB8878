@@ -18,6 +18,8 @@ public class AuctionHistoryMapper {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
+    @Value("${app.protocol}")
+    private String protocol;
 
     public AuctionHistoryResponse mapToAuctionHistory(AuctionHistory auctionHistory) {
 
@@ -35,8 +37,8 @@ public class AuctionHistoryMapper {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("http://%s:%s/api/user/building/%s",
-                    serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s:%s/api/user/building/%s",
+                    protocol, serverHost, serverPort, fileName);
                     buildingImageUrls.add(url);
                 }
             }
