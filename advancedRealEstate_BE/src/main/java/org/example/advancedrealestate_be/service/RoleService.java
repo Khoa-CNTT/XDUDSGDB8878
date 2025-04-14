@@ -16,6 +16,6 @@ public interface RoleService {
     Page<RoleResponse> getBuilding(int page, int size);
     String deleteRoles(DeleteRoleRequest request);
     List<RoleResponse> getAllRoles();
-
+    boolean isManagementRole(String role_type);
     List<RoleResponse> findRolesByType(String type);
 }

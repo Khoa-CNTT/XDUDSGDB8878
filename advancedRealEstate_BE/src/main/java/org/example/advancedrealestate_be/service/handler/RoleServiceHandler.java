@@ -113,6 +113,11 @@ public class RoleServiceHandler implements RoleService {
     }
 
     @Override
+    public boolean isManagementRole(String role_type) {
+        return roleRepository.countManagementRole(role_type) > 0;
+    }
+
+    @Override
     public List<RoleResponse> findRolesByType(String type) {
         return roleRepository.findRolesByRole_type(type).stream().map(roleMapper::toResponse).collect(Collectors.toList());
     }
