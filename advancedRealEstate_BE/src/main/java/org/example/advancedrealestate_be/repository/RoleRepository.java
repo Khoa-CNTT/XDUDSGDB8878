@@ -22,4 +22,6 @@ public interface RoleRepository extends JpaRepository<Role,String> {
     List<Role> findRolesByRole_type(@Param("role_type") String role_type);
     @Query("SELECT r FROM Role r WHERE r.role_name = :roleName")
     Role findRoleByRoleName(@Param("roleName") String roleName);
+    @Query(value = "SELECT COUNT(*) FROM roles WHERE role_type = :roleType AND role_type = 'MANAGEMENT'", nativeQuery = true)
+    Long countManagementRole(@Param("roleType") String roleType);
 }

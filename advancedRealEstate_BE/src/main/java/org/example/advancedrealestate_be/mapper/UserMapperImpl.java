@@ -274,6 +274,7 @@ public class UserMapperImpl implements UserMapper {
             roleResponse = RoleResponse.builder()
                     .id(role.getId())
                     .role_name(role.getRole_name())
+                    .role_type(role.getRole_type())
                     .build();
 
             permissions = permissionRepository.findPermissionsByRoleLink(user.getRole().getId());
@@ -302,6 +303,7 @@ public class UserMapperImpl implements UserMapper {
                 .avatar(avatarUrl)
                 .roles(roleResponse.getRole_name())
                 .role_id(roleResponse.getId())
+                .role_type(roleResponse.getRole_type())
                 .permission(permissions)
                 .build();
     }
