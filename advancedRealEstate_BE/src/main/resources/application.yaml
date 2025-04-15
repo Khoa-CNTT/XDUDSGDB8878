@@ -68,6 +68,9 @@
 #        debug: true
 
 server:
+#  production: on
+#  forward-headers-strategy: framework
+#  require-ssl: true
   port: 9090
   host: batdongsan.hoclaptrinhiz.com
 app:
@@ -83,12 +86,13 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/identity_service}
+#    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/identity_service}
+    url: ${DBMS_CONNECTION:jdbc:mysql://mysql:3306/identity_service}
     driverClassName: com.mysql.cj.jdbc.Driver
     # dùng để chạy ở container docker
-    password: ${DBMS_PASSWORD:123456}
+    password: ${DBMS_PASSWORD:}
     # dùng để chạy ở host
-    #password: ${DBMS_PASSWORD:123123aA@}
+#    password: ${DBMS_PASSWORD:123123aA@}
     username: ${DBMS_USERNAME:root}
   jpa:
     hibernate:
@@ -107,6 +111,7 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
+    url: https://batdongsan.hoclaptrinhiz.com/v3/api-docs
     path: /swagger-ui.html
     tags-sorter: alpha
     enable: true

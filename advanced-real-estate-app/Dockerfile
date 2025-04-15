@@ -6,7 +6,7 @@ WORKDIR /var/www/html/RMS/FE
 
 # Sao chép package.json và cài đặt dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Sao chép toàn bộ mã nguồn
 COPY . .
