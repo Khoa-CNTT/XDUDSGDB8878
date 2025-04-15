@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../../redux/reducers/authReducer";
 import { add, chatSelector, update } from "../../redux/reducers/chatReducer";
 import RoomChatComponent from "./RoomChatComponent";
+import { useTranslation } from "react-i18next";
 
 let stompClient = appVariables.stompClient;
 const ChatComponent = ({
@@ -23,6 +24,7 @@ const ChatComponent = ({
   const userData = chat?.userData;
   const room = chat?.room;
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userData.connected) {
@@ -61,7 +63,7 @@ const ChatComponent = ({
 
   const connect = () => {
     console.log("Attempting to connect...");
-    const socket = new SockJS("http://localhost:9090/ws");
+    const socket = new SockJS(`${t("environments.SERVER_URL")}/ws`);
     stompClient = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {

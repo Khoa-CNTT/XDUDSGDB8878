@@ -159,9 +159,9 @@ function AdminRouter() {
         <Content className="pt-3 container-fluid">
           <Routes>
             <Route
-              path="roler"
+              path="role"
               element={
-                <PrivateRoute path="/admin/roler">
+                <PrivateRoute path="/admin/role">
                   <RolerScreen />
                 </PrivateRoute>
               }

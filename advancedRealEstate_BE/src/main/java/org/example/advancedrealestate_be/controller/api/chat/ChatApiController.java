@@ -3,13 +3,11 @@ package org.example.advancedrealestate_be.controller.api.chat;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import net.minidev.json.JSONObject;
 import org.example.advancedrealestate_be.dto.response.BuildingResponse;
+import org.example.advancedrealestate_be.dto.response.UserResponse;
 import org.example.advancedrealestate_be.entity.User;
 import org.example.advancedrealestate_be.model.Chat;
 import org.example.advancedrealestate_be.model.ChatMessage;
-import org.example.advancedrealestate_be.service.AuthenticationService;
-import org.example.advancedrealestate_be.service.BuildingService;
-import org.example.advancedrealestate_be.service.MessageService;
-import org.example.advancedrealestate_be.service.PythonService;
+import org.example.advancedrealestate_be.service.*;
 import org.example.advancedrealestate_be.service.Task.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -49,15 +47,19 @@ public class ChatApiController {
     private final Map<String, Set<String>> roomUsers = new HashMap<>();
     private String bot = "Bot: ";
     private final BuildingService buildingService;
+    private final UserService userService;
+    private final RoleService roleService;
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask, BuildingService buildingService, AuthenticationService authenticationService) {
+    public ChatApiController(SimpMessagingTemplate messagingTemplate, PythonService pythonService, MessageService messageService, ScheduledTask scheduledTask, BuildingService buildingService, UserService userService, RoleService roleService, AuthenticationService authenticationService) {
         this.messagingTemplate = messagingTemplate;
         this.pythonService = pythonService;
         this.messageService = messageService;
         this.scheduledTask = scheduledTask;
         this.buildingService = buildingService;
+        this.userService = userService;
+        this.roleService = roleService;
         this.authenticationService = authenticationService;
     }
 
@@ -96,14 +98,17 @@ public class ChatApiController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("auth: " + message.getIsAuth());
         boolean isValidToken = authenticationService.isValidToken(message.getToken());
-        if(Objects.equals(message.getIsAuth(), "true") && isValidToken){
+        if(isValidToken){
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setSender(message.getSender());
             chatMessage.setRecipient(message.getRecipient());
             chatMessage.setContent(message.getContent());
             chatMessage.setType(ChatMessage.MessageType.SENT);
             chatMessage.setRoomName(room);
-            if (!usersInRoom.contains(message.getRecipient()) && !Objects.equals(message.getIsManagement(), "true")) {
+            UserResponse userResponse = userService.getMyInfo(message.getEmail());
+            boolean isManagementRole = roleService.isManagementRole(userResponse.getRole_type());
+
+            if (!usersInRoom.contains(message.getRecipient()) && !isManagementRole) {
                 System.out.println("run ai");
                 String result = handleAImessage(message.getContent());
                 chatMessage.setBot_ai(result);

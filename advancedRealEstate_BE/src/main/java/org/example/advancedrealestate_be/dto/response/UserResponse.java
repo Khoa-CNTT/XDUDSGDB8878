@@ -31,5 +31,6 @@ public class UserResponse {
     String roles;
     List<String> permission; // Danh sách các permission
     String role_id;
+    String role_type;
 //    Set<RoleResponse> roles;
 }

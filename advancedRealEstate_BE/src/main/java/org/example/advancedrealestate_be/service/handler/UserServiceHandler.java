@@ -206,6 +206,7 @@ public class UserServiceHandler implements UserService {
             userUpdate.getAddress(),
             null,
             null,
+                null,
                 null
         );
     }
