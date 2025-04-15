@@ -39,14 +39,14 @@ const SiderComponent = () => {
   // Định nghĩa các mục menu và URL của chúng
   const items = [
     {
-      key: "roler",
+      key: "role",
       label: (
-        <Link style={{ textDecoration: "none" }} to={path + "/roler"}>
+        <Link style={{ textDecoration: "none" }} to={path + "/role"}>
           Quản Lý Quyền
         </Link>
       ),
       icon: <Profile2User size={20} />,
-      url: path + "/roler", // Đường dẫn cần kiểm tra quyền truy cập
+      url: path + "/role", // Đường dẫn cần kiểm tra quyền truy cập
     },
     {
       key: "admin",

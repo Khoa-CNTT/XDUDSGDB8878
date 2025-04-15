@@ -21,6 +21,7 @@ import AuctionMessageModal from "./AuctionMessageModal";
 import AuctionMessage from "./AuctionMessage";
 import AuctionGuideLine from "./AuctionGuideLine";
 import { f_collectionUtil } from "./../../utils/f_collectionUtil";
+import { useTranslation } from "react-i18next";
 
 let stompClient = appVariables.stompClient;
 const DauGiaComponent = () => {
@@ -47,6 +48,7 @@ const DauGiaComponent = () => {
   const [prevJoinCount, setPrevJoinCount] = useState(null);
   const [waitingTime, setWaitingTime] = useState(0);
   const [timeSendBid, setTimeSendBid] = useState(0);
+  const { t } = useTranslation();
 
   const getElementCoordinates = (ref) => {
     if (ref.current) {
@@ -218,7 +220,7 @@ const DauGiaComponent = () => {
   ]);
 
   const connect = () => {
-    const socket = new SockJS("http://localhost:9090/ws", null, {
+    const socket = new SockJS(`${t("environments.SERVER_URL")}/ws`, null, {
       withCredentials: true,
     });
     stompClient = new Client({
