@@ -38,5 +38,7 @@ WORKDIR /app
 # Sao chép tệp .jar đã xây dựng vào container
 COPY target/advancedRealEstate_BE-0.0.1-SNAPSHOT.jar advancedRealEstate_BE-0.0.1-SNAPSHOT.jar
 
+EXPOSE 9090
+
 # Chạy ứng dụng Spring Boot từ .jar
 ENTRYPOINT ["java", "-jar", "advancedRealEstate_BE-0.0.1-SNAPSHOT.jar"]
