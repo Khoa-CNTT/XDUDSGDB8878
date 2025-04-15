@@ -23,6 +23,8 @@ public class AuctionMapper {
     private String serverPort;
     @Value("${server.host}")
     private String serverHost;
+    @Value("${app.protocol}")
+    private String protocol;
 
 
     public AuctionResponse mapToAuction(Auction auction) {
@@ -39,8 +41,8 @@ public class AuctionMapper {
             for (String path : imagePaths) {
                 if (!path.trim().isEmpty()) {
                     String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("http://%s:%s/api/user/building/%s",
-                    serverHost, serverPort, fileName);
+                    String url = String.format("%s://%s:%s/api/user/building/%s",
+                    protocol, serverHost, serverPort, fileName);
                     imageUrls.add(url);
                 }
             }

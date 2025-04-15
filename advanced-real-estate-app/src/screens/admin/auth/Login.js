@@ -42,6 +42,7 @@ const Login = () => {
         if (managementPermission) {
           navigate("/admin/building");
         } else {
+          await new Promise(resolve => setTimeout(resolve, 2000));
           window.location.href = "/";
         }
       }
@@ -51,7 +52,7 @@ const Login = () => {
     } catch (error) {
       navigate("/admin/login");
       console.log(error);
-      message.error(error?.message);
+      message.error("Đã có lỗi xảy ra đăng nhập thất bại!");
     } finally {
       setIsLoading(false);
     }

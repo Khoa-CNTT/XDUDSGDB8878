@@ -72,7 +72,9 @@ server:
 #  forward-headers-strategy: framework
 #  require-ssl: true
   port: 9090
-  host: localhost
+  host: batdongsan.hoclaptrinhiz.com
+app:
+  protocol: ${APP_PROTOCOL:https}
 spring:
   thymeleaf:
     enabled: true

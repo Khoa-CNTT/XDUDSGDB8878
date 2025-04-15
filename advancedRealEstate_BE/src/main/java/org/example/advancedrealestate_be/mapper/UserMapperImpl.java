@@ -212,6 +212,8 @@ public class UserMapperImpl implements UserMapper {
     @Value("${server.host}")
     private String serverHost;
     private String url = "http://";
+    @Value("${app.protocol}")
+    private String protocol;
 
     private final PermissionService permissionService;
 
@@ -272,6 +274,7 @@ public class UserMapperImpl implements UserMapper {
             roleResponse = RoleResponse.builder()
                     .id(role.getId())
                     .role_name(role.getRole_name())
+                    .role_type(role.getRole_type())
                     .build();
 
             permissions = permissionRepository.findPermissionsByRoleLink(user.getRole().getId());
@@ -281,7 +284,7 @@ public class UserMapperImpl implements UserMapper {
         String avatarUrl = null;
         if (user.getAvatar() != null) {
             String fileName = Paths.get(user.getAvatar()).getFileName().toString();
-            avatarUrl = url + serverHost + ":" + serverPort + "/api/user/" + fileName;
+            avatarUrl = protocol + serverHost + ":" + serverPort + "/api/user/" + fileName;
         }
 
         // Build UserResponse
@@ -300,6 +303,7 @@ public class UserMapperImpl implements UserMapper {
                 .avatar(avatarUrl)
                 .roles(roleResponse.getRole_name())
                 .role_id(roleResponse.getId())
+                .role_type(roleResponse.getRole_type())
                 .permission(permissions)
                 .build();
     }
