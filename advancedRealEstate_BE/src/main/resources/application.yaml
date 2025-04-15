@@ -69,7 +69,7 @@
 
 server:
   port: 9090
-  host: localhost
+  host: batdongsan.hoclaptrinhiz.com
 app:
   protocol: ${APP_PROTOCOL:https}
 spring:
@@ -89,7 +89,7 @@ spring:
     password: ${DBMS_PASSWORD:123456}
     # dùng để chạy ở host
     #password: ${DBMS_PASSWORD:123123aA@}
-    username: ${DBMS_USERNAME:}
+    username: ${DBMS_USERNAME:root}
   jpa:
     hibernate:
       ddl-auto: update
