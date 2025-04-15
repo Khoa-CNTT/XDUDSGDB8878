@@ -39,7 +39,7 @@ export const getLinkElements = (t) => ({
     {
       link: (
         <Link to="/sign-up" className="nav-item nav-link">
-          {t("home.headers.links.login")}
+          {t("home.headers.links.register")}
         </Link>
       ),
     },

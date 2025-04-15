@@ -155,7 +155,7 @@ const StaffChat = (props) => {
   }, [clients]);
 
   const connect = () => {
-    const socket = new SockJS("http://localhost:9090/ws");
+    const socket = new SockJS(`${t("environments.SERVER_URL")}/ws`);
     stompClient = new Client({
       webSocketFactory: () => socket,
       debug: (str) => {},
@@ -241,12 +241,14 @@ const StaffChat = (props) => {
   };
 
   const sendMessage = () => {
+    
     if (
       stompClient &&
       stompClient.connected &&
       userData.message.trim() !== "" &&
       activeUser
     ) {
+
       const staffRoom = `${room}_${activeUser?.roles}_${activeUser.email}`;
       const isManagement = auth?.listRoleManagerPage?.some(
         (role) => role?.role_type === auth?.roleUser?.role_type
@@ -273,6 +275,7 @@ const StaffChat = (props) => {
         room: staffRoom,
         type: "CHAT",
       };
+
       stompClient.publish({
         destination: `/app/sendMessageToRoom/${room}`,
         body: JSON.stringify(chatMessage),

@@ -1,4 +1,11 @@
 {
+  "environments": {
+    "SERVER_URL": "http://localhost:9090",
+    "LOCAL_URL": "http://localhost:9090"
+  },
+  "errors": {
+    "message": "Đã có lỗi xảy ra"
+  },
   "home": {
     "welcome": "Welcome to ",
     "title": "ADVANCED REAL ESTATE",
