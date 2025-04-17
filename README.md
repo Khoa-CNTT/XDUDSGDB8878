@@ -1,5 +1,7 @@
 ```js
+
 🏢 HỆ THỐNG QUẢN LÝ BẤT ĐỘNG SẢN THÔNG MINH 🏢
+
 const PROJECT = {
   description: "Một giải pháp mã nguồn mở hiện đại, tích hợp AI để quản lý bất động sản hiệu quả.",
   slogan: "Chuyển đổi số ngành bất động sản với công nghệ AI và giao diện người dùng thân thiện."
