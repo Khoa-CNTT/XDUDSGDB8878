@@ -1,4 +1,4 @@
-```js 
+```py 
 // Định nghĩa thông tin dự án
 const PROJECT = {
   name: "🏢 HỆ THỐNG QUẢN LÝ BẤT ĐỘNG SẢN THÔNG MINH 🏢",
