@@ -1,3 +1,4 @@
+```js 
 // Định nghĩa thông tin dự án
 const PROJECT = {
   name: "🏢 HỆ THỐNG QUẢN LÝ BẤT ĐỘNG SẢN THÔNG MINH 🏢",
@@ -231,3 +232,5 @@ console.log("\n👨‍💻 ĐÓNG GÓP");
 contributors.forEach(person => {
   console.log(`★ ${person.name.padEnd(22)} - ${person.role}`);
 });
+
+```
