@@ -32,6 +32,7 @@ import BuildingDetailScreen from "../screens/client/BuildingDetailScreen";
 import AuctionRoomClientScreen from "../screens/client/AuctionRoomClientScreen";
 import ChatBotComponent from "../component/chat/ChatBotComponent";
 import { message } from "antd";
+import FireWarning from "../screens/client/FireWarning";
 
 const UserRouter = () => {
   const location = useLocation();
@@ -170,6 +171,7 @@ const UserRouter = () => {
           ))}
         </Routes>
         {currentRoute?.showHeader && <ChatBotComponent />}
+        <FireWarning/>
       </div>
 
       {currentRoute?.showFooter && (

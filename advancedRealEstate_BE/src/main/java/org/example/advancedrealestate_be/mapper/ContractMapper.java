@@ -2,7 +2,10 @@ package org.example.advancedrealestate_be.mapper;
 
 import org.example.advancedrealestate_be.dto.request.BuildingCreateRequest;
 import org.example.advancedrealestate_be.dto.request.ContractCreateRequest;
+import org.example.advancedrealestate_be.dto.response.CategoryResponse;
+import org.example.advancedrealestate_be.dto.response.ContractResponse;
 import org.example.advancedrealestate_be.entity.Building;
+import org.example.advancedrealestate_be.entity.Category;
 import org.example.advancedrealestate_be.entity.Contracts;
 import org.mapstruct.Mapper;
 
@@ -27,6 +30,7 @@ public interface ContractMapper {
 
 
     Contracts toRequest(ContractCreateRequest request);
+    ContractResponse toResponse(Contracts contracts);
 }
 
 
