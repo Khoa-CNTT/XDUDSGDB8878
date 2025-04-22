@@ -136,6 +136,8 @@ role.role_name = role_permissions.role_name;
 select * from room_chats;
 select * from buildings;
 
+ALTER TABLE messages 
+MODIFY message_index INT AUTO_INCREMENT;
 ALTER TABLE user MODIFY fullname VARCHAR(255) NULL;
 ALTER TABLE user MODIFY status INT DEFAULT 1;
 ALTER TABLE room_chats MODIFY image LONGBLOB;
