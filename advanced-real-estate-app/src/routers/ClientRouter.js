@@ -118,7 +118,7 @@ const ClientRouter = () => {
       showBanner: false,
       showHeader: true,
       showFooter: true,
-    },
+    }
   ];
 
   const currentRoute = routes.find((route) =>

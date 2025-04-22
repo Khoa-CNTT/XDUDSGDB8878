@@ -65,11 +65,16 @@ const BuildingComponent = () => {
   const [routeControl, setRouteControl] = useState(null);
   const auth = useSelector(authSelector);
   const [customer, setCustomer] = useState({
-    first_name: auth?.info?.first_name,
-    last_name: auth?.info?.last_name,
+    full_name: auth?.info?.first_name && auth?.info?.last_name 
+      ? `${auth?.info?.first_name} ${auth?.info?.last_name}` 
+      : "",
     email: auth?.info?.email,
     phone_number: auth?.info?.phone_number,
     birthday: auth?.info?.birthday,
+    cccd: "",
+    ngay_cap: "",
+    noi_cap: "",
+    noi_chon: "",
   });
   const [detailBuilding, setDetailBuiding] = useState(null);
   const [checkout, setCheckout] = useState([]);
@@ -283,11 +288,63 @@ const BuildingComponent = () => {
       message.error(t("home.building.messages.errorCreateContract"));
       return;
     }
+    /**
+     *  "full_name": "string",
+        "birth_date": "2025-04-22T07:51:01.948Z",
+        "email": "string",
+        "phone": "string",
+        "address": "string",
+        "start_date": "2025-04-22T07:51:01.948Z",
+        "end_date": "2025-04-22T07:51:01.948Z",
+        "cccdid": "string",
+        "place_of_issue": "string",
+        "price": 0,
+        "total_amount": 0,
+        "status": 0
+     */
     const payload = {
-      ...customer,
-      ...detailBuilding,
+      "full_name": customer.full_name,
+      "birth_date": customer.birthday,
+      "email": customer.email,
+      "phone": customer.phone_number,
+      "address": customer.noi_chon,
+      // "start_date": "2025-04-22T07:51:01.948Z",
+      // "end_date": "2025-04-22T07:51:01.948Z",
+      "cccdid": customer.cccd,
+      "place_of_issue": customer.noi_cap,
+      "price": detailBuilding?.typeBuilding?.price,
+      "total_amount": detailBuilding?.typeBuilding?.price,
+      "building_id": detailBuilding.id,
+      "user_id": auth.info.id
     };
+
     console.log(payload);
+    
+    try {
+      const url = `/api/contract`;
+      const token = auth?.token;
+      console.log(token);
+      
+      const res = await handleAPI(url, payload, "post", token)
+      console.log(res);
+      if(res.status === 200) {
+        window.$('#exampleModal').modal('hide');
+        setCustomer({
+          full_name: "",
+          email:"",
+          phone_number: "",
+          birthday: "",
+          cccd: "",
+          ngay_cap: "",
+          noi_cap: "",
+          noi_chon: "",
+        })
+      }
+    } catch (error) {
+      // Toast
+      console.log(error);
+      
+    }
   };
 
   const formatNumber = (str) => {

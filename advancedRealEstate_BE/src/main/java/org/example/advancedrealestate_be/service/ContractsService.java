@@ -17,4 +17,5 @@ public interface ContractsService {
     String updateImageContract(String contractId, ContractUpdateImageRequest request);
     String deleteContract(String buildingId);
     Page<ContractResponse> getContract(int page, int size);
+    Page<ContractResponse> getContractsByUserId(String userId, int page, int size);
 }
