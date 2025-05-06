@@ -24,10 +24,10 @@ public class AuctionResponse {
     private String end_time;
     private String description;
     private boolean isActive;
-    private Building building;
-    private TypeBuilding typeBuilding;
-    private Map map;
-    private User userCreatedBy;
+    private BuildingResponse building;
+    private TypeBuildingResponse typeBuilding;
+    private MapResponse map;
+    private UserResponse userCreatedBy;
     private String identity_key;
     List<String> buildingImages = new ArrayList<>();
 }

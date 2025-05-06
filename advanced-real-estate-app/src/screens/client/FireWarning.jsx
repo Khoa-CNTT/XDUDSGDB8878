@@ -7,7 +7,7 @@ import { authSelector } from '../../redux/reducers/authReducer';
 const FireWarning = () => {
   const auth = useSelector(authSelector);
   useEffect(() => {
-    const socket = new WebSocket("ws://192.168.7.114:81/"); // ⚠️ thay bằng IP ESP32 thực tế
+    const socket = new WebSocket("ws://192.168.189.130:81/"); // ⚠️ thay bằng IP ESP32 thực tế
     console.log(`AUTH:${auth.info.id}`);
     
     socket.onopen = () => {

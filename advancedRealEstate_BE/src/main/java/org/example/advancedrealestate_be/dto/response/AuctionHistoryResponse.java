@@ -21,8 +21,8 @@ public class AuctionHistoryResponse {
     private String messageBidId;
     private String identityKey;
     private String status;
-    private Auction auction;
+    private AuctionResponse auction;
     private BuildingResponse buildingResponse;
-    private User client;
+    private UserResponse client;
     List<String> buildingImageUrls;
 }

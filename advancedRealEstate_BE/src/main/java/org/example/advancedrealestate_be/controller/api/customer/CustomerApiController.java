@@ -27,6 +27,7 @@ public class CustomerApiController {
     @PostMapping("/register")
     public ResponseEntity<JSONObject> registerCustomer(@Valid @RequestBody CustomerRequest request) {
         JSONObject data=new JSONObject();
+        System.out.println("register"+ request.getEmail());
         String response = customerService.registerCustomer(request);
         data.put("data", response);
         data.put("message","Account was created successfully");

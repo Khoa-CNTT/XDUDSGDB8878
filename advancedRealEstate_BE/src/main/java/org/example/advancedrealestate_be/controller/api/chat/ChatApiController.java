@@ -154,7 +154,6 @@ public class ChatApiController {
         }
         String randomBuildingInfo = String.join(" | ", randomBuildingList);
 
-        System.out.println("building random: " + randomBuildingInfo);
         StringBuilder requireMsg = new StringBuilder("Đây là tin nhắn của khách hàng: ")
             .append(userMsg).append(". Còn đây là dữ liệu về bất động sản của công ty tôi: ")
             .append(randomBuildingInfo)

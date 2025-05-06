@@ -2,7 +2,7 @@ export const buttonStyleElements = {
   confirmButtonStyle: {
     backgroundColor: "#fea116",
     color: "white",
-    fontSize: "12px",
+    fontSize: "25px",
     padding: "8px 16px",
     borderRadius: "4px",
     border: "none",

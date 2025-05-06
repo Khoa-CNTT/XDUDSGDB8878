@@ -110,19 +110,19 @@ public class AuctionHistoryHandler implements AuctionHistoryService {
                 .image(buildingImageUrls)
                 .build();
 
-        responseObject.put("data", new AuctionHistoryResponse(
-            auctionHistory.getId(),
-            auctionHistory.getBidAmount(),
-            auctionHistory.getBidTime(),
-            auctionHistory.getMessageBidId(),
-            auctionHistory.getIdentity_key(),
-            auctionHistory.getStatus(),
-            auctionHistory.getAuction(),
-            buildingResponse,
-            auctionHistory.getClient(),
-            buildingImageUrls
-        ));
-        return responseObject;
+//        responseObject.put("data", new AuctionHistoryResponse(
+//            auctionHistory.getId(),
+//            auctionHistory.getBidAmount(),
+//            auctionHistory.getBidTime(),
+//            auctionHistory.getMessageBidId(),
+//            auctionHistory.getIdentity_key(),
+//            auctionHistory.getStatus(),
+//            auctionHistory.getAuction(),
+//            buildingResponse,
+//            auctionHistory.getClient(),
+//            buildingImageUrls
+//        ));
+        return null;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")

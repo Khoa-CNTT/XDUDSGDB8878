@@ -32,6 +32,7 @@ import { FaAddressBook } from "react-icons/fa6";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
+import { f_collectionUtil } from "../../utils/f_collectionUtil";
 
 // Hàm tính khoảng cách giữa hai tọa độ (haversine formula)
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -65,9 +66,10 @@ const BuildingComponent = () => {
   const [routeControl, setRouteControl] = useState(null);
   const auth = useSelector(authSelector);
   const [customer, setCustomer] = useState({
-    full_name: auth?.info?.first_name && auth?.info?.last_name 
-      ? `${auth?.info?.first_name} ${auth?.info?.last_name}` 
-      : "",
+    full_name:
+      auth?.info?.first_name && auth?.info?.last_name
+        ? `${auth?.info?.first_name} ${auth?.info?.last_name}`
+        : "",
     email: auth?.info?.email,
     phone_number: auth?.info?.phone_number,
     birthday: auth?.info?.birthday,
@@ -86,7 +88,7 @@ const BuildingComponent = () => {
     callApiBuildings()
       .then((res) => {
         setBuildings(res?.data);
-        dispatch(success(res?.data));
+        dispatch(success(f_collectionUtil.lowercaseValueInArray(res?.data)));
       })
       .catch((error) => {
         dispatch(failed());
@@ -136,8 +138,8 @@ const BuildingComponent = () => {
         (_, i) => `nhà bán giá ${i + 1} tỷ`
       );
       const matchesAuctionBuilding = [
-        "Nhà bán",
-        "Nhà cho thuê",
+        "nhà bán",
+        "nhà cho thuê",
         ...listTypeBuildingRent,
         ...listTypeBuildingSale,
       ].some((type) => type === building?.typeBuilding?.type_name);
@@ -303,47 +305,46 @@ const BuildingComponent = () => {
         "status": 0
      */
     const payload = {
-      "full_name": customer.full_name,
-      "birth_date": customer.birthday,
-      "email": customer.email,
-      "phone": customer.phone_number,
-      "address": customer.noi_chon,
+      full_name: customer.full_name,
+      birth_date: customer.birthday,
+      email: customer.email,
+      phone: customer.phone_number,
+      address: customer.noi_chon,
       // "start_date": "2025-04-22T07:51:01.948Z",
       // "end_date": "2025-04-22T07:51:01.948Z",
-      "cccdid": customer.cccd,
-      "place_of_issue": customer.noi_cap,
-      "price": detailBuilding?.typeBuilding?.price,
-      "total_amount": detailBuilding?.typeBuilding?.price,
-      "building_id": detailBuilding.id,
-      "user_id": auth.info.id
+      cccdid: customer.cccd,
+      place_of_issue: customer.noi_cap,
+      price: detailBuilding?.typeBuilding?.price,
+      total_amount: detailBuilding?.typeBuilding?.price,
+      building_id: detailBuilding.id,
+      user_id: auth.info.id,
     };
 
     console.log(payload);
-    
+
     try {
       const url = `/api/contract`;
       const token = auth?.token;
       console.log(token);
-      
-      const res = await handleAPI(url, payload, "post", token)
+
+      const res = await handleAPI(url, payload, "post", token);
       console.log(res);
-      if(res.status === 200) {
-        window.$('#exampleModal').modal('hide');
+      if (res.status === 200) {
+        window.$("#exampleModal").modal("hide");
         setCustomer({
           full_name: "",
-          email:"",
+          email: "",
           phone_number: "",
           birthday: "",
           cccd: "",
           ngay_cap: "",
           noi_cap: "",
           noi_chon: "",
-        })
+        });
       }
     } catch (error) {
       // Toast
       console.log(error);
-      
     }
   };
 
@@ -481,6 +482,71 @@ const BuildingComponent = () => {
                 </Marker>
               ))}
             </MapContainer>
+            {currentBuildings.filter((item) => item.status === 1).length ===
+              0 && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "32px",
+                  textAlign: "center",
+                  borderRadius: "8px",
+                  border: "1px dashed #e5e7eb",
+                  backgroundColor: "#f9fafb",
+                  margin: "16px 0",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    height: "48px",
+                    width: "48px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "50%",
+                    backgroundColor: "#f3f4f6",
+                    marginBottom: "16px",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#9ca3af"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="17" y1="17" x2="22" y2="22"></line>
+                  </svg>
+                </div>
+                <span
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    color: "#111827",
+                    marginBottom: "4px",
+                  }}
+                >
+                  {`Không có kết quả tìm kiếm nào!`}
+                </span>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    color: "#6b7280",
+                    margin: "0",
+                  }}
+                >
+                  Vui lòng thử lại với các tiêu chí tìm kiếm khác
+                </p>
+              </div>
+            )}
             {currentBuildings
               .filter((item) => item.status === 1)
               .map((building, index) => (

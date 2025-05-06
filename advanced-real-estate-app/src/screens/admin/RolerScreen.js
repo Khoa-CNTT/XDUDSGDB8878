@@ -389,6 +389,7 @@ const RolerScreen = () => {
                       })
                     }
                   >
+                    <option value="" disabled>-- Chọn loại quyền --</option>
                     {appVariables.listRoleRequireForManagerPage.map(
                       (item, index) => (
                         <option key={index} value={item}>{`${item}`}</option>

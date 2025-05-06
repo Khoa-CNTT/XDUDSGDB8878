@@ -33,6 +33,7 @@ public class SecurityConfig implements WebMvcConfigurer{
             "/api/users", "/api/auth/**",
             "/api/buildings/search",
             "/api/customers/**",
+            "/api/customers/register",
             "/ws/**",
     };
 
@@ -41,6 +42,7 @@ public class SecurityConfig implements WebMvcConfigurer{
             "/login/**", "/oauth2/**",
             "/api-docs", "/api/auth/**",
             "/api/customers/**",
+            "/api/customers/register",
             "/api/user/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
