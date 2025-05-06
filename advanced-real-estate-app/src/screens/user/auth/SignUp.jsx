@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {appInfo} from "../../../constants/appInfos";
 import Toast from "../../../config/ToastConfig";
 import handleAPI from '../../../apis/handlAPI';
+import { message } from "antd";
 
 const SignUp = () => {
     const [ registerUser, setRgisterUser] = useState({});
@@ -9,17 +10,7 @@ const SignUp = () => {
         const url = `/api/customers/register`;
         try {
             const res = await handleAPI(url,registerUser , "post");
-            if(res.status === 200) {
-                Toast("success", res.message);
-                setRgisterUser({
-                    firstName: "string",
-                    lastName: "string",
-                    userName: "string",
-                    email: "string",
-                    phoneNumber: "string",
-                    password: "string"
-                })
-            }
+            message.success("Đăng ký thành công");
         } catch (error) {
             Toast("error", error.message);
         }

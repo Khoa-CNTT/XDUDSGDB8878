@@ -166,4 +166,22 @@ export const f_collectionUtil = {
       utils?.navigate("/sign-in");
     }
   },
+  lowercaseValueInArray(data) {
+    const toLowerCaseDeep = (obj) => {
+      if (Array.isArray(obj)) {
+        return obj.map(toLowerCaseDeep);
+      } else if (obj && typeof obj === "object") {
+        const lowered = {};
+        for (const key in obj) {
+          lowered[key] = toLowerCaseDeep(obj[key]);
+        }
+        return lowered;
+      } else if (typeof obj === "string") {
+        return obj.toLowerCase();
+      }
+      return obj;
+    };
+    const lowercaseData = data?.map((item) => toLowerCaseDeep(item));
+    return lowercaseData;
+  },
 };

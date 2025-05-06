@@ -26,7 +26,7 @@ public class AuctionDetailResponse {
     private double bidAmount;
     private String status;
     private String identity_key;
-    private User client;
+    private UserResponse client;
     private AuctionResponse auction;
     private BuildingResponse building;
     private TypeBuildingResponse typeBuildingResponse;

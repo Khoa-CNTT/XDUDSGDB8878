@@ -88,26 +88,26 @@ const SiderComponent = () => {
       icon: <BsCircle size={20} />,
       url: path + "/category", // Đường dẫn cần kiểm tra quyền truy cập
     },
-    {
-      key: "chat",
-      label: (
-        <Link style={{ textDecoration: "none" }} to={path + "/chat"}>
-          Nhắn Tin
-        </Link>
-      ),
-      icon: <GrChat size={20} />,
-      url: path + "/chat",
-    },
-    {
-      key: "room-chat",
-      label: (
-        <Link style={{ textDecoration: "none" }} to={path + "/room-chat"}>
-          Quản Lý Phòng Chat
-        </Link>
-      ),
-      icon: <VscHome size={20} />,
-      url: path + "/room-chat",
-    },
+    // {
+    //   key: "chat",
+    //   label: (
+    //     <Link style={{ textDecoration: "none" }} to={path + "/chat"}>
+    //       Nhắn Tin
+    //     </Link>
+    //   ),
+    //   icon: <GrChat size={20} />,
+    //   url: path + "/chat",
+    // },
+    // {
+    //   key: "room-chat",
+    //   label: (
+    //     <Link style={{ textDecoration: "none" }} to={path + "/room-chat"}>
+    //       Quản Lý Phòng Chat
+    //     </Link>
+    //   ),
+    //   icon: <VscHome size={20} />,
+    //   url: path + "/room-chat",
+    // },
     {
       key: "building",
       label: (
@@ -128,26 +128,7 @@ const SiderComponent = () => {
       icon: <Book size={20} />,
       url: path + "/contract",
     },
-    {
-      key: "contract-detail",
-      label: (
-        <Link style={{ textDecoration: "none" }} to={path + "/contract-detail"}>
-          Quản Lý Chi Tiết Hợp Đồng
-        </Link>
-      ),
-      icon: <PiHandshake size={20} />,
-      url: path + "/contract-detail",
-    },
-    {
-      key: "service",
-      label: (
-        <Link style={{ textDecoration: "none" }} to={path + "/service"}>
-          Quản Lý dịch vụ
-        </Link>
-      ),
-      icon: <TruckTick size={20} />,
-      url: path + "/service",
-    },
+   
     {
       key: "map",
       label: (

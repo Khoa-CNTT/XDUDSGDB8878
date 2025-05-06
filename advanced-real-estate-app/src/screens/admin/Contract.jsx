@@ -8,13 +8,16 @@ import Toast from "../../config/ToastConfig";
 import { Button, Dropdown, Space } from "antd";
 import { Setting2 } from "iconsax-react";
 import { saveAs } from 'file-saver';
+import { authSelector } from "../../redux/reducers/authReducer";
+import { useSelector } from "react-redux";
 const Contract = () => {
     const fileInputRef = useRef(null);
     const [content, setContent] = useState(null);
     const editorContainerRef = useRef(null);
     const [htmlContent, setHtmlContent] = useState("");
     const [updateContract, setUpdateContract] = useState("");
-    
+    const [data, setData] = useState([]);
+    const auth = useSelector(authSelector);
     const handleFileChange = (e) => {
         // setContent(e.target.files[0]);
         getHtmlCkeditor4(e.target.files[0]);
@@ -79,26 +82,100 @@ const Contract = () => {
         setHtmlContent(res.html)
     }
 
-    const handleCreateContract = () => {
-        const editorContent = window.CKEDITOR.instances["editor"].getData();
-
-        // Định dạng nội dung HTML để tải về dưới dạng file Word
-        const header =
+    const handleCreateContract = async (value) => {
+        if (!updateContract) {
+            Toast.error("Vui lòng chọn hợp đồng");
+            return;
+        }
+    
+        let file;
+        let fileName = `contract_${updateContract.contract_code}.doc`;
+    
+        // Option 1: Use file from fileInputRef if selected
+        if (fileInputRef.current?.files[0]) {
+            file = fileInputRef.current.files[0];
+            fileName = file.name;
+        } else {
+            // Option 2: Generate Word file from CKEditor content
+            const editorContent = window.CKEDITOR?.instances["editor"]?.getData() || "<p>No content</p>";
+            const header =
             "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
             "xmlns:w='urn:schemas-microsoft-com:office:word' " +
             "xmlns='http://www.w3.org/TR/REC-html40'>" +
             "<head><meta charset='utf-8'></head><body>";
-        const footer = "</body></html>";
-        const content = header + editorContent + footer;
-
-        // Tạo Blob với MIME type cho file Word
-        const blob = new Blob([content], {
+            const footer = "</body></html>";
+            const content = header + editorContent + footer;
+    
+            const blob = new Blob([content], {
             type: "application/msword;charset=utf-8",
-        });
+            });
+            file = new File([blob], fileName, { type: "application/msword" });
+        }
+    
+        if (!file) {
+            Toast.error("Vui lòng chọn file hoặc nhập nội dung hợp đồng");
+            return;
+        }
+    
+        const contractId = value.id;
+        const formData = new FormData();
+        formData.append("file", file);
+        // Add ContractUpdateFileRequest fields if needed
+        formData.append("request", JSON.stringify({})); // Adjust based on ContractUpdateFileRequest
+    
+        try {
+            const url = `/api/contract/upload-file/${contractId}`;
+            const response = await handleAPI(url, formData, "post", auth.token);
+            Toast("success", response.message);
+            setUpdateContract(null);
+            setHtmlContent("");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ""; // Clear file input
+            }
+            if (window.CKEDITOR?.instances["editor"]) {
+                window.CKEDITOR.instances["editor"].setData(""); // Clear CKEditor
+            }
+            // Close modal programmatically
+            document.getElementById("EditModal").classList.remove("show");
+            document.body.classList.remove("modal-open");
+            document.querySelector(".modal-backdrop")?.remove();
+            // Refresh contract list
+            getData();
 
-        // Sử dụng file-saver để tải file
-        saveAs(blob, "contract.doc");
+        } catch (error) {
+            console.error("Error uploading file:", error);
+            Toast.error("Tải file thất bại: " + (error.response?.data?.message || error.message));
+        }
     };
+    useEffect(()=> {
+        getData();
+    }, [])
+
+    const getData = async () => {
+        try{
+            const url = `/api/contract?page=1&size=9999`;
+            const res = await handleAPI(url, {}, "get", auth.token);
+            console.log(res);
+            if(res.status === 200) {
+                setData(res.data.data);
+            }
+            // if()
+        }catch(error) {
+            console.log(error)
+        }
+    }
+
+
+    const changStatusContract = async (value) => {
+        if(value.status === 2) {
+            const url = `/api/contract/change-status`;
+            const res = await handleAPI(url, {id: value.id}, "post", auth.token);
+            if(res.status === 200) {
+                Toast("success", res.message);
+                getData();
+            }
+        }
+    }
 
     return (
         <>
@@ -109,7 +186,7 @@ const Contract = () => {
                             Danh Sách Hợp Đồng
                         </div>
                         <div className="card-header">
-                            <div className="table-response">
+                            <div className="table-responsive">
                                 <table className="table table-bordered">
                                     <thead>
                                         <tr>
@@ -121,60 +198,69 @@ const Contract = () => {
                                             <th className="text-center align-middle wrap">Nơi Cấp</th>
                                             <th className="text-center align-middle wrap">Nơi Chốn</th>
                                             <th className="text-center align-middle">Ngày Cấp</th>
-                                            <th className="text-center align-middle">Ngày Bắt Đầu</th>
-                                            <th className="text-center align-middle">Ngày Kết Thúc</th>
+                                            {/* <th className="text-center align-middle">Ngày Bắt Đầu</th>
+                                            <th className="text-center align-middle">Ngày Kết Thúc</th> */}
                                             <th className="text-center align-middle wrap">Tổng Số Tiền</th>
                                             <th className="text-center align-middle">Trạng Thái</th>
                                             <th className="text-center align-middle wrap">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="text-center align-middle">1</td>
-                                            <td className="text-center align-middle wrap">HDND01</td>
-                                            <td className="text-center align-middle">Phùng Văn Mạnh</td>
-                                            <td className="text-center align-middle">phungvanmanh1303@gmail.com</td>
-                                            <td className="text-center align-middle">066203001197</td>
-                                            <td className="text-center align-middle wrap">Quảng Nam</td>
-                                            <td className="text-center align-middle wrap">Đà Nẵng</td>
-                                            <td className="text-center align-middle">26/03/2021</td>
-                                            <td className="text-center align-middle">17/12/2024</td>
-                                            <td className="text-center align-middle">17/12/2026</td>
-                                            <td className="text-center align-middle wrap">100.000.000 VNĐ</td>
-                                            <td className="text-center align-middle">
-                                                <button className="btn btn-warning w-100">Chờ Xét Duyệt</button>
-                                                {/* <button className="btn btn-success w-100">Đã Xét Duyệt</button> 
-                                                <button className="btn btn-danger w-100">Chờ Thanh Toán</button>
-                                                <button className="btn btn-primary w-100">Đã Thanh Toán</button> */}
-                                            </td>
-                                            <td className="text-center align-middle wrap">
-                                            <Space direction="vertical">
-                                                    <Space wrap>
-                                                        <Dropdown
-                                                            menu={{
-                                                                items: [
-                                                                    {
-                                                                        key: "1",
-                                                                        label: (
-                                                                            <>
-                                                                                <a data-bs-toggle="modal"
-                                                                                data-bs-target="#EditModal">Cập Nhật Hợp Đồng</a>
-                                                                            </>
-                                                                        ),
-                                                                    },
-                                                                ],
-                                                            }}
-                                                            placement="bottomRight"
-                                                            trigger={["click"]}
-                                                        >
-                                                            <Button
-                                                                icon={<Setting2/>}
-                                                            />
-                                                        </Dropdown>
-                                                    </Space>
-                                                </Space>
-                                            </td>
-                                        </tr>
+                                        {
+                                            data.map((value, key) => (
+                                                <>
+                                                    <tr key={key}>
+                                                        <td className="text-center align-middle">{key + 1}</td>
+                                                        <td className="text-center align-middle">{value.contract_code}</td>
+                                                        <td className="text-center align-middle">{value.full_name}</td>
+                                                        <td className="text-center align-middle">{value.email}</td>
+                                                        <td className="text-center align-middle">{value.cccdid}</td>
+                                                        <td className="text-center align-middle">{value.place_of_issue}</td>
+                                                        <td className="text-center align-middle">{value.address}</td>
+                                                        <td className="text-center align-middle">
+                                                            {value.birth_date ? new Date(value.birth_date).toLocaleDateString('vi-VN') : ""}
+                                                        </td>
+                                                        {/* <td className="text-center align-middle">
+                                                            {value.start_date ? new Date(value.start_date).toLocaleDateString('vi-VN') : ""}
+                                                        </td>
+                                                        <td className="text-center align-middle">
+                                                            {value.end_date ? new Date(value.end_date).toLocaleDateString('vi-VN') : ""}
+                                                        </td> */}
+                                                        <td className="text-center align-middle">{value.total_amount.toLocaleString('vi-VN')} VNĐ</td>
+                                                        <td className="text-center align-middle">
+                                                            <button onClick={() => changStatusContract(value)} className={`btn btn-${value.status === 1 ? "warning" : "success"} w-100`}>{value.status === 1 ? "Chờ Xét Duyệt" : value.status === 2 ? "Đã gửi mail" : "Đã xét duyệt"}</button>
+                                                        </td>
+                                                        <td className="text-center align-middle wrap">
+                                                        <Space direction="vertical">
+                                                                <Space wrap>
+                                                                    <Dropdown
+                                                                        menu={{
+                                                                            items: [
+                                                                                {
+                                                                                    key: "1",
+                                                                                    label: (
+                                                                                        <>
+                                                                                            <a onClick={() => setUpdateContract(value)} data-bs-toggle="modal"
+                                                                                            data-bs-target="#EditModal">Cập Nhật Hợp Đồng</a>
+                                                                                        </>
+                                                                                    ),
+                                                                                },
+                                                                            ],
+                                                                        }}
+                                                                        placement="bottomRight"
+                                                                        trigger={["click"]}
+                                                                    >
+                                                                        <Button
+                                                                            icon={<Setting2/>}
+                                                                        />
+                                                                    </Dropdown>
+                                                                </Space>
+                                                            </Space>
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            ))
+                                        }
                                     </tbody>
                                 </table>
                                 <div
@@ -198,35 +284,7 @@ const Contract = () => {
                                                 ></button>
                                             </div>
                                             <div className="modal-body">
-                                                <div className="row mb-2">
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Mã Hợp Đồng</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Họ Và Tên</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Ngày Sinh</label>
-                                                        <input type="date" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Email</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                </div>
-                                                <div className="row mb-2">
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Số Điện Thoại</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Địa Chỉ</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                </div>
-                                                <div className="row mb-2">
+                                                {/* <div className="row mb-2">
                                                     <div className="col">
                                                         <label htmlFor="" className="mb-2">Ngày Bắt Đầu</label>
                                                         <input type="date" name="" id="" className="form-control" readOnly/>
@@ -235,43 +293,15 @@ const Contract = () => {
                                                         <label htmlFor="" className="mb-2">Ngày Kết Thúc</label>
                                                         <input type="date" name="" id="" className="form-control" readOnly/>
                                                     </div>
-                                                </div>
-                                                <div className="row mb-2">
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">CMT/CCCD</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Nơi Cấp</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Ngày Cấp</label>
-                                                        <input type="date" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                </div>
-                                                <div className="row mb-2">
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Tòa Nhà Cho Thuê</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                    <div className="col">
-                                                        <label htmlFor="" className="mb-2">Địa Chỉ Cho Thuê</label>
-                                                        <input type="text" name="" id="" className="form-control" readOnly/>
-                                                    </div>
-                                                </div>
+                                                </div> */}
                                                 <div className="row mb-2">
                                                     <div className="col">
                                                         <label htmlFor="" className="mb-2">File Hợp Đồng</label>
                                                         <input type="file" name="" id="" className="form-control" ref={fileInputRef} onChange={handleFileChange}/>
                                                     </div>
-                                                    {/* <div className="col d-flex justify-content-center align-items-center">
-                                                        <button className=" btn btn-primary mt-4" onClick={() => getHtmlCkeditor4()}>Tải file word</button>
-                                                    </div> */}
                                                 </div>
                                                 <div className="row mt-2">
                                                     <div className="col">
-                                                        {/* <textarea id="editor" ref={editorContainerRef}></textarea> */}
                                                         <textarea name="" id="editor" ref={editorContainerRef}></textarea>
                                                     </div>
                                                 </div>
@@ -287,7 +317,7 @@ const Contract = () => {
                                                 <button
                                                     type="button"
                                                     className="btn btn-primary"
-                                                    onClick={handleCreateContract}
+                                                    onClick={() => handleCreateContract(updateContract)}
                                                 >
                                                     Xác Nhận
                                                 </button>

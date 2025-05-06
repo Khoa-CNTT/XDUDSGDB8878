@@ -26,6 +26,7 @@ public class AuctionContractMapper {
         User client = auctionContract.getClient();
         User staffConfirm = auctionContract.getStaffConfirm();
         Auction auction = auctionDetail.getAuction();
+        User userCreatedBy = auction.getUserCreatedBy();
         Building building = auction.getBuilding();
         TypeBuilding typeBuilding = building.getTypeBuilding();
         Map map = building.getMap();
@@ -100,7 +101,22 @@ public class AuctionContractMapper {
                 .start_date(auction.getStart_date())
                 .start_time(auction.getStart_time())
                 .end_time(auction.getEnd_time())
-                .userCreatedBy(client)
+                .userCreatedBy(UserResponse.builder()
+                .id(userCreatedBy.getId())
+                .first_name(userCreatedBy.getFirst_name())
+                .last_name(userCreatedBy.getLast_name())
+                .user_name(userCreatedBy.getUser_name())
+                .status(userCreatedBy.getStatus())
+                .email(userCreatedBy.getEmail())
+                .gender(userCreatedBy.getGender())
+                .phone_number(userCreatedBy.getPhone_number())
+                .birthday(userCreatedBy.getBirthday())
+                .avatar(userCreatedBy.getAvatar())
+                .address(userCreatedBy.getAddress())
+                .roles(userCreatedBy.getRole().getRole_name())
+                .role_id(userCreatedBy.getRole().getId())
+                .role_type(userCreatedBy.getRole().getRole_type())
+                .build())
                 .isActive(auction.isActive())
                 .identity_key(auction.getIdentity_key())
                 .build())

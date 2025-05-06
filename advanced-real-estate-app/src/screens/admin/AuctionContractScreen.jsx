@@ -304,7 +304,7 @@ const AuctionContractScreen = (props) => {
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#auctionContractDetailModal"
-                            style={buttonStyleElements?.confirmButtonStyle}
+                            style={buttonStyleElements?.confirmBtnStyle}
                             onClick={() => setObjectItem(item)}
                             to={`#`}
                           >

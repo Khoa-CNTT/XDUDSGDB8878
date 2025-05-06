@@ -5,18 +5,48 @@ import {
   removeSelectedArea,
   removeSelectedStructure,
   removeSelectedType,
-  setFormattedPrice,
-  setPrice,
   setSelectedArea,
   setSelectedStructure,
   setSelectedType,
+  filterBuildingsByPrice,
 } from "../../redux/reducers/buildingReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const BuildingModal = () => {
-  const buildingReducer = useSelector(buildingSelector);
   const dispatch = useDispatch();
-  const [formattedPrice, setFormattedPrice] = useState("");
+  const buildingReducer = useSelector(buildingSelector);
+  const buildings = buildingReducer?.buildings;
+  const [price, setBuildingPrice] = useState("");
+  const uniqueTypeNames = Array.from(
+    new Set(
+      buildings
+        .map((b) => b?.typeBuilding?.type_name?.toLowerCase())
+        .filter((name) => name && !name.startsWith("nhà đấu giá"))
+    )
+  );
+  const uniqueStructures = Array.from(
+    new Set(
+      buildings
+        .map((b) => b?.structure?.toLowerCase())
+        .filter((structure) => structure)
+    )
+  );
+  const uniqueAreas = Array.from(
+    new Set(
+      buildings
+        .map((b) => b?.area?.toString().toLowerCase())
+        .filter((area) => area)
+    )
+  );
+
+  const handleInputPriceChange = (e) => {
+    const rawValue = e.target.value.replace(/,/g, "");
+    if (!/^\d*$/.test(rawValue)) return;
+    const formattedValue = Number(rawValue).toLocaleString("en-US");
+    setBuildingPrice(formattedValue);
+    const inputPrice = Number(rawValue);
+    dispatch(filterBuildingsByPrice(inputPrice));
+  };
 
   useEffect(() => {
     return () => {
@@ -26,20 +56,6 @@ const BuildingModal = () => {
       dispatch(removePrice());
     };
   }, []);
-  const handleInputPriceChange = (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, "");
-    dispatch(setPrice(value));
-    if (value === "") {
-      setFormattedPrice("0đ");
-    } else {
-      const formatted = new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-        minimumFractionDigits: 0,
-      }).format(value);
-      setFormattedPrice(formatted);
-    }
-  };
 
   return (
     <div>
@@ -74,8 +90,11 @@ const BuildingModal = () => {
                   onChange={(e) => dispatch(setSelectedType(e.target.value))}
                 >
                   <option value="">Hiện tất cả</option>
-                  <option value="nhà bán">nhà bán</option>
-                  <option value="nhà cho thuê">nhà cho thuê</option>
+                  {uniqueTypeNames.map((typeName, index) => (
+                    <option key={index} value={typeName}>
+                      {typeName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="col-md-12">
@@ -86,9 +105,9 @@ const BuildingModal = () => {
                   onChange={(e) => dispatch(setSelectedArea(e.target.value))}
                 >
                   <option value="">Hiện tất cả</option>
-                  {buildingReducer?.buildings.map((building, index) => (
-                    <option key={index} value={building?.area}>
-                      {building?.area}
+                  {uniqueAreas.map((area, index) => (
+                    <option key={index} value={area}>
+                      {`${area} m²`}
                     </option>
                   ))}
                 </select>
@@ -104,9 +123,9 @@ const BuildingModal = () => {
                   }
                 >
                   <option value="">Hiện tất cả</option>
-                  {buildingReducer?.buildings.map((building, index) => (
-                    <option key={index} value={building?.structure}>
-                      {building?.structure}
+                  {uniqueStructures.map((structure, index) => (
+                    <option key={index} value={structure}>
+                      {structure}
                     </option>
                   ))}
                 </select>
@@ -120,7 +139,7 @@ const BuildingModal = () => {
                     className="form-control text-center"
                     id="price"
                     placeholder="mức giá"
-                    value={formattedPrice}
+                    value={price}
                     onChange={handleInputPriceChange}
                   />
                   <label htmlFor="price">Nhập vào mức giá</label>

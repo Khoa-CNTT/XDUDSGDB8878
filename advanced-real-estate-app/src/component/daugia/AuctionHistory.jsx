@@ -67,7 +67,7 @@ const AuctionHistory = () => {
     }
   };
 
-  const filteredHistory = auctionHistories.filter((item) => {
+  const filteredHistory = auctionHistories?.filter((item) => {
     const matchesSearch =
       item?.auction?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.buildingResponse?.name
@@ -87,10 +87,10 @@ const AuctionHistory = () => {
     return matchesSearch;
   });
 
-  const totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredHistory?.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredHistory?.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -145,7 +145,7 @@ const AuctionHistory = () => {
           </div>
         </div>
 
-        {filteredHistory.length === 0 ? (
+        {filteredHistory?.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>
               <HistoryOutlined />
@@ -156,7 +156,7 @@ const AuctionHistory = () => {
         ) : (
           <>
             <div className={styles.historyGrid}>
-              {currentItems.map((item, index) => (
+              {currentItems?.map((item, index) => (
                 <div key={index} className={styles.historyCard}>
                   <div className={styles.cardHeader}>
                     <div className={styles.auctionId}>

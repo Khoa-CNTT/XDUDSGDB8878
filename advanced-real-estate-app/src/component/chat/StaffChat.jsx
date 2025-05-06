@@ -68,6 +68,12 @@ const StaffChat = (props) => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    return () => {
+      disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const type = listRoleRequireForManagerPage[0];
     f_collectionUtil.handleCollectionArrayNotAuth(
       `/api/user/roles/${type}`,
@@ -97,14 +103,6 @@ const StaffChat = (props) => {
     );
   }, []);
 
-  // useEffect(() => {
-  //   console.log(messages);
-  // }, [messages]);
-
-  // useEffect(() => {
-  //   console.log("chat: ", chat);
-  // }, [chat]);
-
   useEffect(() => {
     if (userData.connected && activeUser) {
       connect();
@@ -114,21 +112,6 @@ const StaffChat = (props) => {
   useEffect(() => {
     return () => dispatch(closeResizeChat());
   }, []);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (stompClient && stompClient.connected) {
-        dispatch(closeResizeChat());
-        disconnect().then(() => {
-          console.log("Disconnected successfully before reloading.");
-        });
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [stompClient]);
 
   useEffect(() => {
     f_collectionUtil.scrollToBottom(chatContainerRef);
@@ -165,7 +148,9 @@ const StaffChat = (props) => {
       onStompError: (frame) => {
         console.error("ERROR STOMP:", frame);
       },
-      onWebSocketClose: (event) => {},
+      onWebSocketClose: (event) => {
+        dispatch(update((prevData) => ({ ...prevData, connected: false })));
+      },
     });
     try {
       stompClient.activate();
@@ -192,19 +177,22 @@ const StaffChat = (props) => {
   };
 
   const disconnect = async () => {
-    if (stompClient && stompClient.connected && activeUser) {
-      stompClient.publish({
-        destination: `/app/leaveRoom/${room}`,
-        body: JSON.stringify({
-          sender: auth?.info?.email || "guest".toUpperCase(),
-          email: auth?.info?.email || "guest".toUpperCase(),
-          type: "LEAVE",
-        }),
-      });
-      dispatch(setStaffsOffline());
-      stompClient.deactivate();
-    } else {
-      console.log("WebSocket is already disconnected.");
+    try {
+      if (stompClient && stompClient.connected) {
+        stompClient.publish({
+          destination: `/app/leaveRoom/${room}`,
+          body: JSON.stringify({
+            sender: auth?.info?.email || "guest".toUpperCase(),
+            email: auth?.info?.email || "guest".toUpperCase(),
+            type: "LEAVE",
+          }),
+        });
+        await stompClient.deactivate();
+        dispatch(setStaffsOffline());
+        dispatch(update({ connected: false }));
+      }
+    } catch (err) {
+      console.error("Error during disconnect:", err);
     }
   };
 
@@ -241,14 +229,12 @@ const StaffChat = (props) => {
   };
 
   const sendMessage = () => {
-    
     if (
       stompClient &&
       stompClient.connected &&
       userData.message.trim() !== "" &&
       activeUser
     ) {
-
       const staffRoom = `${room}_${activeUser?.roles}_${activeUser.email}`;
       const isManagement = auth?.listRoleManagerPage?.some(
         (role) => role?.role_type === auth?.roleUser?.role_type
@@ -264,6 +250,7 @@ const StaffChat = (props) => {
       if (!chat?.staffsOnline?.includes(activeUser?.email) && !isManagement) {
         setIsLoading(true);
       }
+      dispatch(update({ message: "" }));
       const chatMessage = {
         sender: auth?.info?.email || "guest".toUpperCase(),
         recipient: activeUser.email,

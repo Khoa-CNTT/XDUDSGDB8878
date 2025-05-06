@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ContractCreateRequest {
-    private String contract_code;
+//    private String contract_code;
     private String full_name;
     private Date birth_date;
     private String email;
@@ -25,4 +25,6 @@ public class ContractCreateRequest {
     private Double price;
     private Double total_amount;
     private Integer status;
+    private String building_id;
+    private String user_id;
 }

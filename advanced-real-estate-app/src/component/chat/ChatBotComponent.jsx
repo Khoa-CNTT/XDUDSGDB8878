@@ -18,6 +18,7 @@ import {
   setStaffsOffline,
 } from "../../redux/reducers/chatReducer";
 import { useTranslation } from "react-i18next";
+let stompClient = appVariables.stompClient;
 
 const ChatBotComponent = () => {
   const [isChatBoxVisible, setIsChatBoxVisible] = useState(false);
@@ -26,14 +27,16 @@ const ChatBotComponent = () => {
   const chat = useSelector(chatSelector);
   const auth = useSelector(authSelector);
   const { t } = useTranslation();
+  const room = chat?.room;
 
   const handleChatIconClick = () => {
     setIsChatBoxVisible(true);
   };
 
-  const handleCloseChat = () => {
+  const handleCloseChat = async () => {
     setIsChatBoxVisible(false);
   };
+  
 
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -110,7 +113,7 @@ const ChatBotComponent = () => {
 
           {activeTab === "ai" && <AIChat />}
 
-          {activeTab === "staff" && <StaffChat />}
+          {activeTab === "staff" && <StaffChat isChatBoxVisible={isChatBoxVisible} />}
         </div>
       )}
     </div>

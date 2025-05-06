@@ -41,8 +41,8 @@ public class Customers {
     private String email;
 
     @Column(name = "phone_number", length = 15, nullable = false, unique = true)
-    @Size(min = 10, max = 10, message = "Phone number must be exactly 10 digits.")
-    @Pattern(regexp = "0\\d{9,14}", message = "Phone number format is incorrect.")
+//    @Size(min = 10, max = 10, message = "Phone number must be exactly 10 digits.")
+//    @Pattern(regexp = "0\\d{9,14}", message = "Phone number format is incorrect.")
     private String phoneNumber;
 
     private int isActivity;  // 0: inactive, 1: active

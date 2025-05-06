@@ -68,36 +68,8 @@ public class AuctionHandler implements AuctionService {
     public JSONObject findById(String id) {
         JSONObject responseObject = new JSONObject();
         Auction auction = auctionRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.AUCTION_NOT_FOUND));
-
-        List<String> imageUrls = new ArrayList<>();
-
-        if (auction.getBuilding().getImage() != null && !auction.getBuilding().getImage().isEmpty()) {
-            String[] imagePaths = auction.getBuilding().getImage().split(";");
-            for (String path : imagePaths) {
-                if (!path.trim().isEmpty()) {
-                    String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("%s://%s:%s/api/user/building/%s",
-                    protocol, serverHost, serverPort, fileName);
-                    imageUrls.add(url);
-                }
-            }
-        }
-        assert auction.getBuilding() != null;
-        responseObject.put("data", new AuctionResponse(
-                auction.getId(),
-                auction.getName(),
-                auction.getStart_date(),
-                auction.getStart_time(),
-                auction.getEnd_time(),
-                auction.getDescription(),
-                auction.isActive(),
-                auction.getBuilding(),
-                auction.getBuilding().getTypeBuilding(),
-                auction.getBuilding().getMap(),
-                auction.getUserCreatedBy(),
-                auction.getIdentity_key(),
-                imageUrls
-        ));
+        AuctionResponse auctionResponse = auctionMapper.mapToAuction(auction);
+        responseObject.put("data", auctionResponse);
         return responseObject;
     }
 

@@ -4,6 +4,7 @@ import { message } from "antd";
 const initialState = {
   isLoading: false,
   buildings: [],
+  allBuildings: [],
   listBuildingDetail: [],
   isError: false,
   selectedType: "",
@@ -21,6 +22,7 @@ const buildingSlice = createSlice({
     success: (state, action) => {
       state.isLoading = true;
       state.buildings = action.payload;
+      state.allBuildings = action.payload;
       state.isError = false;
     },
     failed: (state, action) => {
@@ -35,16 +37,23 @@ const buildingSlice = createSlice({
       state.building = null;
     },
     setSelectedType: (state, action) => {
-      state.selectedType = action.payload;
+      state.selectedType = action.payload.toLowerCase();
     },
     setSelectedArea: (state, action) => {
-      state.selectedArea = action.payload;
+      state.selectedArea = action.payload.toLowerCase();
     },
     setSelectedStructure: (state, action) => {
-      state.selectedStructure = action.payload;
+      state.selectedStructure = action.payload.toLowerCase();
     },
-    setPrice: (state, action) => {
-      state.inputPrice = action.payload;
+    filterBuildingsByPrice: (state, action) => {
+      const maxPrice = action.payload;
+      if (!maxPrice || maxPrice < 1) {
+        state.buildings = state.allBuildings;
+        return;
+      }
+      state.buildings = state.allBuildings.filter(
+        (building) => Number(building?.typeBuilding.price) <= maxPrice
+      );
     },
     addBuildingDetails: (state, action) => {
       if (state.listBuildingDetail.length === 0) {
@@ -96,13 +105,13 @@ export const {
   setSelectedType,
   setSelectedArea,
   setSelectedStructure,
-  setPrice,
   addBuildingDetails,
   setFormattedPrice,
+  filterBuildingsByPrice,
+  removePrice,
   removeSelectedType,
   removeSelectedArea,
   removeSelectedStructure,
-  removePrice,
   removeBuildingDetails,
   removeFormattedPrice,
 } = buildingSlice.actions;

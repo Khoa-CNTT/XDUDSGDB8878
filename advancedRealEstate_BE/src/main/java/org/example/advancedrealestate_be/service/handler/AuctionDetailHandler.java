@@ -69,69 +69,11 @@ public class AuctionDetailHandler implements AuctionDetailService {
     @PreAuthorize("hasAnyRole('ADMIN','STAFF','USER')")
     @Override
     public JSONObject findById(String id) {
-        AuctionDetail auctionDetail = auctionDetailRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
-        User client = auctionDetail.getClient();
-        Auction auction = auctionDetail.getAuction();
+        AuctionDetail auctionDetail = auctionDetailRepository.findById(id).orElseThrow(()
+        -> new AppException(ErrorCode.AUCTION_DETAIL_NOT_FOUND));
         JSONObject responseObject = new JSONObject();
-        Building building = auctionDetail.getAuction() == null ? null : auctionDetail.getAuction().getBuilding();
-        assert building != null;
-        Map map = building.getMap();
-        TypeBuilding typeBuilding = building.getTypeBuilding();
-        List<String> buildingImageUrl = new ArrayList<>();
-
-        if (building.getImage() != null && !building.getImage().isEmpty()) {
-            String[] imagePaths = building.getImage().split(";");
-            for (String path : imagePaths) {
-                if (!path.trim().isEmpty()) {
-                    String fileName = Paths.get(path).getFileName().toString();
-                    String url = String.format("%s://%s:%s/api/user/building/%s",
-                            protocol, serverHost, serverPort, fileName);
-                    buildingImageUrl.add(url);
-                }
-            }
-        }
-        TypeBuildingResponse typeBuildingResponse = TypeBuildingResponse.builder()
-        .type_name(typeBuilding.getType_name())
-        .price(typeBuilding.getPrice())
-        .build();
-
-        BuildingResponse buildingResponse = BuildingResponse.builder()
-                .id(building.getId())
-                .name(building.getName())
-                .structure(building.getStructure())
-                .area(building.getAcreage())
-                .description(building.getDescription())
-                .status(building.getStatus())
-                .number_of_basement(building.getNumber_of_basement())
-                .image(buildingImageUrl)
-                .map(MapResponse.builder()
-                .map_name(map.getMap_name())
-                .address(map.getAddress())
-                .build())
-                .build();
-        AuctionResponse auctionResponse = AuctionResponse.builder()
-                .id(auction.getId()).name(auction.getName())
-                .start_date(auction.getStart_date())
-                .start_time(auction.getStart_time())
-                .end_time(auction.getEnd_time())
-                .userCreatedBy(client)
-                .isActive(auction.isActive())
-                .identity_key(auction.getIdentity_key())
-                .build();
-
-        responseObject.put("data", new AuctionDetailResponse(
-            auctionDetail.getId(),
-            auctionDetail.getNote(),
-            auctionDetail.getResult(),
-            auctionDetail.getBidAmount(),
-            auctionDetail.getStatus(),
-            auctionDetail.getIdentity_key(),
-            auctionDetail.getClient(),
-            auctionResponse,
-            buildingResponse,
-            typeBuildingResponse,
-            buildingImageUrl
-        ));
+        AuctionDetailResponse auctionDetailResponse = auctionDetailMapper.mapToAuctionDetail(auctionDetail);
+        responseObject.put("data", auctionDetailResponse);
         return responseObject;
     }
 
